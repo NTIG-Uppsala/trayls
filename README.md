@@ -40,8 +40,10 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 
 ## Definition of Done (DoD)
 
-- Review the code line by line
-- At least 2 other contributors have to approve the commit
-- Coding standard met
-- Get approval from Product Owner
-- DoD met
+- Make sure the code is readable and concise, add preferably comments to a function that is not directly clear.
+- Run the program successfully without any errors if possible.
+- Make sure that the product is presentable on every friday.
+- Titles and comments for commits need to be short and clear.
+- Receive approval from Product Owner and another contributor when pushing a new commit.
+- Move over the corresponding post-it note to done.
+- DoD requirements need to be met.
