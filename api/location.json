@@ -1,0 +1,40 @@
+{
+    "city": [
+        {
+            "uppsala":[
+                {
+                    "svandammen":[
+                        {
+                            "name":"Svandammen",
+                            "lat":59.33,
+                            "lng":18.05,
+                            "id":"svandammen"
+                        }
+                    ],
+                    "linn": [
+                        {
+                            "name":"Linn",
+                            "lat":59.33,
+                            "lng":18.05,
+                            "id":"linn"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sthlm":[
+                    {
+                        "name": "KungligaPrean",
+                        "lat": 59.858,
+                        "lon": 17.038
+                    },
+                    {
+                        "name": "Gronan",
+                        "lat": 59.858,
+                        "lon": 17.038
+                    }
+                ]
+            }
+    ]
+}
