@@ -41,9 +41,9 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 ## Definition of Done (DoD)
 
 - Make sure that the code is readable and concise, also add comments.
-- The commit should not be pushed to main branch if the program is not running or has any errors.
+- The code should not be in main branch if the program is not running, nor should there be any errors. All code must therefore pass a pull request whenever the code is pulled.
 - Make sure that the product is presentable when presentation is due.
-- Titles and comments for commits need to be clear.
+- Commit messages and description needs to be clear.
 - For code to be in main branch, it needs to be approved by at least 2 other people.
 - Move over the corresponding 'Trello note' to 'Done'.
 - DoD requirements need to be met.
