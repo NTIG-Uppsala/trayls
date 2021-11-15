@@ -37,3 +37,11 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 |---|---|
 |Kotlin Language|1.7.1|
 |Code Runner|0.11.6|
+
+## Definition of Done (DoD)
+
+- Review the code line by line
+- At least 2 other contributors have to approve the commit
+- Coding standard met
+- Get approval from Product Owner
+- DoD met
