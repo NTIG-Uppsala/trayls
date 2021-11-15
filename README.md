@@ -14,7 +14,7 @@ A mobile app that gives you motivating notification, tasks and new routs so that
 
 ### Ide
 
-|Program|Verision|
+|Program|Version|
 |---|---|
 |Visual Studion Code|1.62.2 (user setup)|
 
@@ -24,3 +24,17 @@ A mobile app that gives you motivating notification, tasks and new routs so that
 |---|---|
 |Microsoft Windows 10 Education|10.0.19042|
 |Microsoft Windows 11 Home|10.0.22000|
+
+
+### Language
+
+|Language|Version|
+|---|---|
+|Kotlin|1.5.31|
+
+### VS Code extentions
+
+|Extention|Version|
+|---|---|
+|Kotlin Language|1.7.1|
+|Code Runner|0.11.6|
