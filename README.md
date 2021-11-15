@@ -10,7 +10,7 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 
 **NOTE**
 
-***The development environment are subject to change***
+***The development environment is subject to change***
 
 ### Ide
 
