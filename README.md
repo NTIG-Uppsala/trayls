@@ -40,10 +40,10 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 
 ## Definition of Done (DoD)
 
-- Make sure the code is readable and concise, add preferably comments to a function that is not directly clear.
-- Run the program successfully without any errors if possible.
-- Make sure that the product is presentable on every friday.
-- Titles and comments for commits need to be short and clear.
-- Receive approval from Product Owner and another contributor when pushing a new commit.
-- Move over the corresponding post-it note to done.
+- Make sure that the code is readable and concise, also add comments.
+- The commit should not be pushed to main branch if the program is not running or has any errors.
+- Make sure that the product is presentable when presentation is due.
+- Titles and comments for commits need to be clear.
+- For code to be in main branch, it needs to be approved by at least 2 other people.
+- Move over the corresponding 'Trello note' to 'Done'.
 - DoD requirements need to be met.
