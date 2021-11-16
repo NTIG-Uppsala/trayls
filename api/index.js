@@ -14,21 +14,23 @@ app.listen(PORT, () => {
 });
 
 //Simple GET request
-app.get('/getTrip/:id', (req, res) => { // Note to self. :id is the parameter. Don't need to put it in the url. Dont need : in the url
+app.get('/getTrip/:id/:key', (req, res) => { // Note to self. :id is the parameter. Don't need to put it in the url. Dont need : in the url
     const { id } = req.params;
-    res.send(getLocation(id));
+    const { key } = req.params;
+    res.send(getLocation(id, key));
 });
 
 //POST request
 app.post('/addTrip', (req, res) => {
-    const { name, town } = req.body;
-    console.log(name, town);
-    if (isNewLocationInLocation(name, town)) {
-        res.send('Location already exists');
+    const { spot, town } = req.body; //In body when sending data from client, varables need to be the same as the varables here
+    console.log(spot, town);
+    console.log(isNewLocationInLocation(town, spot));
+    if (isNewLocationInLocation(town, spot) == false) {
+        addMoreDataToLocation(town, spot);
+        res.send('Location added to database');
         return;
     }
-    addMoreDataToLocation(name, town);
-    res.send('Location added to database');
+    res.send('Location already in database');
 });
 
 //read from json
@@ -40,12 +42,12 @@ function readFromJson() {
 
 //write to json
 //Add more data to location.json
-function addMoreDataToLocation(name, townName) {
+function addMoreDataToLocation(town, spot) {
     const fs = require('fs');
     let rawdata = fs.readFileSync('location.json');
     let data = JSON.parse(rawdata);
-    data.town[townName].spots.push({
-        "name": name
+    data.town[town].spots.push({
+        "name": spot
     });
     fs.writeFile('location.json', JSON.stringify(data), (err) => {
         if (err) throw err;
@@ -53,26 +55,29 @@ function addMoreDataToLocation(name, townName) {
     });
 }
 
-function isNewLocationInLocation(name, townName) {
+function isNewLocationInLocation(town, spot) {
     const fs = require('fs');
     let rawdata = fs.readFileSync('location.json');
     let json = JSON.parse(rawdata);
-    let location = json.town[townName];
+    let location = json.town[town];
     let spots = location.spots;
     for (let i = 0; i < spots.length; i++) {
-        if (spots[i].name === name) {
-            return true;
+        if (spots[i].name === spot) {
+            return i;
         }
     }
     return false;
 }
 
 //Find a location based on town name
-function getLocation(town) {
+function getLocation(town, spot) {
     const locations = readFromJson();
     try {
-        return locations.town[town].spots[0].name;
+        const arrayPos = isNewLocationInLocation(town, spot);
+        console.log(arrayPos);
+        return locations.town[town].spots[arrayPos].name;
     } catch (e) {
+        console.log(locations.town[town].spots[0]);
         return 'No such location';
     }
 }
