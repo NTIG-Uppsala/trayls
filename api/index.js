@@ -5,11 +5,7 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-//Middleware for better experience
-app.use(function(req, res) {
-    res.status(404).send({url: req.originalUrl + ' not found. ERROR: 404'})
-});
-
+//Middleware to parse json
 app.use(express.json());
 
 //Start upp api to listen
@@ -21,6 +17,10 @@ app.listen(PORT, () => {
 app.get('/getTrip/:id', (req, res) => { // Note to self. :id is the parameter. Don't need to put it in the url. Dont need : in the url
     const { id } = req.params;
     res.send(getLocation(id));
+});
+
+app.get('/test', (req, res) => {
+    res.send('Hello World');
 });
 
 //read from json
@@ -48,3 +48,9 @@ function getLocation(town) {
         return 'No such location';
     }
 }
+
+//Middleware takes care of 404
+//If higher up in code, it will be called first for some reason. And wont go through with any api calls
+app.use(function(req, res) {
+    res.status(404).send({url: req.originalUrl + ' not found. ERROR: 404'})
+});
