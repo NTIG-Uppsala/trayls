@@ -1,10 +1,12 @@
-const { log } = require('console');
+'use strict';
 
-const app = require('express')();
-const PORT = 8060;
+//basic api express
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
 
 app.get('/getWalk', (req, res) => {
@@ -16,7 +18,7 @@ function getWalk() {
     const fs = require('fs');
     const rawdata = fs.readFileSync('location.json');
     let location = JSON.parse(rawdata);
-    console.log(location.city.uppsala[0]);
+    console.log(location.town);
     //let thisWalk = location.city.uppsala.svandammen];
-    return "hej";
+    return 'hej';
 }
