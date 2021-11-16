@@ -5,6 +5,14 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+//Middleware for better experience
+app.use(function(req, res) {
+    res.status(404).send({url: req.originalUrl + ' not found. ERROR: 404'})
+});
+
+app.use(express.json());
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
