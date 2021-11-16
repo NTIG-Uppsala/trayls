@@ -29,3 +29,13 @@ async function writeToJson(newLocation) {
         console.log('The file has been saved!');
     });
 }
+
+//Find a location based on town name
+function getLocation(town) {
+    const locations = readFromJson();
+    try {
+        return locations.town[town].spots[0].name;
+    } catch (e) {
+        return 'No such location';
+    }
+}
