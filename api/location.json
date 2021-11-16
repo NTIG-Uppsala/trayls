@@ -1,40 +1,34 @@
 {
-    "city": [
+    "town":
         {
-            "uppsala":[
-                {
-                    "svandammen":[
-                        {
-                            "name":"Svandammen",
-                            "lat":59.33,
-                            "lng":18.05,
-                            "id":"svandammen"
-                        }
-                    ],
-                    "linn": [
-                        {
-                            "name":"Linn",
-                            "lat":59.33,
-                            "lng":18.05,
-                            "id":"linn"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "sthlm":[
-                    {
-                        "name": "KungligaPrean",
-                        "lat": 59.858,
-                        "lon": 17.038
-                    },
-                    {
-                        "name": "Gronan",
-                        "lat": 59.858,
-                        "lon": 17.038
-                    }
+        "uppsala": 
+            {
+                "name": "Uppsala",
+                "lat": 59.858,
+                "long": 17.639,
+                "spots": [
+                    {"name": "Ekolns segelkubb"},
+                    {"name": "Uppsala centralstation"}
+                ]
+            },
+        "sthlm": {
+                "name": "Stockholm",
+                "lat": 59.329,
+                "long": 18.067,
+                "spots": [
+                    {"name": "Kungliga Operan"},
+                    {"name": "Stadshuset"},
+                    {"name": "Rådhuset"}
+                ]
+            },
+        "malmo": {
+                "name": "Malmö",
+                "lat": 55.60,
+                "long": 13.00,
+                "spots": [
+                    {"name": "Malmo centralstation"},
+                    {"name": "Malmö universitet"}
                 ]
             }
-    ]
+    }
 }
