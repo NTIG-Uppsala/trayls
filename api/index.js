@@ -20,3 +20,12 @@ function readFromJson() {
     let rawdata = fs.readFileSync('location.json');
     return JSON.parse(rawdata);
 }
+
+//write to json
+async function writeToJson(newLocation) {
+    const fs = require('fs');
+    fs.writeFile('location.json', JSON.stringify(newLocation), (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
+}
