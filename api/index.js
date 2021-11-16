@@ -27,7 +27,7 @@ app.post('/addTrip', (req, res) => {
         res.send('Location already exists');
         return;
     }
-    writeToJson(name, town);
+    addMoreDataToLocation(name, town);
     res.send('Location added to database');
 });
 
@@ -39,10 +39,15 @@ function readFromJson() {
 }
 
 //write to json
-async function writeToJson(name, townName) {
+//Add more data to location.json
+function addMoreDataToLocation(name, townName) {
     const fs = require('fs');
-    const toJson = `{"town":{"${townName}":{"spots": {"name":"${name}"}}}}`;
-    fs.writeFile('userLocations.json', toJson, (err) => {
+    let rawdata = fs.readFileSync('location.json');
+    let data = JSON.parse(rawdata);
+    data.town[townName].spots.push({
+        "name": name
+    });
+    fs.writeFile('location.json', JSON.stringify(data), (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
     });
