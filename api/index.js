@@ -12,11 +12,12 @@ app.use(function(req, res) {
 
 app.use(express.json());
 
-
+//Start upp api to listen
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
+//Simple get request
 app.get('/getTrip/:id', (req, res) => { // Note to self. :id is the parameter. Don't need to put it in the url. Dont need : in the url
     const { id } = req.params;
     res.send(getLocation(id));
