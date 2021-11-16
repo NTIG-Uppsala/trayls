@@ -9,8 +9,9 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-app.get('/getWalk', (req, res) => {
-    return res.send(getWalk());
+app.get('/getTrip/:id', (req, res) => { // Note to self. :id is the parameter. Don't need to put it in the url. Dont need : in the url
+    const { id } = req.params;
+    res.send(getLocation(id));
 });
 
 
