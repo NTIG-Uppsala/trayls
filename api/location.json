@@ -8,7 +8,8 @@
                 "long": 17.639,
                 "spots": [
                     {"name": "Ekolns segelkubb"},
-                    {"name": "Uppsala centralstation"}
+                    {"name": "Uppsala centralstation"},
+                    {"name": "Miss Voon"}
                 ]
             },
         "sthlm": {
@@ -26,8 +27,9 @@
                 "lat": 55.60,
                 "long": 13.00,
                 "spots": [
-                    {"name": "Malmo centralstation"},
-                    {"name": "Malmö universitet"}
+                    {"name": "Malmö centralstation"},
+                    {"name": "Malmö universitet"},
+                    {"name": "Malmö kyrka"}
                 ]
             }
     }
