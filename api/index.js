@@ -8,15 +8,40 @@ const PORT = process.env.PORT || 8080;
 //Middleware to parse json
 app.use(express.json());
 
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // Pass to next layer of middleware
+    next();
+});
+
 //Start upp api to listen
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-//Simple GET request
+//Simple GET request get specigic location
 app.get('/getTrip/:id/:key', (req, res) => { // Note to self. :id is the parameter. Don't need to put it in the url. Dont need : in the url
     const { id } = req.params;
     const { key } = req.params;
+    res.send(getLocation(id, key));
+});
+
+//Get req get random location in town
+app.get('/getTrip/:id/', (req, res) => {
+    const { id } = req.params;
+    //Get random number 1-3
+    const key = Math.floor(Math.random() * 3) + 1;
+    console.log(key);
     res.send(getLocation(id, key));
 });
 
@@ -72,12 +97,14 @@ function isNewLocationInLocation(town, spot) {
 //Find a location based on town name
 function getLocation(town, spot) {
     const locations = readFromJson();
+    //check if spot is a number
+    if (isNaN(spot) == false) {
+        return locations.town[town].spots[spot];
+    }
     try {
         const arrayPos = isNewLocationInLocation(town, spot);
-        console.log(arrayPos);
         return locations.town[town].spots[arrayPos].name;
     } catch (e) {
-        console.log(locations.town[town].spots[0]);
         return 'No such location';
     }
 }

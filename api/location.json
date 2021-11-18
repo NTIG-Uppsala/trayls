@@ -8,7 +8,8 @@
                 "long": 17.639,
                 "spots": [
                     {"name": "Ekolns segelkubb"},
-                    {"name": "Uppsala centralstation"}
+                    {"name": "Uppsala centralstation"},
+                    {"name": "Slottet"}
                 ]
             },
         "sthlm": {
@@ -27,7 +28,8 @@
                 "long": 13.00,
                 "spots": [
                     {"name": "Malmo centralstation"},
-                    {"name": "Malmö universitet"}
+                    {"name": "Malmö universitet"},
+                    {"name": "Tower"}
                 ]
             }
     }
