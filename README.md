@@ -47,9 +47,9 @@ Swift for IOS development
 #### Python
 
 ```
-#Comments here function overview
+# Comments here for function overview
 def camelCasing():
-  #Comments here for specifics
+  # Comments here for specifics
   print("We use camelCasing")
   
   if pythonSyntax == "weird":
@@ -63,7 +63,7 @@ def camelCasing():
 
 - camelCasing
 - PascalCasing Classnames
-- wraping chains new line for every .
+- wraping chains new line for every '.'
 
 ```
 val anchor = owner
@@ -92,7 +92,6 @@ class Person(
 |Extension|Version|
 |---|---|
 |Kotlin Language|1.7.1|
-|Code Runner|0.11.6|
 
 ### API Testing framework
 
@@ -113,7 +112,7 @@ class Person(
 
 ## Other
 
-- Many commits
+- Commit frequently
 - Must push at the end of the day
 - Pull to main when feature is done
 - No # in commits
