@@ -116,3 +116,4 @@ class Person(
 - Many commits
 - Must push at the end of the day
 - Pull to main when feature is done
+- No # in commits
