@@ -8,9 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var isDisplayed = false
+
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        Button(action: {
+            self.isDisplayed = true
+        }) {
+            Text("Get activity")
+        }
+        .actionSheet(isPresented: $isDisplayed) {
+            ActionSheet(title: Text("Your Activity Is.."), buttons: [.default(Text("Do My Activity!"))])
+        }
     }
 }
 
@@ -19,3 +27,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+

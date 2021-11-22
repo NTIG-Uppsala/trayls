@@ -7,6 +7,20 @@ const PORT = process.env.PORT || 8080;
 
 //Middleware to parse json
 app.use(express.json());
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Pass to next layer of middleware
+    next();
+});
 
 //Start upp api to listen
 app.listen(PORT, () => {
@@ -20,11 +34,14 @@ app.get('/getTrip/:id/:key', (req, res) => { // Note to self. :id is the paramet
     res.send(getLocation(id, key));
 });
 
+app.get('/getTrip/:id', (req, res) => {
+    const { id } = req.params;
+    res.send(randomSpot(id));
+});
+
 //POST request
 app.post('/addTrip', (req, res) => {
     const { spot, town } = req.body; //In body when sending data from client, varables need to be the same as the varables here
-    console.log(spot, town);
-    console.log(isNewLocationInLocation(town, spot));
     if (isNewLocationInLocation(town, spot) == false) {
         addMoreDataToLocation(town, spot);
         res.send('Location added to database');
@@ -74,12 +91,17 @@ function getLocation(town, spot) {
     const locations = readFromJson();
     try {
         const arrayPos = isNewLocationInLocation(town, spot);
-        console.log(arrayPos);
         return locations.town[town].spots[arrayPos].name;
     } catch (e) {
-        console.log(locations.town[town].spots[0]);
         return 'No such location';
     }
+}
+
+function randomSpot(town) {
+    const locations = readFromJson();
+    const arrayPos = Math.floor(Math.random() * locations.town[town].spots.length);
+    console.log(locations.town[town].spots[arrayPos].name);
+    return locations.town[town].spots[arrayPos].name;
 }
 
 //Middleware takes care of 404
