@@ -30,6 +30,53 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 |Language|Version|
 |---|---|
 |Kotlin|1.5.31|
+|Python|3.9.6|
+
+**What language where**
+
+Python for backend
+
+Kotling for the Android app
+
+
+### Coding standard
+
+#### Python
+
+```
+#Comments here function overview
+def camelCasing():
+  #Comments here for specifics
+  print("We use camelCasing")
+  
+  if pythonSyntax == "weird":
+    return print("We know")
+  else:
+    return print("No it is weird")
+
+```
+
+#### Kotlin
+
+- camelCasing
+- wraping chains new line for every .
+
+```
+val anchor = owner
+    ?.firstChild!!
+    .siblings(forward = true)
+    .dropWhile { it is PsiComment || it is PsiWhiteSpace }
+
+```
+- trailing comma
+
+```
+class Person(
+    val firstName: String,
+    val lastName: String,
+    val age: Int, // trailing comma
+)
+```
 
 ### VS Code extension
 
@@ -37,6 +84,12 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 |---|---|
 |Kotlin Language|1.7.1|
 |Code Runner|0.11.6|
+
+### API Testing framework
+
+|Program|Version|
+|---|---|
+|Postman|9.1.4 win32 10.0.22000 / x64|
 
 ## Definition of Done (DoD)
 
@@ -47,3 +100,10 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 - For code to be in main branch, it needs to be approved by at least 2 other people.
 - Move over the corresponding 'Trello note' to 'Done'.
 - DoD requirements need to be met.
+
+
+## Other
+
+- Many commits
+- Must push at the end of the day
+- Pull to main when feature is done
