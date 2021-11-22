@@ -31,12 +31,15 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 |---|---|
 |Kotlin|1.5.31|
 |Python|3.9.6|
+|Swift|5.1|
 
 **What language where**
 
 Python for backend
 
 Kotling for the Android app
+
+Swift for IOS development
 
 
 ### Coding standard
@@ -77,6 +80,11 @@ class Person(
     val age: Int, // trailing comma
 )
 ```
+
+#### Swift
+
+- PascalCasing for function, classes
+- camelCasing for variable
 
 ### VS Code extension
 
