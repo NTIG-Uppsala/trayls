@@ -1,10 +1,12 @@
 import json
 
 # read file
-myjsonfile=open('walking-motivation\python\location.json', 'r')
+myjsonfile=open('python\location.json', 'r')
 jsondata=myjsonfile.read()
 
 # parse
 obj=json.loads(jsondata)    
 
-print(str(obj['uppsala','']))
+print(str(obj['firstName']))
+print(str(obj['lastName']))
+print(str(obj['address']))
