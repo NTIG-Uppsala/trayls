@@ -7,6 +7,8 @@ jsondata=myjsonfile.read()
 # parse
 obj=json.loads(jsondata)    
 
-print(str(obj['firstName']))
-print(str(obj['lastName']))
-print(str(obj['address']))
+print(str(obj['town']))
+print(str(obj['name']))
+print(str(obj['lat']))
+print(str(obj['long']))
+print(str(obj['spots'[1]]))
