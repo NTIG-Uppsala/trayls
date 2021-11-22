@@ -62,6 +62,7 @@ def camelCasing():
 #### Kotlin
 
 - camelCasing
+- PascalCasing Classnames
 - wraping chains new line for every .
 
 ```
