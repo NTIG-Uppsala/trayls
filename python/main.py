@@ -1,14 +1,11 @@
-import json
+import flask
 
-# read file
-myjsonfile=open('python\location.json', 'r')
-jsondata=myjsonfile.read()
+app = flask.Flask(__name__)
+app.config["DEBUG"] = True
 
-# parse
-obj=json.loads(jsondata)    
 
-print(str(obj['town']))
-print(str(obj['name']))
-print(str(obj['lat']))
-print(str(obj['long']))
-print(str(obj['spots']))
+@app.route('/getTask', methods=['GET'])
+def home():
+    return "hej"
+
+app.run(host='0.0.0.0', port=8080)
