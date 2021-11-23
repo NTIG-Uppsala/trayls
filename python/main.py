@@ -1,10 +1,12 @@
 import flask
 import json
+from random import randrange
 
 jsonfile = json.load(open('task.json', encoding="utf-8"))
 
 def randomizeOutput():
-    return jsonfile["task"]["motivation"][1]
+    x = randrange(0, 3)
+    return jsonfile["task"]["motivation"][x]
 
 app = flask.Flask(__name__)
 app.config["DECODE"] = "utf-8"
