@@ -1,10 +1,10 @@
+
 //
 //  ContentView.swift
 //  IOS
 //
 //  Created by te4 on 2021-11-22.
 //
-
 import SwiftUI
 
 struct ContentView: View {
@@ -15,9 +15,11 @@ struct ContentView: View {
             self.isDisplayed = true
         }) {
             Text("Get activity")
+                .font(.title)
+                .fontWeight(.medium)
         }
         .actionSheet(isPresented: $isDisplayed) {
-            ActionSheet(title: Text("Your Activity Is.."), buttons: [.default(Text("Do My Activity!"))])
+            ActionSheet(title: Text("Your Activity Is"), buttons: [.default(Text("Do My Activity!"))])
         }
     }
 }
@@ -27,4 +29,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
