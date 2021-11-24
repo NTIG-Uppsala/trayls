@@ -5,7 +5,7 @@ import random
 # load the json file from directory and opens it
 jsonfile = json.load(open('task.json', encoding="utf-8"))
 
-# locates a specific array and randomly picks one
+# locate a specific array and randomly pick one
 def randomizeOutput():
     x = random.choice(jsonfile ["task"]["motivation"])
     return x["daily"]
@@ -18,7 +18,7 @@ app.config["DEBUG"] = True
 # URL of the output
 @app.route("/getTask", methods=["GET"])
 
-# function that dumps the output of the randomly picked array
+# function that dumps the output of the randomly picked array from before
 def home():
     
     return json.dumps(randomizeOutput(), ensure_ascii=False)
