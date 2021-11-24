@@ -19,7 +19,7 @@ app.config["DEBUG"] = True
 @app.route("/getTask", methods=["GET"])
 
 # function that dumps the output of the randomly picked array from before
-def home():
+def getTask():
     
     return json.dumps(randomizeOutput(), ensure_ascii=False)
 
