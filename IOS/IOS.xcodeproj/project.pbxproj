@@ -15,6 +15,7 @@
 		EB8E8E5D274CE2AB00379234 /* ApiCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E8E5C274CE2AB00379234 /* ApiCall.swift */; };
 		EB8E8E5F274CE34100379234 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E8E5E274CE34100379234 /* Models.swift */; };
 		EBC0E49E274CDFAF00292DE9 /* IOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC0E499274CDF6B00292DE9 /* IOSApp.swift */; };
+		EBE601EA274E75D9008FF55A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE601E9274E75D9008FF55A /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		EB8E8E5C274CE2AB00379234 /* ApiCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCall.swift; sourceTree = "<group>"; };
 		EB8E8E5E274CE34100379234 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		EBC0E499274CDF6B00292DE9 /* IOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSApp.swift; sourceTree = "<group>"; };
+		EBE601E9274E75D9008FF55A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				EB8E8E5C274CE2AB00379234 /* ApiCall.swift */,
 				EBC0E499274CDF6B00292DE9 /* IOSApp.swift */,
 				EB599945274BE0C800DA2FE1 /* ContentView.swift */,
+				EBE601E9274E75D9008FF55A /* Extensions.swift */,
 				EB599947274BE0C900DA2FE1 /* Assets.xcassets */,
 				EB8E8E60274CE4B300379234 /* Models */,
 				EB59994C274BE0C900DA2FE1 /* Info.plist */,
@@ -275,6 +278,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBE601EA274E75D9008FF55A /* Extensions.swift in Sources */,
 				EB599946274BE0C800DA2FE1 /* ContentView.swift in Sources */,
 				EB8E8E5D274CE2AB00379234 /* ApiCall.swift in Sources */,
 				EBC0E49E274CDFAF00292DE9 /* IOSApp.swift in Sources */,
