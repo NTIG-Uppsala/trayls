@@ -3,7 +3,7 @@
 //  ContentView.swift
 //  Testapp
 //
-//  Created by Cairocoders
+//  Created by Albin Eriksson
 //
  import Foundation
 import SwiftUI
@@ -24,7 +24,7 @@ struct ContentView: View {
                     .background(Color.blue)
                     .cornerRadius(15)
             })
-             
+                .onAppear(perform: {GetTask()})
             Text("Nästa Aktivitet är:\n\(self.contents)")
             
                 .fontWeight(.heavy)
@@ -40,10 +40,10 @@ struct ContentView: View {
     func GetTask(){
         if let url = URL(string: "https://walk-api.azurewebsites.net/gettask") {
         do {
-            contents = try String(contentsOf: url)
-            print(contents)
+           contents = try String(contentsOf: url)
+            
         } catch {
-            print("Contents cant be loaded")
+            
         }
     } else {
         print("Invalid URL")

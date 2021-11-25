@@ -12,7 +12,6 @@
 		EB59994B274BE0C900DA2FE1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB59994A274BE0C900DA2FE1 /* Preview Assets.xcassets */; };
 		EB599956274BE0C900DA2FE1 /* IOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB599955274BE0C900DA2FE1 /* IOSTests.swift */; };
 		EB599961274BE0C900DA2FE1 /* IOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB599960274BE0C900DA2FE1 /* IOSUITests.swift */; };
-		EB8E8E5D274CE2AB00379234 /* ApiCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E8E5C274CE2AB00379234 /* ApiCall.swift */; };
 		EB8E8E5F274CE34100379234 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8E8E5E274CE34100379234 /* Models.swift */; };
 		EBC0E49E274CDFAF00292DE9 /* IOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC0E499274CDF6B00292DE9 /* IOSApp.swift */; };
 /* End PBXBuildFile section */
@@ -47,7 +46,6 @@
 		EB59995C274BE0C900DA2FE1 /* IOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB599960274BE0C900DA2FE1 /* IOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSUITests.swift; sourceTree = "<group>"; };
 		EB599962274BE0C900DA2FE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EB8E8E5C274CE2AB00379234 /* ApiCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCall.swift; sourceTree = "<group>"; };
 		EB8E8E5E274CE34100379234 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		EBC0E499274CDF6B00292DE9 /* IOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,7 +99,6 @@
 		EB599942274BE0C800DA2FE1 /* IOS */ = {
 			isa = PBXGroup;
 			children = (
-				EB8E8E5C274CE2AB00379234 /* ApiCall.swift */,
 				EBC0E499274CDF6B00292DE9 /* IOSApp.swift */,
 				EB599945274BE0C800DA2FE1 /* ContentView.swift */,
 				EB599947274BE0C900DA2FE1 /* Assets.xcassets */,
@@ -276,7 +273,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB599946274BE0C800DA2FE1 /* ContentView.swift in Sources */,
-				EB8E8E5D274CE2AB00379234 /* ApiCall.swift in Sources */,
 				EBC0E49E274CDFAF00292DE9 /* IOSApp.swift in Sources */,
 				EB8E8E5F274CE34100379234 /* Models.swift in Sources */,
 			);
