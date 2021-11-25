@@ -1,31 +1,66 @@
 
 //
 //  ContentView.swift
-//  IOS
+//  Testapp
 //
-//  Created by te4 on 2021-11-22.
+//  Created by Cairocoders
 //
+ import Foundation
 import SwiftUI
-
+ 
 struct ContentView: View {
-    @State private var isDisplayed = false
-
+ 
+     
     var body: some View {
-        Button(action: {
-            self.isDisplayed = true
-        }) {
-            Text("Get activity")
-                .font(.title)
-                .fontWeight(.medium)
+         
+        VStack {
+            Button(action: {GetTask()
+            }, label: {
+                Text("Ny Uppgift")
+                    .fontWeight(.heavy)
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(15)
+            })
+             
+            Text("Nästa Aktivitet är:\n\(TaskCall.task)")
+            
+                .fontWeight(.heavy)
+                .foregroundColor(.blue)
+                .padding(50)
+                .cornerRadius(15)
+        
+                
         }
-        .actionSheet(isPresented: $isDisplayed) {
-            ActionSheet(title: Text("Your Activity Is"), buttons: [.default(Text("Do My Activity!"))])
-        }
+    } // End body
+     
+    struct TaskCall{
+        static var task = contents
     }
-}
 
+    func GetTask(){
+        if let url = URL(string: "https://walk-api.azurewebsites.net/gettask") {
+        do {
+            var contents = try String(contentsOf: url)
+            print(contents)
+        } catch {
+            print("Contents cant be loaded")
+        }
+    } else {
+        print("Invalid URL")
+    }
+        
+    }
+
+     
+
+     
+
+ 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
+}
 }

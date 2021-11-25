@@ -7,8 +7,4 @@
 
 import Foundation
 
-struct Activity: Decodable {
-    var Task: String
-
-
-}
+var contents = "content"
