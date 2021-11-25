@@ -19,6 +19,10 @@ app.get('/getTask', (req, res) => {
     res.send(randomTask())
 });
 
+app.get('/getApiTest', (req, res) => {
+    res.send('API works')
+});
+
 //read from json
 function readFromJson() {
     const fs = require('fs');
