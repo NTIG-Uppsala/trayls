@@ -10,7 +10,8 @@ import SwiftUI
  
 struct ContentView: View {
  
-     
+    @State private var contents = " "
+    
     var body: some View {
          
         VStack {
@@ -24,7 +25,7 @@ struct ContentView: View {
                     .cornerRadius(15)
             })
              
-            Text("Nästa Aktivitet är:\n\(TaskCall.task)")
+            Text("Nästa Aktivitet är:\n\(self.contents)")
             
                 .fontWeight(.heavy)
                 .foregroundColor(.blue)
@@ -35,14 +36,11 @@ struct ContentView: View {
         }
     } // End body
      
-    struct TaskCall{
-        static var task = contents
-    }
 
     func GetTask(){
         if let url = URL(string: "https://walk-api.azurewebsites.net/gettask") {
         do {
-            var contents = try String(contentsOf: url)
+            contents = try String(contentsOf: url)
             print(contents)
         } catch {
             print("Contents cant be loaded")
@@ -51,10 +49,12 @@ struct ContentView: View {
         print("Invalid URL")
     }
         
-    }
+    
 
      
-
+        struct Task{
+            var contents:NSObject
+        }
      
 
  
@@ -62,5 +62,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
+}
 }
 }
