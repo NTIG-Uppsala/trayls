@@ -24,19 +24,53 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 |---|---|
 |Microsoft Windows 10 Education|10.0.19042|
 |Microsoft Windows 11 Home|10.0.22000|
+|macOS|11.6|
 
 ### Language
 
 |Language|Version|
 |---|---|
-|Kotlin|1.5.31|
+|Java|17.0.1|
+|node.js|16.13.0|
+|Swift|5.1|
+
+**What language where**
+
+node.js for backend
+
+Java for the Android app
+
+Swift for IOS development
+
+
+### Coding standard
+
+#### Java
+
+Comments where code is non expressive
+Typecast if possible in the beggining of the function
+
+#### node.js
+
+- camelCasing
+- Comment if you can
+
+#### Swift
+
+- PascalCasing for function, classes
+- camelCasing for variable
 
 ### VS Code extension
 
 |Extension|Version|
 |---|---|
-|Kotlin Language|1.7.1|
-|Code Runner|0.11.6|
+|Azure App Service|0.23.0|
+
+### API Testing framework
+
+|Program|Version|
+|---|---|
+|Postman|9.1.4 win32 10.0.22000 / x64|
 
 ## Definition of Done (DoD)
 
@@ -47,3 +81,11 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 - For code to be in main branch, it needs to be approved by at least 2 other people.
 - Move over the corresponding 'Trello note' to 'Done'.
 - DoD requirements need to be met.
+
+
+## Other
+
+- Commit frequently
+- Must push at the end of the day
+- Pull to main when feature is done
+- No # in commits
