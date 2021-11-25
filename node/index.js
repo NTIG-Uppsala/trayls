@@ -33,8 +33,7 @@ function readFromJson() {
 function randomTask() {
     const tasks = readFromJson();
     const arrayPos = Math.floor(Math.random() * tasks.task.motivation.length);
-    let hej = tasks.task.motivation[arrayPos].daily;
-    return hej;
+    return tasks.task.motivation[arrayPos].daily;
 }
 
 //Middleware takes care of 404
