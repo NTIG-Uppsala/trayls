@@ -24,63 +24,36 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 |---|---|
 |Microsoft Windows 10 Education|10.0.19042|
 |Microsoft Windows 11 Home|10.0.22000|
+|macOS|11.6|
 
 ### Language
 
 |Language|Version|
 |---|---|
-|Kotlin|1.5.31|
-|Python|3.9.6|
+|Java|17.0.1|
+|node.js|16.13.0|
 |Swift|5.1|
 
 **What language where**
 
-Python for backend
+node.js for backend
 
-Kotling for the Android app
+Java for the Android app
 
 Swift for IOS development
 
 
 ### Coding standard
 
-#### Python
+#### Java
 
-```
-# Comments here for function overview
-def camelCasing():
-  # Comments here for specifics
-  print("We use camelCasing")
-  
-  if pythonSyntax == "weird":
-    return print("We know")
-  else:
-    return print("No it is weird")
+Comments where code is non expressive
+Typecast if possible in the beggining of the function
 
-```
-
-#### Kotlin
+#### node.js
 
 - camelCasing
-- PascalCasing Classnames
-- wraping chains new line for every '.'
-
-```
-val anchor = owner
-    ?.firstChild!!
-    .siblings(forward = true)
-    .dropWhile { it is PsiComment || it is PsiWhiteSpace }
-
-```
-- trailing comma
-
-```
-class Person(
-    val firstName: String,
-    val lastName: String,
-    val age: Int, // trailing comma
-)
-```
+- Comment if you can
 
 #### Swift
 
@@ -91,7 +64,7 @@ class Person(
 
 |Extension|Version|
 |---|---|
-|Kotlin Language|1.7.1|
+|Azure App Service|0.23.0|
 
 ### API Testing framework
 
