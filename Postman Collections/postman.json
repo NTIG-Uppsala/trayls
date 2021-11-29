@@ -21,7 +21,7 @@
           }
         }
       ],
-      "_postman_id": "87891cc9-109b-41f9-afa5-85e5faa60a7b",
+      "id": "87891cc9-109b-41f9-afa5-85e5faa60a7b",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
       },
@@ -33,7 +33,7 @@
       "response": []
     },
     {
-      "name": "New Request",
+      "name": "testString",
       "event": [
         {
           "listen": "prerequest",
@@ -60,7 +60,7 @@
           }
         }
       ],
-      "_postman_id": "0e182dd0-0f31-41f2-9ab6-91eb708a7803",
+      "id": "0e182dd0-0f31-41f2-9ab6-91eb708a7803",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
       },
