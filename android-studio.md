@@ -14,3 +14,6 @@ Set up a project via open project, step into Git folder.
 You will see left of the play button a "Add configuration". That is the emulator. By clicking on "Add configuration/AWD manager" you can make a viritual device. We are using Pixel 4, API 23. Later verision might work. You will have to download the SKD.
 
 
+### Open project
+
+Open the folder from git
