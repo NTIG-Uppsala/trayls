@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Trayls</string>
+    <string name="txtGetTask">Få en uppgift</string>
+    <string name="ny_uppgift">Ny uppgift</string>
+</resources>
