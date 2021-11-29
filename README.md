@@ -16,6 +16,8 @@ A mobile app that gives you motivating tasks, new routes will emerge so that eve
 |Program|Version|
 |---|---|
 |Visual Studio Code|1.62.2 (user setup)|
+|Android Studio|2020.3.25|
+|Xcode|13.1|
 
 ### Operating system
 
