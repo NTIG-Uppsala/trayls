@@ -1,10 +1,9 @@
 # walking-motivation
 
+## Brief explanation
 
-## Brief explanation 
 The purpose of this project is to make an app that motivates you to go outside and move.
 A mobile app that gives you motivating tasks, new routes will emerge so that every trip will be new and exciting.
-
 
 ## Technical specification
 
@@ -42,7 +41,6 @@ Java for the Android app
 
 Swift for IOS development
 
-
 ### Coding standard
 
 #### Java
@@ -79,9 +77,8 @@ Typecast if possible in the beggining of the function
 - Make sure that the product is presentable when presentation is due.
 - Commit messages and description needs to be clear.
 - For code to be in main branch, it needs to be approved by at least 2 other people.
-- Move over the corresponding 'Trello note' to 'Done'.
-- DoD requirements need to be met.
-
+- Move over the corresponding post-it note to 'Done' whenever the DoD requirements above have been met.
+- Make absolutely sure that the DoD requirements have been met.
 
 ## Other
 
