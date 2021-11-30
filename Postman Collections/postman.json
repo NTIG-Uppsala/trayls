@@ -70,6 +70,19 @@
         "url": "https://walk-api.azurewebsites.net/getTask"
       },
       "response": []
+    },
+    {
+      "name": "New Request",
+      "id": "201f0dd3-8190-45e0-a72e-d317393bb142",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": null
+      },
+      "response": []
     }
   ]
 }
