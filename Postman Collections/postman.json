@@ -73,6 +73,24 @@
     },
     {
       "name": "newURLTest",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "fa6c80d7-4e9d-4372-9044-30ed00b4c0fb",
+            "exec": [
+              "pm.test(\"Return is a String\", function () \r",
+              "{\r",
+              "    pm.expect(pm.response.text()).to.include(\"\");\r",
+              "});\r",
+              "pm.test(\"Response time is less than 800ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "id": "201f0dd3-8190-45e0-a72e-d317393bb142",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
@@ -80,7 +98,7 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": null
+        "url": "10.80.1.1"
       },
       "response": []
     }
