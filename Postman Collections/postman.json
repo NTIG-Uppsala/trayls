@@ -83,9 +83,7 @@
               "{\r",
               "    pm.expect(pm.response.text()).to.include(\"\");\r",
               "});\r",
-              "pm.test(\"Response time is less than 800ms\", function () {\r",
-              "    pm.expect(pm.response.responseTime).to.be.below(800);\r",
-              "});"
+              ""
             ],
             "type": "text/javascript"
           }
