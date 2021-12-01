@@ -28,7 +28,7 @@ Press 'Next'
 <br>![image](https://user-images.githubusercontent.com/89513274/144247123-78e08b0d-af98-4026-8e8b-32db338c4990.png)<br>
 Press 'Finish'
 <br>![image](https://user-images.githubusercontent.com/89513274/144247441-1234a220-abdb-4982-99be-b1bd29a344a7.png)<br>
-Launch your AVD
+Launch your AVD, ignore 'Unable to locate adb' and look at the task bar
 <br>![image](https://user-images.githubusercontent.com/89513274/144247577-6525b4df-a9f4-4839-9071-10311c017cd4.png)<br>
 And now your emulator is finished
 <br>![image](https://user-images.githubusercontent.com/89513274/144247645-f33b3eb2-b310-4659-be7f-61d75068780f.png)<br>
