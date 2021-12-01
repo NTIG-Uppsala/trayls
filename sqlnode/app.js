@@ -2,19 +2,19 @@ const mariadb = require('mariadb');
 const pool = mariadb.createPool({
     host: 'localhost',
 	user: 'task_user',
-	password: 'test',
+	password: 'Hej123hej',
 	database: 'trayls'
 });
-async function asyncFunction() {
+async function getTaskFromDb(table, task_id) {
 	let conn;
-    const task_id = 2;
 	try {
 		conn = await pool.getConnection();
-		const rows = await conn.query(`SELECT * FROM tasks WHERE task_id = ${task_id}`);
+		const rows = await conn.query(`SELECT * FROM ${table} traylsdb WHERE task_id = ${task_id}`);
 		removeMeta(rows);
         console.log(removeMeta(rows));
 
 	} catch (err) {
+		console.log('ERROR!!!')
 		throw err;
 	} finally {
 		if (conn) {
@@ -28,4 +28,6 @@ function removeMeta(parsedJson) {
 	return parsedJson;
 }
 
-asyncFunction()
+let value = 10;
+getTaskFromDb('traylsdb', value);
+getTaskFromDb('taskvalues', value);
