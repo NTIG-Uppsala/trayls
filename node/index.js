@@ -1,10 +1,17 @@
 'use strict';
 
-const { json } = require('express');
 //basic api express
 const express = require('express');
+const mariadb = require('mariadb');
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+const pool = mariadb.createPool({
+    host: 'localhost',
+	user: 'task_user',
+	password: 'Hej123hej',
+	database: 'trayls'
+});
 
 //Middleware to parse json
 app.use(express.json());
@@ -15,26 +22,57 @@ app.listen(PORT, () => {
 });
 
 //Simple GET request
-app.get('/getTask', (req, res) => {
-    res.send(randomTask())
+app.get('/getTask', async function(req, res) {
+	const senddata = await getTaskFromDb('traylsdb', value);
+    res.send(senddata);
 });
 
 app.get('/getApiTest', (req, res) => {
     res.send('API works')
 });
 
-//read from json
-function readFromJson() {
-    const fs = require('fs');
-    let rawdata = fs.readFileSync('task.json');
-    return JSON.parse(rawdata);
+app.post('',(req, res) => {
+    const {
+        mail
+    } = req.body
+} )
+
+
+
+async function getTaskFromDb(table, task_id) {
+	let conn;
+	let APIresponse;
+	try {
+		conn = await pool.getConnection();
+		const rows = await conn.query(`SELECT * FROM ${table} traylsdb WHERE task_id = ${task_id}`);
+		removeMeta(rows);
+        console.log(removeMeta(rows));
+		APIresponse = removeMeta(rows) 
+		
+		
+	} catch (err) {
+		console.log('ERROR!!!')
+		throw err;
+	} finally {
+		if (conn) {
+			conn.end();
+			return APIresponse
+		}
+	}
 }
 
-function randomTask() {
-    const tasks = readFromJson();
-    const arrayPos = Math.floor(Math.random() * tasks.task.motivation.length);
-    return tasks.task.motivation[arrayPos].daily;
+function removeMeta(parsedJson) {
+    delete parsedJson['meta'];
+	return parsedJson;
 }
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+let value = getRandomInt(20);
+getTaskFromDb('traylsdb', value);
+getTaskFromDb('taskvalues', value);
 
 //Middleware takes care of 404
 //If higher up in code, it will be called first for some reason. And wont go through with any api calls
