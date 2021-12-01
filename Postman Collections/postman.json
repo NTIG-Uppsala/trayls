@@ -1,0 +1,75 @@
+{
+  "info": {
+    "_postman_id": "1967a8c0-f171-40c1-84d1-57ce012db2f6",
+    "name": "Test for walk motivation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "ApiTest",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "46796fff-c9cc-4476-8d5f-87ba8797422b",
+            "exec": [
+              "pm.test(\"Get response for getting task\", function () {\r",
+              "    pm.expect(pm.response.text()).to.include('API works');\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "id": "87891cc9-109b-41f9-afa5-85e5faa60a7b",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://walk-api.azurewebsites.net/getApiTest"
+      },
+      "response": []
+    },
+    {
+      "name": "testString",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "1835c153-cf8c-4c46-ac75-ef2b60f9350c",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "7fe9f3d0-541c-48ac-9d9e-5d225b6f47f3",
+            "exec": [
+              "\r",
+              "pm.test(\"Return is a String\", function () \r",
+              "{\r",
+              "    pm.expect(pm.response.text()).to.include(\"\");\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "id": "0e182dd0-0f31-41f2-9ab6-91eb708a7803",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://walk-api.azurewebsites.net/getTask"
+      },
+      "response": []
+    }
+  ]
+}
