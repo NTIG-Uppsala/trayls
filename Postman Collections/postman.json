@@ -70,7 +70,6 @@
         "url": "https://walk-api.azurewebsites.net/getTask"
       },
       "response": []
-
     },
     {
       "name": "newURLTest",
@@ -97,10 +96,9 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": "10.80.1.1"
+        "url": "10.80.1.1:8080/getTask"
       },
       "response": []
-
     }
   ]
 }
