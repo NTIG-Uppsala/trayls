@@ -1,0 +1,26 @@
+{
+    "task": {
+        "motivation": [
+            {"daily": "Ta 5000 steg"},
+            {"daily": "Ta 2.000 steg"},
+            {"daily": "Ta 1.000 steg"},
+            {"daily": "Ta 500 steg"},
+            {"daily": "Ta 250 steg"},
+            {"daily": "Ta 100 steg"},
+            {"daily": "Ta 1337 steg"},
+            {"daily": "Spring 1 kilometer"},
+            {"daily": "Spring 2 kilometer"},
+            {"daily": "Spring 3 kilometer"},
+            {"daily": "Gör 10 armhävningar"},
+            {"daily": "Gör 20 armhävningar"},
+            {"daily": "Gör 10 situps"},
+            {"daily": "Gör 20 situps"},
+            {"daily": "Gå 1 kilometer"},
+            {"daily": "Gå 2 kilometer"},
+            {"daily": "Gå 500 meter"},
+            {"daily": "Gå baklänges 100 steg"},
+            {"daily": "Gå baklänges 50 steg"}
+
+        ]
+    }
+}
