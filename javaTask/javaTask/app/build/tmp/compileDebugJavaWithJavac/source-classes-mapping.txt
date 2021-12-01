@@ -1,5 +1,0 @@
-com/javatask/app/MainActivity.java
- com.javatask.app.MainActivity
- com.javatask.app.MainActivity$1
-com/javatask/app/BuildConfig.java
- com.javatask.app.BuildConfig
