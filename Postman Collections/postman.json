@@ -84,6 +84,31 @@
     },
     {
       "name": "Sign up",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "812215c8-55da-40ea-a452-c2f9ac07ed00",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "2ee59d24-ad2a-40a3-941f-d502ad5e3183",
+            "exec": [
+              "pm.test(\"Sign up \", function () {\r",
+              "    pm.expect(pm.response.text()).to.include(\"Welcome new user\");\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "id": "ebbfbab4-b578-4f44-997c-7aee48af8454",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
@@ -93,7 +118,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"mail\": \"reg@onion.onion\"\r\n}",
+          "raw": "{\r\n    \"mail\": \"RegTest: {{randomNumber}}\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
