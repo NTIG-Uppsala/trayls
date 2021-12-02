@@ -48,12 +48,12 @@ Swift for IOS development
 #### Java
 
 Comments where code is non expressive
-Typecast if possible in the beggining of the function
+Typecast if possible in the beginning of the function
 
 #### node.js
 
 - camelCasing
-- Comment if you can
+- Add comments frequently
 
 #### Swift
 
