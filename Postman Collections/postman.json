@@ -33,45 +33,6 @@
       "response": []
     },
     {
-      "name": "testString",
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "id": "1835c153-cf8c-4c46-ac75-ef2b60f9350c",
-            "exec": [
-              ""
-            ],
-            "type": "text/javascript"
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "id": "7fe9f3d0-541c-48ac-9d9e-5d225b6f47f3",
-            "exec": [
-              "\r",
-              "pm.test(\"Return is a String\", function () \r",
-              "{\r",
-              "    pm.expect(pm.response.text()).to.include(\"\");\r",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "id": "0e182dd0-0f31-41f2-9ab6-91eb708a7803",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": "https://walk-api.azurewebsites.net/getTask"
-      },
-      "response": []
-    },
-    {
       "name": "newURLTest",
       "event": [
         {
