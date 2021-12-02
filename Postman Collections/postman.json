@@ -90,7 +90,7 @@
           "script": {
             "id": "812215c8-55da-40ea-a452-c2f9ac07ed00",
             "exec": [
-              "pm.variables.replaceIn('{{$randomFirstName}}', $randomIPV6)"
+              "pm.variables.replaceIn('$randomIPV6')"
             ],
             "type": "text/javascript"
           }
@@ -118,7 +118,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"mail\": \"RegTest: $randomIPV6\"\r\n}",
+          "raw": "{\r\n    \"mail\": \"RegTest: {{$hej}}\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
