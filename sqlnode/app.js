@@ -26,8 +26,8 @@ app.listen(PORT, () => {
 
 //Simple GET request
 app.get('/getTask', async function(req, res) {
-	const senddata = await getDataFromDb('task_query','traylsdb','task_id',getRandomInt(19));
-    res.send(senddata);
+	const sendData = await getDataFromDb('task_query', 'traylsdb', 'task_id', getRandomInt(19));
+    res.send(sendData);
 });
 
 
@@ -78,8 +78,7 @@ async function getDataFromDb(data, table, colVal, id) {
 	try {
 		conn = await pool.getConnection();
 		const rows = await conn.query(`SELECT ${data} FROM ${table} WHERE ${colVal} = ${id}`);
-		parseResponse(rows);
-		APIresponse = parseResponse(rows) 
+		APIresponse = parseResponse(rows);
 				
 	} catch (err) {
 		console.log('ERROR!!!')
