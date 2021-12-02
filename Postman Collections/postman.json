@@ -60,6 +60,19 @@
         "url": "10.80.1.1:8080/getTask"
       },
       "response": []
+    },
+    {
+      "name": "New Request",
+      "id": "ade4411b-f185-4538-a554-40a3686434e1",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": null
+      },
+      "response": []
     }
   ]
 }
