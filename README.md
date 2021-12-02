@@ -75,12 +75,13 @@ Typecast if possible in the beginning of the function
 ## Definition of Done (DoD)
 
 - Make sure that the code is readable and concise, also add comments.
-- The code should not be in main branch if the program is not running, nor should there be any errors. All code must therefore pass a pull request whenever the code is pulled.
-- Make sure that the product is presentable when presentation is due.
+- The code should not be in the main branch if the program is not running, nor should there be any errors. All code must therefore pass a pull request whenever the code is pulled.
+- Make sure that the product is presentable when the presentation is due.
 - Commit messages and description needs to be clear.
-- For code to be in main branch, it needs to be approved by at least 2 other people.
+- For code to be in the main branch, it needs to be approved by at least 2 other people.
 - Move over the corresponding post-it note to 'Done' whenever the DoD requirements above have been met.
 - Make absolutely sure that the DoD requirements have been met.
+
 
 ## Other
 
