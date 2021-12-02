@@ -89,9 +89,18 @@
         "disableBodyPruning": true
       },
       "request": {
-        "method": "GET",
+        "method": "POST",
         "header": [],
-        "url": null
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"mail\": \"reg@onion.onion\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "10.80.1.1:8080/addUser"
       },
       "response": []
     }
