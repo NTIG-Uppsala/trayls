@@ -81,6 +81,19 @@
         "url": "10.80.1.1:8080/addUser"
       },
       "response": []
+    },
+    {
+      "name": "New Request",
+      "id": "ebbfbab4-b578-4f44-997c-7aee48af8454",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": null
+      },
+      "response": []
     }
   ]
 }
