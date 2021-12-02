@@ -40,7 +40,7 @@ app.post('/addUser', async function(req, res) {
 	if (userId == 'Not found') {
 		await addUserToDatabase(`'${mail}'`);
 		console.log('User does not exist, added user to database');
-		res.send(`Welcome new user :) ${mail}`);
+		res.send('Welcome new user');
 	} else {
 		console.log('User exist');
 		res.send(`Welcome ${mail}`);
