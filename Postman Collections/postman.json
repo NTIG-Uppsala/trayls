@@ -40,8 +40,7 @@
           "script": {
             "id": "fa6c80d7-4e9d-4372-9044-30ed00b4c0fb",
             "exec": [
-              "pm.test(\"Return is a String\", function () \r",
-              "{\r",
+              "pm.test(\"Return is a String\", function () {\r",
               "    pm.expect(pm.response.text()).to.include(\"\");\r",
               "});\r",
               ""
