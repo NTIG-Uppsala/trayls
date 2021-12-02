@@ -61,7 +61,7 @@ async function addUserToDatabase(mail) {
 	} finally {
 		if (conn) {
 			conn.end();
-			return response;
+			return;
 		}
 	}
 }
