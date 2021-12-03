@@ -33,7 +33,7 @@
       "response": []
     },
     {
-      "name": "newURLTest",
+      "name": "Api return test",
       "event": [
         {
           "listen": "test",
