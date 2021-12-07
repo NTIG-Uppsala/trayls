@@ -63,6 +63,18 @@ app.get('/task', (req, res) => {
     });
 });
 
+//Get points for specific mail
+app.get('/points', validateMail, (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    getPointsForMail(req.query.mail).then(result => {
+        res.send(result);
+    });
+});
+
+
 /* ------------------------------ POST requests ----------------------------- */
 
 app.post('/user', validateMail, (req, res) => {
