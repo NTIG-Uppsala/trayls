@@ -69,7 +69,7 @@ app.get('/points', validateMail, (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
-    getPointsForMail(req.query.mail).then(result => {
+    getUserPointsFromDatabase(req.query.mail).then(result => {
         res.send(result);
     });
 });
