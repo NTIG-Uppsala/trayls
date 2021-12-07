@@ -1,13 +1,21 @@
 'use strict';
 
-//Basic API express and mariadb setup
+/* -------------------------------------------------------------------------- */
+/*                                 Dependencies                               */
+/* -------------------------------------------------------------------------- */
+
+
 const express = require('express');
 const mariadb = require('mariadb');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 
-//MariaDB setup
+/* -------------------------------------------------------------------------- */
+/*                               MariaDB config                               */
+/* -------------------------------------------------------------------------- */
+
+
 const pool = mariadb.createPool({
     host: 'localhost',
 	user: 'admin',
@@ -16,94 +24,122 @@ const pool = mariadb.createPool({
 	connectionLimit : 20
 });
 
-//Middleware to parse json
+
+/* -------------------------------------------------------------------------- */
+/*                                 Middleware                                 */
+/* -------------------------------------------------------------------------- */
+
+
+//Parse JSON
 app.use(express.json());
+
+
+/* -------------------------------------------------------------------------- */
+/*                                 API startup                                */
+/* -------------------------------------------------------------------------- */
+
 
 //Starts the API for it to listen
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-//Simple GET request
-app.get('/getTask', async function(req, res) {
-	const sendData = await getDataFromDb('task_query', 'traylsdb', 'task_id', getRandomInt(19));
-    res.send(sendData);
+
+/* -------------------------------------------------------------------------- */
+/*                                  API routs                                 */
+/* -------------------------------------------------------------------------- */
+
+/* ------------------------------ GET requests ------------------------------ */
+
+//Get task and task Id from task table
+app.get('/task/', (req, res) => {
+    getRandomTaskFromDatabase().then(result => {
+        res.send(result);
+    });
 });
 
 
-//Test so api is up
-app.get('/getApiTest', (req, res) => {
-    res.send('API works');
-});
 
-//Post for adding a new user it checks if it exists in the db
-app.post('/addUser', async function(req, res) {
-    const { mail } = req.body;
-    const userId = await getDataFromDb('user_id','users','user_mail',`'${mail}'`);
-	if (userId == 'Not found') {
-		await addToDb(`'${mail}'`);
-		console.log('User does not exist, added it to database');
-		res.send(`Welcome new user :) ${mail}`);
-	} else {
-		console.log('User exist');
-		res.send(`Welcome ${mail}`);
-	}
-	
-});
+/* -------------------------------------------------------------------------- */
+/*                          Functions used in the API                         */
+/* -------------------------------------------------------------------------- */
 
-//Adds a new user to the database
-async function addToDb(mail) {
-	let conn;
-	try {
-		conn = await pool.getConnection();
-		//insert user in db
-		conn.query(`INSERT INTO users(user_id, user_mail) VALUES (NULL, ${mail})`);
-        console.log('Successfully added user');
-	} catch (err) {
-		console.log('Failed');
-		throw err;
-	} finally {
-		if (conn) {
-			conn.end();
-			return response;
-		}
-	}
+
+/* --------- Random task and corresponding points from the task table-------- */
+async function getRandomTaskFromDatabase() {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT task_query, task_points FROM traylsdb ORDER BY RAND() LIMIT 1'); //Randomly select a task from task table
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) return conn.end();
+        result = result[0];
+        return result;
+    }
 }
 
-
-//Gets data from the database
-async function getDataFromDb(data, table, colVal, id) {
-	let conn;
-	let APIresponse;
-	try {
-		conn = await pool.getConnection();
-		const rows = await conn.query(`SELECT ${data} FROM ${table} WHERE ${colVal} = ${id}`);
-		APIresponse = parseResponse(rows);
-				
-	} catch (err) {
-		console.log('ERROR!!!')
-		APIresponse = 'Not found';
-		throw err;
-	} finally {
-		if (conn) {
-			conn.end();
-			return APIresponse
-		}
-	}
+/* ----------------- Add a user to database with mail as id ----------------- */
+async function addUserToDatabase(mail) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('INSERT INTO users (user_mail) VALUES (?)', mail); //Add user to database
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) return conn.end();
+        return result;
+    }
 }
 
-//Removes the meta data from the response, and parses it so response is a string
-function parseResponse(parsedJson, data) {
-    delete parsedJson['meta'];
-	return parsedJson[0][data];
+/* ------------- Check if user is in database and add if its not ------------ */
+async function checkUserInDatabase(mail) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT user_mail FROM users WHERE user_mail = ?', mail); //Check if user is in database
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) return conn.end();
+        result = result[0];
+        if (result === undefined) {
+            addUserToDatabase(mail);
+        }
+        return result;
+    }
 }
 
-
-//Gets a random number between 1 and 20, used for getting a random task.
-//note: this is not a good way to do this, but it works for now. Better way to do this is to check with the database how many rows there are in the table.
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max) + 1;
+/* ---------------------- Get user points from database --------------------- */
+async function getUserPointsFromDatabase(mail) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT user_points FROM users WHERE user_mail = ?', mail); //Get user points from database
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) return conn.end();
+        result = result[0];
+        return result;
+    }
 }
+
+/* ----------------------------- Sterilize mail ----------------------------- */
+function sterilizeMail(mail) {
+    let sterilizedMail = mail.replace(/[^a-zA-Z0-9]/g, '');
+    return sterilizedMail;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 Middleware                                 */
+/* -------------------------------------------------------------------------- */
 
 //Middleware takes care of 404
 //If higher up in code, it will be called first for some reason, and will not go through with any API calls
