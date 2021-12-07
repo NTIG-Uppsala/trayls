@@ -133,7 +133,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"mail\": \"RegTest: {{$randomIPV6}}\"\r\n}",
+          "raw": "{\r\n    \"mail\": \"RegTest: {{$randomEmail}}\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
