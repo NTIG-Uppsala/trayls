@@ -1,130 +1,226 @@
 'use strict';
 
-//Basic API express and MariaDB setup
+/* -------------------------------------------------------------------------- */
+/*                                 Dependencies                               */
+/* -------------------------------------------------------------------------- */
+
+
 const express = require('express');
 const mariadb = require('mariadb');
+const { check, validationResult } = require('express-validator');
+const fs = require('fs');
+const bodyParser = require('body-parser'); // Middleware
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-//MariaDB setup
+
+/* -------------------------------------------------------------------------- */
+/*                               MariaDB config                               */
+/* -------------------------------------------------------------------------- */
+
+
 const pool = mariadb.createPool({
     host: 'localhost',
 	user: 'admin',
 	password: 'admin123',
 	database: 'trayls',
+	connectionLimit : 20
 });
 
-//Middleware to parse json
+
+/* -------------------------------------------------------------------------- */
+/*                                 Middleware                                 */
+/* -------------------------------------------------------------------------- */
+
+
+//Parse JSON
 app.use(express.json());
 
-//Starts the API for it to listen
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
+/* -------------------------------------------------------------------------- */
+/*                              Helper variables                              */
+/* -------------------------------------------------------------------------- */
+
+
+/* ------------------------- Check if mail is a mail ------------------------ */
+var validateMail = [ //Documentation uses var so I'll use var
+    check('mail', 'Must Be an Email Address').isEmail().trim().escape().normalizeEmail()
+]
+
+
+/* -------------------------------------------------------------------------- */
+/*                                  API routs                                 */
+/* -------------------------------------------------------------------------- */
+
+
+/* ------------------------------ GET requests ------------------------------ */
+
+//Get task and task Id from task table
+app.get('/task', (req, res) => {
+    getRandomTaskFromDatabase().then(result => {
+        res.send(result);
+    });
 });
 
-//Simple GET request
-app.get('/getTask', async function(req, res) {
-	const sendData = await getDataFromDatabase();
-    res.send(sendData);
+//Get points for specific mail
+app.get('/points', validateMail, (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    getUserPointsFromDatabase(req.query.mail).then(result => {
+        res.send(result);
+    });
 });
 
-//Test so API is up and works
-app.get('/getApiTest', (req, res) => {
-    res.send('API works');
+
+/* ------------------------------ POST requests ----------------------------- */
+
+app.post('/user', validateMail, (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    const mail = req.body;
+    checkUserInDatabase(mail).then(result => {
+        res.send(result);
+    });
 });
 
-//Post for adding a new user it checks if it exists in the database
-app.post('/addUser', async function(req, res) {
-    const { mail } = req.body;
-    const userId = await getMailFromDatabase(`'${mail}'`);
-	if (userId == 'Not found') {
-		await addUserToDatabase(`'${mail}'`);
-		console.log('User does not exist, added user to database');
-		res.send('Welcome new user');
-	} else {
-		console.log('User exist');
-		res.send(`Welcome ${mail}`);
-	}
+/* ------------------- DELETE request for testing purpose ------------------- */
+app.delete('/user', validateMail, (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    const mail = req.body.mail;
+    const pw = req.body.pw;
+    if (pw === readPassword()) {
+        deleteUserFromDatabase(mail).then(result => {
+            res.send(result);
+        });
+    }
+    res.send('Wrong password');
 });
 
-//Adds a new user to the database
+
+/* -------------------------------------------------------------------------- */
+/*                          Functions used in the API                         */
+/* -------------------------------------------------------------------------- */
+
+
+/* --------- Random task and corresponding points from the task table-------- */
+async function getRandomTaskFromDatabase() {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT task_query, task_points FROM traylsdb ORDER BY RAND() LIMIT 1'); //Randomly select a task from task table
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        result = result[0];
+        return result;
+    }
+}
+
+/* ----------------- Add a user to database with mail as id ----------------- */
 async function addUserToDatabase(mail) {
-	let conn;
-	
-	try {
-		conn = await pool.getConnection();
-		//insert user in database
-		conn.query(`INSERT INTO users(user_id, user_mail) VALUES (NULL, ${mail})`);
-        console.log('Successfully added user');
-	} catch (err) {
-		console.log('Failed');
-		throw err;
-	} finally {
-		if (conn) {
-			conn.end();
-			return;
-		}
-	}
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('INSERT INTO users (user_mail) VALUES (?)', mail); //Add user to database
+        console.log(result);
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        return result;
+    }
 }
 
-//Gets data from the database
-async function getDataFromDatabase() {
-	let conn;
-	let APIresponse;
-	try {
-		conn = await pool.getConnection();
-		const rows = await conn.query(`SELECT task_query, task_points FROM traylsdb ORDER BY RAND() LIMIT 1`);
-		APIresponse = parseResponse(rows, 'task_query,task_points');
-	} catch (err) {
-		console.log('ERROR!!!')
-		APIresponse = 'Not found';
-		console.log(err)
-		throw err;
-	} finally {
-		if (conn) {
-			conn.end();
-			return APIresponse
-		}
-	}
-}
-async function getMailFromDatabase(mail) {
-	let conn;
-	let APIresponse;
-	try {
-		conn = await pool.getConnection();
-		const rows = await conn.query(`SELECT user_id FROM users WHERE user_mail=${mail}`);
-		APIresponse = parseResponse(rows, data);
-	} catch (err) {
-		console.log('ERROR!!!')
-		APIresponse = 'Not found';
-		throw err;
-	} finally {
-		if (conn) {
-			conn.end();
-			return APIresponse
-		}
-	}
+/* ------------- Check if user is in database and add if its not ------------ */
+async function checkUserInDatabase(mail) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT user_mail FROM users WHERE user_mail = ?', mail); //Check if user is in database
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        result = result[0];
+        if (result === undefined) {
+            addUserToDatabase(mail);
+            return 'Ny användare';
+        }
+        return 'Välkommen tillbaka';
+    }
 }
 
-
-//Removes the meta data from the response, and parses it so the response becomes a string
-function parseResponse(parsedRowsData, data) {
-	delete parsedRowsData['meta'];
-	const rowValue = parsedRowsData[0];
-	if (data.includes(',')) {
-		data = data.split(',');
-		let returnList = []
-		for(let i = 0; i < Object.keys(rowValue).length; i++){
-			returnList.push(rowValue[data[i]])
-		}
-		return returnList;
-	}
-	return rowValue[data];
-	
+/* ---------------------- Get user points from database --------------------- */
+async function getUserPointsFromDatabase(mail) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT user_points FROM users WHERE user_mail = ?', mail); //Get user points from database
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        result = result[0];
+        return result;
+    }
 }
+
+/* -------------------- Delete user from database by mail ------------------- */
+async function deleteUserFromDatabase(mail) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('DELETE FROM users WHERE user_mail = ?', mail); //Delete user from database
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        return result;
+    }
+}
+
+/* ----------------- Read file to get password ---------------- */
+function readPassword() {
+    let password;
+    fs.readFile('password.txt', 'utf8', function (err, data) {
+        if (err) throw err;
+        password = data;
+    });
+    return password;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 Middleware                                 */
+/* -------------------------------------------------------------------------- */
 
 //Middleware takes care of 404
 //If higher up in code, it will be called first for some reason, and will not go through with any API calls
 app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found. ERROR: 404'}) //send back 404
+});
+
+
+/* -------------------------------------------------------------------------- */
+/*                                 API startup                                */
+/* -------------------------------------------------------------------------- */
+
+
+//Starts the API for it to listen
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
