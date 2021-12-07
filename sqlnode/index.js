@@ -24,7 +24,7 @@ app.listen(PORT, () => {
 
 //Simple GET request
 app.get('/getTask', async function(req, res) {
-	const sendData = await getDataFromDatabase('task_query', 'traylsdb', 'task_id', getRandomInt(19));
+	const sendData = await getDataFromDatabase();
     res.send(sendData);
 });
 
@@ -36,7 +36,7 @@ app.get('/getApiTest', (req, res) => {
 //Post for adding a new user it checks if it exists in the database
 app.post('/addUser', async function(req, res) {
     const { mail } = req.body;
-    const userId = await getDataFromDatabase('user_id','users','user_mail',`'${mail}'`);
+    const userId = await getMailFromDatabase(`'${mail}'`);
 	if (userId == 'Not found') {
 		await addUserToDatabase(`'${mail}'`);
 		console.log('User does not exist, added user to database');
@@ -50,6 +50,7 @@ app.post('/addUser', async function(req, res) {
 //Adds a new user to the database
 async function addUserToDatabase(mail) {
 	let conn;
+	
 	try {
 		conn = await pool.getConnection();
 		//insert user in database
@@ -67,13 +68,32 @@ async function addUserToDatabase(mail) {
 }
 
 //Gets data from the database
-async function getDataFromDatabase(data, table, colVal, id) {
+async function getDataFromDatabase() {
 	let conn;
 	let APIresponse;
 	try {
 		conn = await pool.getConnection();
-		const rows = await conn.query(`SELECT ${data} FROM ${table} WHERE ${colVal} = ${id}`);
-		APIresponse = parseResponse(rows);
+		const rows = await conn.query(`SELECT task_query, task_points FROM traylsdb ORDER BY RAND() LIMIT 1`);
+		APIresponse = parseResponse(rows, 'task_query,task_points');
+	} catch (err) {
+		console.log('ERROR!!!')
+		APIresponse = 'Not found';
+		console.log(err)
+		throw err;
+	} finally {
+		if (conn) {
+			conn.end();
+			return APIresponse
+		}
+	}
+}
+async function getMailFromDatabase(mail) {
+	let conn;
+	let APIresponse;
+	try {
+		conn = await pool.getConnection();
+		const rows = await conn.query(`SELECT user_id FROM users WHERE user_mail=${mail}`);
+		APIresponse = parseResponse(rows, data);
 	} catch (err) {
 		console.log('ERROR!!!')
 		APIresponse = 'Not found';
@@ -86,16 +106,21 @@ async function getDataFromDatabase(data, table, colVal, id) {
 	}
 }
 
-//Removes the meta data from the response, and parses it so the response becomes a string
-function parseResponse(parsedJson, data) {
-    delete parsedJson['meta'];
-	return parsedJson[0][data];
-}
 
-//Gets a random number between 1 and 20, used for getting a random task
-//Note: this is not a good way to do this, but it works for now. Better way to do this is to check with the database how many rows there are in the table
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max) + 1;
+//Removes the meta data from the response, and parses it so the response becomes a string
+function parseResponse(parsedRowsData, data) {
+	delete parsedRowsData['meta'];
+	const rowValue = parsedRowsData[0];
+	if (data.includes(',')) {
+		data = data.split(',');
+		let returnList = []
+		for(let i = 0; i < Object.keys(rowValue).length; i++){
+			returnList.push(rowValue[data[i]])
+		}
+		return returnList;
+	}
+	return rowValue[data];
+	
 }
 
 //Middleware takes care of 404
