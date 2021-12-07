@@ -194,7 +194,7 @@ async function deleteUserFromDatabase(mail) {
     }
 }
 
-/* ----------------- Read first line of file to get password ---------------- */
+/* ----------------- Read file to get password ---------------- */
 function readPassword() {
     let password;
     fs.readFile('password.txt', 'utf8', function (err, data) {
