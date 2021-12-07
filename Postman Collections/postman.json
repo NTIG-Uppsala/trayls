@@ -40,7 +40,7 @@
           "script": {
             "id": "3571ed46-dad3-4c92-b41c-5351f8183d54",
             "exec": [
-              "pm.test(\"Return is a String\", function () {\r",
+              "pm.test(\"Return has query and points\", function () {\r",
               "    pm.expect(pm.response.text()).to.include(\"task_query\", \"task_points\");\r",
               "});\r",
               ""
