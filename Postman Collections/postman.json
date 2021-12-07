@@ -6,33 +6,6 @@
   },
   "item": [
     {
-      "name": "ApiTest",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "id": "46796fff-c9cc-4476-8d5f-87ba8797422b",
-            "exec": [
-              "pm.test(\"Get response for getting task\", function () {\r",
-              "    pm.expect(pm.response.text()).to.include('API works');\r",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "id": "87891cc9-109b-41f9-afa5-85e5faa60a7b",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": "http://netlabua.se/getApiTest"
-      },
-      "response": []
-    },
-    {
       "name": "Api return test",
       "event": [
         {
