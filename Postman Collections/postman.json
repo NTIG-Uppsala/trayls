@@ -41,7 +41,7 @@
             "id": "3571ed46-dad3-4c92-b41c-5351f8183d54",
             "exec": [
               "pm.test(\"Return is a String\", function () {\r",
-              "    pm.expect(pm.response.text()).to.include(\"\");\r",
+              "    pm.expect(pm.response.text()).to.include(\"task_query\", \"task_points\");\r",
               "});\r",
               ""
             ],
@@ -56,7 +56,7 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": "http://netlabua.se/getTask"
+        "url": "http://netlabua.se/task"
       },
       "response": []
     },
