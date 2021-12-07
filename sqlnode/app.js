@@ -149,13 +149,6 @@ async function getUserPointsFromDatabase(mail) {
     }
 }
 
-/* ----------------------------- Sterilize mail ----------------------------- */
-function sterilizeMail(mail) {
-    let sterilizedMail = mail.replace(/[^a-zA-Z0-9]/g, '');
-    return sterilizedMail;
-}
-
-
 /* -------------------------------------------------------------------------- */
 /*                                 Middleware                                 */
 /* -------------------------------------------------------------------------- */
