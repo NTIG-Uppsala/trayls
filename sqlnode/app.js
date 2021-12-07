@@ -7,6 +7,8 @@
 
 const express = require('express');
 const mariadb = require('mariadb');
+const { check, validationResult } = require('express-validator');
+const bodyParser = require('body-parser'); // Middleware
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -33,31 +35,46 @@ const pool = mariadb.createPool({
 //Parse JSON
 app.use(express.json());
 
+app.use(bodyParser.urlencoded({ extended: false }));
+
 
 /* -------------------------------------------------------------------------- */
-/*                                 API startup                                */
+/*                              Helper variables                              */
 /* -------------------------------------------------------------------------- */
 
 
-//Starts the API for it to listen
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+/* ------------------------- Check if mail is a mail ------------------------ */
+var validateMail = [ //Documentation uses var so I'll use var
+    check('mail', 'Must Be an Email Address').isEmail().trim().escape().normalizeEmail()
+]
 
 
 /* -------------------------------------------------------------------------- */
 /*                                  API routs                                 */
 /* -------------------------------------------------------------------------- */
 
+
 /* ------------------------------ GET requests ------------------------------ */
 
 //Get task and task Id from task table
-app.get('/task/', (req, res) => {
+app.get('/task', (req, res) => {
     getRandomTaskFromDatabase().then(result => {
         res.send(result);
     });
 });
 
+/* ------------------------------ POST requests ----------------------------- */
+
+app.post('/user', validateMail, (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    const mail = req.body;
+    checkUserInDatabase(mail).then(result => {
+        res.send(result);
+    });
+});
 
 
 /* -------------------------------------------------------------------------- */
@@ -75,7 +92,7 @@ async function getRandomTaskFromDatabase() {
     } catch (err) {
         console.error(err);
     } finally {
-        if (conn) return conn.end();
+        if (conn) conn.end();
         result = result[0];
         return result;
     }
@@ -91,7 +108,7 @@ async function addUserToDatabase(mail) {
     } catch (err) {
         console.error(err);
     } finally {
-        if (conn) return conn.end();
+        if (conn) conn.end();
         return result;
     }
 }
@@ -106,12 +123,13 @@ async function checkUserInDatabase(mail) {
     } catch (err) {
         console.error(err);
     } finally {
-        if (conn) return conn.end();
+        if (conn) conn.end();
         result = result[0];
         if (result === undefined) {
             addUserToDatabase(mail);
+            return 'Ny användare'
         }
-        return result;
+        return 'Välkommen tillbaka';
     }
 }
 
@@ -125,7 +143,7 @@ async function getUserPointsFromDatabase(mail) {
     } catch (err) {
         console.error(err);
     } finally {
-        if (conn) return conn.end();
+        if (conn) conn.end();
         result = result[0];
         return result;
     }
@@ -137,6 +155,7 @@ function sterilizeMail(mail) {
     return sterilizedMail;
 }
 
+
 /* -------------------------------------------------------------------------- */
 /*                                 Middleware                                 */
 /* -------------------------------------------------------------------------- */
@@ -145,4 +164,15 @@ function sterilizeMail(mail) {
 //If higher up in code, it will be called first for some reason, and will not go through with any API calls
 app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found. ERROR: 404'}) //send back 404
+});
+
+
+/* -------------------------------------------------------------------------- */
+/*                                 API startup                                */
+/* -------------------------------------------------------------------------- */
+
+
+//Starts the API for it to listen
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
