@@ -116,6 +116,19 @@
         "url": "http://netlabua.se/user"
       },
       "response": []
+    },
+    {
+      "name": "New Request",
+      "id": "4d5565f4-0945-4d27-9d18-573b2de6e80f",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": null
+      },
+      "response": []
     }
   ],
   "event": [
