@@ -125,7 +125,7 @@
           "script": {
             "id": "f35b3a40-b706-44fa-9d89-ae0e10570645",
             "exec": [
-              "pm.test(\"Succesful Login \", function () {\r",
+              "pm.test(\"Current Task \", function () {\r",
               "    pm.expect(pm.response.text()).to.include(\"\");\r",
               "});"
             ],
