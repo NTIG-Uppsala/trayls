@@ -161,7 +161,7 @@
           "script": {
             "id": "99641a24-7854-4c2c-bceb-76d5187389f2",
             "exec": [
-              "pm.test(\"Succesful Login \", function () {\r",
+              "pm.test(\"Task Cancelled \", function () {\r",
               "    pm.expect(pm.response.text()).to.include(\"\");\r",
               "});"
             ],
