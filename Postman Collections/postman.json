@@ -119,6 +119,20 @@
     },
     {
       "name": "Current Task",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f35b3a40-b706-44fa-9d89-ae0e10570645",
+            "exec": [
+              "pm.test(\"Succesful Login \", function () {\r",
+              "    pm.expect(pm.response.text()).to.include(\"\");\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "id": "4d5565f4-0945-4d27-9d18-573b2de6e80f",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
@@ -126,7 +140,16 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": null
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"mail\": \"anna@onion.onion\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://netlabua.se/userTask"
       },
       "response": []
     }
