@@ -121,15 +121,15 @@
   "auth": {
     "type": "apikey",
     "apikey": {
-      "value": "zAQq1n2WaL1wGmxnDsApc5ZWYrXjxn1y",
-      "key": "zAQq1n2WaL1wGmxnDsApc5ZWYrXjxn1y"
+      "value": "{{api_key}}",
+      "key": "api key"
     }
   },
   "event": [
     {
       "listen": "prerequest",
       "script": {
-        "id": "03c74eee-2e46-48c9-8ef7-4db97bf14efc",
+        "id": "a5e662eb-572f-41b4-a928-b64385eb1810",
         "type": "text/javascript",
         "exec": [
           ""
@@ -139,7 +139,7 @@
     {
       "listen": "test",
       "script": {
-        "id": "8c76d540-2905-4c72-ad35-0d0da8f72b32",
+        "id": "b4c42f36-3cee-4a0f-85e4-c880fcd26111",
         "type": "text/javascript",
         "exec": [
           ""
