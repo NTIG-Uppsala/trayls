@@ -154,7 +154,7 @@
       "response": []
     },
     {
-      "name": "New Request",
+      "name": "Cancel Task",
       "event": [
         {
           "listen": "test",
