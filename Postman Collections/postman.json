@@ -88,7 +88,7 @@
           "script": {
             "id": "2ee59d24-ad2a-40a3-941f-d502ad5e3183",
             "exec": [
-              "pm.test(\"Sign up \", function () {\r",
+              "pm.test(\"Sucesfully Signed up \", function () {\r",
               "    pm.expect(pm.response.text()).to.include(\"Ny användare\");\r",
               "});\r",
               ""
