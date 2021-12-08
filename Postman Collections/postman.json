@@ -118,7 +118,7 @@
       "response": []
     },
     {
-      "name": "New Request",
+      "name": "Current Task",
       "id": "4d5565f4-0945-4d27-9d18-573b2de6e80f",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
