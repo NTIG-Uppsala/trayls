@@ -106,7 +106,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"mail\": \"{{$randomEmail}}testMail\"\r\n} ",
+          "raw": "{\r\n    \"mail\": \"anna@onion.onion\"\r\n} ",
           "options": {
             "raw": {
               "language": "json"
