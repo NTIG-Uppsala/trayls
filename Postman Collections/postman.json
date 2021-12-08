@@ -41,7 +41,7 @@
           "script": {
             "id": "0126dde9-b19d-4bd5-bd63-73c3e28c462e",
             "exec": [
-              "pm.test(\"Login \", function () {\r",
+              "pm.test(\"Succesful Login \", function () {\r",
               "    pm.expect(pm.response.text()).to.include(\"Välkommen tillbaka\");\r",
               "});\r",
               ""
