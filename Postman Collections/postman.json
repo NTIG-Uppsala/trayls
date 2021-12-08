@@ -152,6 +152,19 @@
         "url": "http://netlabua.se/userTask"
       },
       "response": []
+    },
+    {
+      "name": "New Request",
+      "id": "ddab6265-1a8b-4820-9e17-0b07a6ef4452",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": null
+      },
+      "response": []
     }
   ],
   "event": [
