@@ -60,12 +60,6 @@ Typecast if possible in the beginning of the function
 - PascalCasing for function, classes
 - camelCasing for variable
 
-### VS Code extension
-
-|Extension|Version|
-|---|---|
-|Azure App Service|0.23.0|
-
 ### API Testing framework
 
 |Program|Version|
