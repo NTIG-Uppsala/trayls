@@ -188,6 +188,19 @@
         "url": "http://netlabua.se/changeTask"
       },
       "response": []
+    },
+    {
+      "name": "New Request",
+      "id": "40908717-d757-4a0b-a526-3ccd0dacd426",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": null
+      },
+      "response": []
     }
   ],
   "event": [
