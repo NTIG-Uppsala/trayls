@@ -66,9 +66,7 @@ app.get('/task', (req, res) => {
 //Get points for specific mail
 app.get('/points', validateMail, (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-    }
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
     getUserPointsFromDatabase(req.query.mail).then(result => {
         res.send(result);
     });
@@ -77,9 +75,7 @@ app.get('/points', validateMail, (req, res) => {
 //Get the current task they are on if there is a current task
 app.get('/currTask',validateMail, async function(req, res) {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-    }
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
     const mail = req.body.mail;
     let availableTask = await latestUserTaskStatus(mail);
     if (availableTask == 2 || availableTask == 3) return res.send('Inget aktivt uppdrag');
@@ -94,9 +90,7 @@ app.get('/currTask',validateMail, async function(req, res) {
 //Post request, check if user is in db, If it's not the it will be added.
 app.post('/user', validateMail, (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-    }
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
     const mail = req.body.mail;
     checkUserInDatabase(mail).then(result => {
         res.send(result);
@@ -106,12 +100,13 @@ app.post('/user', validateMail, (req, res) => {
 //Accept a task
 app.post('/accTask', validateMail, async function(req, res) {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).json({errors: errors.array});
-    }
+    if (!errors.isEmpty()) return res.status(422).json({errors: errors.array});
     const taskId = req.body.task_id; 
-    const userId = await getUserIdWithMail(req.body.mail);
+    const mail = req.body.mail;
+    const userId = await getUserIdWithMail(mail);
     if (userId == -1) return res.send('Ogiltig mail');
+    let availableTask = await latestUserTaskStatus(mail);
+    if (availableTask == 1) return res.send('Du har redan ett uppdrag');
     setTaskStatus(userId, taskId).then(result => {
         res.send("Ditt uppdarg är accepterat");
     })
@@ -121,9 +116,7 @@ app.post('/accTask', validateMail, async function(req, res) {
 //Put request, chance latest accepted task status to done or cancel
 app.put('/changeTask', validateMail, async function(req, res) {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-    }
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
     const status = req.body.status;
     const mail = req.body.mail;
     if (status != '2' && status != '3') return res.send('Ogiltlig siffra');
@@ -140,9 +133,7 @@ app.put('/changeTask', validateMail, async function(req, res) {
 /* ------------------- DELETE request for testing purpose ------------------- */
 app.delete('/user', validateMail, function(req, res) {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-    }
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
     const mail = req.body.mail;
     const pw = req.body.pw;
     if (pw != readConfig('API_KEY')) return res.send('Felaktigt lösenord');
@@ -170,7 +161,7 @@ async function getRandomTaskFromDatabase() {
     } finally {
         if (conn) conn.end();
         result = result[0];
-        return result;
+        return result; //Returns the task info without meta
     }
 }
 
@@ -185,7 +176,7 @@ async function addUserToDatabase(mail) {
         console.error(err);
     } finally {
         if (conn) conn.end();
-        return result;
+        return result; //The whole sql response
     }
 }
 
@@ -224,7 +215,7 @@ async function getUserIdWithMail(mail) {
         if (result === undefined) {
             return -1; 
         }
-        return result['user_id']; //If no user
+        return result['user_id']; //Only returns the user id from the sql database
     }
 }
 
@@ -240,7 +231,7 @@ async function getUserPointsFromDatabase(mail) {
     } finally {
         if (conn) conn.end();
         result = result[0];
-        return result;
+        return result; //Returns sql response without meta
     }
 }
 
@@ -256,7 +247,7 @@ async function setTaskStatus(userId, taskId) {
         console.error(err);
     } finally {
         if (conn) conn.end();
-        return result;
+        return result; //Returns the whole sql response 
     }
 }
 
@@ -271,7 +262,7 @@ async function changeTaskStatus(mail, taskState) {
         console.error(err);
     } finally {
         if (conn) conn.end();
-        return result; 
+        return result; //Returns the nr of affected rows
     }
 }
 
@@ -286,7 +277,7 @@ async function deleteUserFromDatabase(mail) {
         console.error(err);
     } finally {
         if (conn) conn.end();
-        return result;
+        return result; //Returns the number of affected rows
     }
 }
 
@@ -297,11 +288,11 @@ async function returnCurrentTask(latestTask){ //can't be called from user
     try {
         if (latestTask.task_status != 1) return 'Ingen aktiv task';
         conn = await pool.getConnection();
-        result = await conn.query('SELECT * FROM traylsdb WHERE task_id = ?', latestTask.task_id); //Get the task row with all info about a task
+        result = await conn.query('SELECT task_query, task_points FROM traylsdb WHERE task_id = ?', latestTask.task_id); //Get the task row with all info about a task
     } catch (err) {
         console.error(err);
     } finally {
-        return result[0];
+        return result[0]; //Returns database response without meta
     }
 }
 
@@ -337,7 +328,7 @@ function readConfig(key) {
 //Middleware takes care of 404
 //If higher up in code, it will be called first for some reason, and will not go through with any API calls
 app.use(function(req, res) {
-    res.status(404).send({url: '404 Error'}); //send back 404
+    res.status(404).send({url: '404 Error'});
 });
 
 
