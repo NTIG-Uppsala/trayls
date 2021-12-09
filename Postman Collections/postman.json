@@ -162,7 +162,7 @@
             "id": "23081e77-0780-4423-93dd-3ccc450d72dd",
             "exec": [
               "pm.test(\"Task Cancelled \", function () {\r",
-              "    pm.expect(pm.response.text()).to.include(\"\");\r",
+              "    pm.expect(pm.response.text()).to.include(\"Grattis du klarade uppdraget!\");\r",
               "});"
             ],
             "type": "text/javascript"
