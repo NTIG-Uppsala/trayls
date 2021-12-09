@@ -98,6 +98,6 @@ IMAGE SOON
 
 #### user
 
-- removed user from database
+- removes user from database
 - Require mail in body
 - Require pw in body
