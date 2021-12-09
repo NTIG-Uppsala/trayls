@@ -198,7 +198,16 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": "http://netlabua.se/task"
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"mail\": \"anna@onion.org\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://netlabua.se/currTask"
       },
       "response": []
     }
