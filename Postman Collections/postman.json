@@ -191,6 +191,20 @@
     },
     {
       "name": "Complete Task",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "23081e77-0780-4423-93dd-3ccc450d72dd",
+            "exec": [
+              "pm.test(\"Task Cancelled \", function () {\r",
+              "    pm.expect(pm.response.text()).to.include(\"\");\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "id": "c509e56e-b496-49de-b0bc-ba6bc4e8e210",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
