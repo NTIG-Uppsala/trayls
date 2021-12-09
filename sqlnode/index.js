@@ -49,7 +49,6 @@ var validateMail = [ //Documentation uses var so I'll use var
     check('mail', 'Must Be an Email Address').isEmail().trim().escape().normalizeEmail()
 ]
 
-
 /* -------------------------------------------------------------------------- */
 /*                                  API routs                                 */
 /* -------------------------------------------------------------------------- */
@@ -75,6 +74,20 @@ app.get('/points', validateMail, (req, res) => {
     });
 });
 
+//Get the current task they are on if there is a current task
+app.get('/currTask',validateMail, async function(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    const mail = req.body.mail;
+    let availableTask = await latestUserTaskStatus(mail);
+    if (availableTask == 2 || availableTask == 3) return res.send('Inget aktivt uppdrag');
+    latestUserTaskStatus(mail, 'Get active task').then (result => {
+        res.send(result);
+    });
+});
+
 
 /* ------------------------------ POST requests ----------------------------- */
 
@@ -96,11 +109,11 @@ app.post('/accTask', validateMail, async function(req, res) {
     if (!errors.isEmpty()) {
         return res.status(422).json({errors: errors.array});
     }
-    const taskId = req.body.task_id; //Might be the wrong name "task_id";
+    const taskId = req.body.task_id; 
     const userId = await getUserIdWithMail(req.body.mail);
     if (userId == -1) return res.send('Ogiltig mail');
-    setTaskStatus(taskId, userId).then(result => {
-        res.send(result);
+    setTaskStatus(userId, taskId).then(result => {
+        res.send("Ditt uppdarg är accepterat");
     })
 })
 
@@ -111,33 +124,32 @@ app.put('/changeTask', validateMail, async function(req, res) {
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
-    const userId = await getUserIdWithMail(req.body.mail);
-    if (userId == -1) return res.send('Not a valid mail');
     const status = req.body.status;
-    changeTaskStatus(userId, status).then(result => {
-        res.send(result);
+    const mail = req.body.mail;
+    if (status != '2' && status != '3') return res.send('Ogiltlig siffra');
+    let availableTask = await latestUserTaskStatus(mail);
+    if (availableTask == 2 || availableTask == 3) return res.send('Inget aktivt uppdrag');
+    changeTaskStatus(mail, status).then(result => {
+        if (result.affectedRows == 0)  return res.send('Denna användare finns inte');
+        if (status == '3') return res.send('Det är okej du klarar nästa task!')
+        return res.send('Grattis du klarade uppdraget!');
     });
 });
 
 
 /* ------------------- DELETE request for testing purpose ------------------- */
-app.delete('/user', validateMail, async function(req, res) {
+app.delete('/user', validateMail, function(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
     const mail = req.body.mail;
     const pw = req.body.pw;
-    if (pw == readConfig('API_KEY')) {
-        await deleteUserFromDatabase(mail).then(result => {
-            if (result.affectedRows == 0) {
-                return res.send('Denna användare finns inte')
-            }
-            return res.send('Användare Borttagen');
-        });
-    } else {
-        res.send('Wrong password');
-    }
+    if (pw != readConfig('API_KEY')) return res.send('Felaktigt lösenord');
+    deleteUserFromDatabase(mail).then(result => {
+        if (result.affectedRows == 0) return res.send('Denna användare finns inte');
+        return res.send('Användare Borttagen');
+    });
 });
 
 
@@ -232,13 +244,14 @@ async function getUserPointsFromDatabase(mail) {
     }
 }
 
+
 /* -------- Confirm task and add the task_id, user_id and task_state to the db -------- */
 async function setTaskStatus(userId, taskId) {
     let conn;
     let result;
     try {
         conn = await pool.getConnection();
-        result = await conn.query('INSERT INTO task_state (user_id, task_id, task_status, task_history) VALUES (?, ?, ?, ?)', [taskId, userId, 2, null]); //Add task_state to database taskState can be 1,2 or 3 //1 = done, 2 = in progress, 3 = canceled
+        result = await conn.query('INSERT INTO task_state (user_id, task_id, task_status, task_history) VALUES (?, ?, ?, ?)', [userId, taskId, 1, null]); //Add task_state to database taskState can be 1,2 or 3 //1 = in progress, 2 = done, 3 = canceled
     } catch (err) {
         console.error(err);
     } finally {
@@ -247,13 +260,13 @@ async function setTaskStatus(userId, taskId) {
     }
 }
 
-/* ----------- Change the latest taskState a mail has to 1,2 or 3 ----------- */
+/* ----------- Change the latest taskState a mail has to 2 or 3 ----------- */
 async function changeTaskStatus(mail, taskState) {
     let conn;
     let result;
     try {
         conn = await pool.getConnection();
-        result = await conn.query('UPDATE task_state SET task_status = ? WHERE user_id = (SELECT user_id FROM users WHERE user_id = ?) ORDER BY task_history DESC LIMIT 1', [taskState, mail]); //Change the latest taskState a mail has to 1 or 3
+        result = await conn.query('UPDATE task_state SET task_status = ? WHERE user_id = (SELECT user_id FROM users WHERE user_mail = ?) ORDER BY task_history DESC LIMIT 1', [taskState, mail]); //Change the latest taskState a mail has to 2 or 3
     } catch (err) {
         console.error(err);
     } finally {
@@ -277,9 +290,42 @@ async function deleteUserFromDatabase(mail) {
     }
 }
 
+/* --------------------------- return current task -------------------------- */
+async function returnCurrentTask(latestTask){ //can't be called from user
+    let conn;
+    let result;
+    try {
+        if (latestTask.task_status != 1) return 'Ingen aktiv task';
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT * FROM traylsdb WHERE task_id = ?', latestTask.task_id); //Get the task row with all info about a task
+    } catch (err) {
+        console.error(err);
+    } finally {
+        return result[0];
+    }
+}
+
+/* --------------------- Latest task a user has accepted -------------------- */
+async function latestUserTaskStatus(mail, purpose) {
+    let conn;
+    let result;
+    try{
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT * FROM task_state WHERE user_id = (SELECT user_id FROM users WHERE user_mail = ?) ORDER BY task_history DESC LIMIT 1', mail); //Get the row with task history and such
+        result = result[0];
+    }catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        if (purpose == 'Get active task') return returnCurrentTask(result);
+        return result.task_status; //Return the status of the task
+    }
+}
+
+
 /* ------------------------- Read file to get config ------------------------ */
 function readConfig(key) {
-    const json = fs.readFileSync('../trayls.json');
+    const json = fs.readFileSync('../../trayls.json');
     const parsedJson = JSON.parse(json);
     return parsedJson[key];
 }
