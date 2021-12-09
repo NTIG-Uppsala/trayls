@@ -234,7 +234,7 @@
             "id": "c48478ea-ea5f-4574-a02e-800e7c448cac",
             "exec": [
               "pm.test(\"Task Cancelled \", function () {\r",
-              "    pm.expect(pm.response.text()).to.include(\"task_id\");\r",
+              "    pm.expect(pm.response.text()).to.include(\"task_query\");\r",
               "});"
             ],
             "type": "text/javascript"
