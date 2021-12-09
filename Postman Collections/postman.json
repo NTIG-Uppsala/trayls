@@ -227,6 +227,20 @@
     },
     {
       "name": "Current Task",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "c48478ea-ea5f-4574-a02e-800e7c448cac",
+            "exec": [
+              "pm.test(\"Task Cancelled \", function () {\r",
+              "    pm.expect(pm.response.text()).to.include(\"\");\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "id": "40908717-d757-4a0b-a526-3ccd0dacd426",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
