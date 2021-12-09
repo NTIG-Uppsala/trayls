@@ -59,7 +59,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"mail\": \"anna@onion.org\"\r\n}",
+          "raw": "{\r\n    \"mail\": \"anna@onion.com\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
