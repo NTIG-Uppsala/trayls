@@ -23,11 +23,12 @@ Ask a teacher to give you access to read the google document
 
 click Here to view the Database
 
-IMAGE SOON
+![image](https://user-images.githubusercontent.com/62390271/145418874-cd2911da-8e1f-4723-bfe8-96eb294bb8da.png)
+
 
 #### Tabs
 
-IMAGE SOON
+![image](https://user-images.githubusercontent.com/62390271/145418829-f3459e4f-53c5-4ee2-a9a0-c82d43b5159a.png)
 
 ##### Structure
 
