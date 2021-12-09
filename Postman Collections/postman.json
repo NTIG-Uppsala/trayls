@@ -154,42 +154,6 @@
       "response": []
     },
     {
-      "name": "Cancel Task",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "id": "99641a24-7854-4c2c-bceb-76d5187389f2",
-            "exec": [
-              "pm.test(\"Task Cancelled \", function () {\r",
-              "    pm.expect(pm.response.text()).to.include(\"\");\r",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "id": "ddab6265-1a8b-4820-9e17-0b07a6ef4452",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "PUT",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"mail\": \"anna@onion.org\",\r\n    \"status\": \"3\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": "http://netlabua.se/changeTask"
-      },
-      "response": []
-    },
-    {
       "name": "Complete Task",
       "event": [
         {
@@ -215,6 +179,42 @@
         "body": {
           "mode": "raw",
           "raw": "{\r\n    \"mail\": \"anna@onion.org\",\r\n    \"status\": \"2\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://netlabua.se/changeTask"
+      },
+      "response": []
+    },
+    {
+      "name": "Cancel Task",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "99641a24-7854-4c2c-bceb-76d5187389f2",
+            "exec": [
+              "pm.test(\"Task Cancelled \", function () {\r",
+              "    pm.expect(pm.response.text()).to.include(\"\");\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "id": "ddab6265-1a8b-4820-9e17-0b07a6ef4452",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"mail\": \"anna@onion.org\",\r\n    \"status\": \"3\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
