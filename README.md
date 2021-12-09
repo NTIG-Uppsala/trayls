@@ -82,3 +82,8 @@ Typecast if possible in the beginning of the function
 - Must push at the end of the day
 - Pull to main when feature is done
 - No # in commits
+
+## Tests
+
+- All tests are in postman branch
+- [Postman Branch](https://github.com/NTIG-Uppsala/walking-motivation/tree/postman/Postman%20Collections)
