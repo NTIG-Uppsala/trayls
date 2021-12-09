@@ -118,7 +118,7 @@
       "response": []
     },
     {
-      "name": "Current Task",
+      "name": "Accept Task",
       "event": [
         {
           "listen": "test",
