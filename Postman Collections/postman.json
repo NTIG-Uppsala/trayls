@@ -212,7 +212,7 @@
       "response": []
     },
     {
-      "name": "New Request",
+      "name": "Complete Task",
       "id": "c509e56e-b496-49de-b0bc-ba6bc4e8e210",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
