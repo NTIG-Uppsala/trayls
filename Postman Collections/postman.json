@@ -190,28 +190,6 @@
       "response": []
     },
     {
-      "name": "Current Task",
-      "id": "40908717-d757-4a0b-a526-3ccd0dacd426",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "GET",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"mail\": \"anna@onion.org\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": "http://netlabua.se/currTask"
-      },
-      "response": []
-    },
-    {
       "name": "Complete Task",
       "id": "c509e56e-b496-49de-b0bc-ba6bc4e8e210",
       "protocolProfileBehavior": {
@@ -230,6 +208,28 @@
           }
         },
         "url": "http://netlabua.se/changeTask"
+      },
+      "response": []
+    },
+    {
+      "name": "Current Task",
+      "id": "40908717-d757-4a0b-a526-3ccd0dacd426",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"mail\": \"anna@onion.org\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://netlabua.se/currTask"
       },
       "response": []
     }
