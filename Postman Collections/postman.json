@@ -218,9 +218,18 @@
         "disableBodyPruning": true
       },
       "request": {
-        "method": "GET",
+        "method": "PUT",
         "header": [],
-        "url": null
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"mail\": \"anna@onion.org\",\r\n    \"status\": \"3\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://netlabua.se/changeTask"
       },
       "response": []
     }
