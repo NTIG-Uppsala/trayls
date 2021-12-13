@@ -37,8 +37,8 @@ jobs:
       - name: Commit files that has been changed
         run: |
           git config --local user.name "Github Push Bot"
-          git rm --cached -r ../docstring
-          git add ../docstring
+          git rm --cached -r ./docstring
+          git add ./docstring
           git commit --allow-empty --quiet -m "Updating the repository with new generated docstring documentation"
       - name: Push changes # push the output folder to your repo
         uses: ad-m/github-push-action@master
