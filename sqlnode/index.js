@@ -46,7 +46,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 /* ------------------------- Check if mail is a mail ------------------------ */
 var validateMail = [ //Documentation uses var so I'll use var
-    check('mail', 'Must Be an Email Address').isEmail().trim().escape().normalizeEmail()
+    check('mail', 'Måste vara en mail').isEmail().trim().escape().normalizeEmail()
 ]
 
 /* -------------------------------------------------------------------------- */
@@ -124,8 +124,8 @@ app.put('/changeTask', validateMail, async function(req, res) {
     if (availableTask == 2 || availableTask == 3) return res.send('Inget aktivt uppdrag');
     changeTaskStatus(mail, status).then(result => {
         if (result.affectedRows == 0)  return res.send('Denna användare finns inte');
-        if (status == '3') return res.send('Det är okej du klarar nästa task!')
-        return res.send('Grattis du klarade uppdraget!');
+        if (status == '3') return res.send('Det är okej, du klarar nästa uppdrag!')
+        return res.send('Grattis, du klarade uppdraget!');
     });
 });
 
