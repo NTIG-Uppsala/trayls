@@ -56,14 +56,21 @@ var validateMail = [ //Documentation uses var so I'll use var
 
 /* ------------------------------ GET requests ------------------------------ */
 
-//Get task and task Id from task table
+/**
+ * Get task and task Id from task table
+ * @return  A random task from the database with all the task info
+ */
 app.get('/task', (req, res) => {
     getRandomTaskFromDatabase().then(result => {
         res.send(result);
     });
 });
 
-//Get points for specific mail
+/**
+ * Get points for specific mail
+ * @param {JSON} req    Mail
+ * @return              Number of points
+ */
 app.get('/points', validateMail, (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
@@ -72,7 +79,12 @@ app.get('/points', validateMail, (req, res) => {
     });
 });
 
-//Get the current task they are on if there is a current task
+
+/**
+ * Get the current task they are on if there is a current task
+ * @param {JSON} req    Mail
+ * @return              The response fom the api
+ */
 app.get('/currTask',validateMail, async function(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
@@ -87,7 +99,11 @@ app.get('/currTask',validateMail, async function(req, res) {
 
 /* ------------------------------ POST requests ----------------------------- */
 
-//Post request, check if user is in db, If it's not the it will be added.
+/**
+ * Post request, check if user is in db, If it's not the it will be added.
+ * @param {JSON} req    Mail
+ * @return              The response fom the api
+ */
 app.post('/user', validateMail, (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
@@ -97,7 +113,12 @@ app.post('/user', validateMail, (req, res) => {
     });
 });
 
-//Accept a task
+
+/**
+ * Accept a task
+ * @param {JSON} req    Mail, taskId
+ * @return              The response fom the api
+ */
 app.post('/accTask', validateMail, async function(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({errors: errors.array});
@@ -113,7 +134,11 @@ app.post('/accTask', validateMail, async function(req, res) {
 })
 
 /* ------------------------------- PUT request ------------------------------ */
-//Put request, chance latest accepted task status to done or cancel
+/**
+ * Put request, chance latest accepted task status to done or cancel
+ * @param {JSON} req    Mail, status
+ * @return              The response fom the api
+ */
 app.put('/changeTask', validateMail, async function(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
@@ -131,6 +156,11 @@ app.put('/changeTask', validateMail, async function(req, res) {
 
 
 /* ------------------- DELETE request for testing purpose ------------------- */
+/**
+ * API request WILL delete a user from the table
+ * @param {JSON} req    Mail, password
+ * @return              The response fom the api
+ */
 app.delete('/user', validateMail, function(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
@@ -150,6 +180,10 @@ app.delete('/user', validateMail, function(req, res) {
 
 
 /* --------- Random task and corresponding points from the task table-------- */
+/**
+ * From the database get all the task info at random
+ * @returns Task info
+ */
 async function getRandomTaskFromDatabase() {
     let conn;
     let result;
@@ -166,6 +200,11 @@ async function getRandomTaskFromDatabase() {
 }
 
 /* ----------------- Add a user to database with mail as id ----------------- */
+/**
+ * Add a mail to the database, SQL will give it all other info
+ * @param {String} mail The mail that will be inserted into a row
+ * @returns The whole SQL response (not using response)
+ */
 async function addUserToDatabase(mail) {
     let conn;
     let result;
@@ -181,6 +220,11 @@ async function addUserToDatabase(mail) {
 }
 
 /* ------------- Check if user is in database and add if its not ------------ */
+/**
+ * Check if there is a row with the specified mail in the database
+ * @param {String} mail The mail
+ * @returns {String} If mail in database return 'Välkommen tillbaka' else add Mail to database and Return 'Ny användare'
+ */
 async function checkUserInDatabase(mail) {
     let conn;
     let result;
@@ -201,6 +245,11 @@ async function checkUserInDatabase(mail) {
 }
 
 /* --------------------------- Get a mails user id -------------------------- */
+/**
+ * With a mail get the id connected to that mail
+ * @param {String} mail The mail which id you are after
+ * @returns {int}       The user id
+ */
 async function getUserIdWithMail(mail) {
     let conn;
     let result;
@@ -220,6 +269,11 @@ async function getUserIdWithMail(mail) {
 }
 
 /* ---------------------- Get user points from database --------------------- */
+/**
+ * With a mail, get the number of points that the mail has
+ * @param {String} mail     The mail containing the points you want to get
+ * @returns                 The number of points
+ */
 async function getUserPointsFromDatabase(mail) {
     let conn;
     let result;
@@ -237,6 +291,12 @@ async function getUserPointsFromDatabase(mail) {
 
 
 /* -------- Confirm task and add the task_id, user_id and task_state to the db -------- */
+/**
+ * Adds a task to the database with a default value of 1 (1 doing)
+ * @param {int} userId      The id a user has
+ * @param {int} taskId      The task that will be inserted into the "active task table"
+ * @returns                 The whole SQL response
+ */
 async function setTaskStatus(userId, taskId) {
     let conn;
     let result;
@@ -252,6 +312,12 @@ async function setTaskStatus(userId, taskId) {
 }
 
 /* ----------- Change the latest taskState a mail has to 2 or 3 ----------- */
+/**
+ *  Changes the state of the latest task to new desired state
+ * @param {String} mail     The mail to which the status will be changed 
+ * @param {int} taskState   To what state the task will be set to (2 done, 3 canceled)
+ * @returns                 The number of affected rows (0 no task was found)
+ */
 async function changeTaskStatus(mail, taskState) {
     let conn;
     let result;
@@ -267,6 +333,11 @@ async function changeTaskStatus(mail, taskState) {
 }
 
 /* -------------------- Delete user from database by mail ------------------- */
+/**
+ * Removes a user form the database (only used for testing so far)
+ * @param {String} mail     The mail you would like to remove from the database 
+ * @returns                 The number of affected rows if 0 no user with that mail was found
+ */
 async function deleteUserFromDatabase(mail) {
     let conn;
     let result;
@@ -281,7 +352,12 @@ async function deleteUserFromDatabase(mail) {
     }
 }
 
-/* --------------------------- return current task -------------------------- */
+/* --------------------------- Return current task -------------------------- */
+/**
+ * From database return the task a user has active
+ * @param {int} latestTask  The latest task you have 
+ * @returns                 What task you are on with all the info about that task
+ */
 async function returnCurrentTask(latestTask){ //can't be called from user
     let conn;
     let result;
@@ -297,6 +373,12 @@ async function returnCurrentTask(latestTask){ //can't be called from user
 }
 
 /* --------------------- Latest task a user has accepted -------------------- */
+/**
+ * From database get the latest task the user has active
+ * @param {String} mail     What mail to which task status you want to access
+ * @param {String} purpose  Specify what output you'd like
+ * @returns {int}           The status of the latest task / status of the current task
+ */
 async function latestUserTaskStatus(mail, purpose) {
     let conn;
     let result;
@@ -315,6 +397,11 @@ async function latestUserTaskStatus(mail, purpose) {
 
 
 /* ------------------------- Read file to get config ------------------------ */
+/**
+ * Read and get the config values
+ * @param {String} key  The object you want to obtain from you config file 
+ * @returns {String}    The value of the of the key in the config file
+ */
 function readConfig(key) {
     const json = fs.readFileSync('../../trayls.json');
     const parsedJson = JSON.parse(json);
