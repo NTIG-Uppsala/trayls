@@ -57,7 +57,6 @@ var validateMail = [ //Documentation uses var so I'll use var
 
 /**
  * Get task and task Id from task table
- * @method GET
  * @return  A random task from the database with all the task info
  */
 app.get('/task', (req, res) => {
@@ -68,7 +67,6 @@ app.get('/task', (req, res) => {
 
 /**
  * Get points for specific mail
- * @method GET
  * @param {JSON} req    Mail
  * @return              Number of points
  */
@@ -83,7 +81,6 @@ app.get('/points', validateMail, (req, res) => {
 
 /**
  * Get the current task they are on if there is a current task
- * @method GET
  * @param {JSON} req    Mail
  * @return              The response fom the api
  */
@@ -103,7 +100,6 @@ app.get('/currTask',validateMail, async function(req, res) {
 
 /**
  * Post request, check if user is in db, If it's not the it will be added.
- * @method POST
  * @param {JSON} req    Mail
  * @return              The response fom the api
  */
@@ -119,7 +115,6 @@ app.post('/user', validateMail, (req, res) => {
 
 /**
  * Accept a task
- * @method POST
  * @param {JSON} req    Mail, taskId
  * @return              The response fom the api
  */
@@ -140,7 +135,6 @@ app.post('/accTask', validateMail, async function(req, res) {
 /* ------------------------------- PUT request ------------------------------ */
 /**
  * Put request, chance latest accepted task status to done or cancel
- * @method PUT
  * @param {JSON} req    Mail, status
  * @return              The response fom the api
  */
@@ -163,7 +157,6 @@ app.put('/changeTask', validateMail, async function(req, res) {
 /* ------------------- DELETE request for testing purpose ------------------- */
 /**
  * API request WILL delete a user from the table
- * @method DELETE
  * @param {JSON} req    Mail, password
  * @return              The response fom the api
  */
@@ -188,7 +181,6 @@ app.delete('/user', validateMail, function(req, res) {
 /* --------- Random task and corresponding points from the task table-------- */
 /**
  * From the database get all the task info at random
- * @function getRandomTaskFromDatabase
  * @returns Task info
  */
 async function getRandomTaskFromDatabase() {
@@ -209,7 +201,6 @@ async function getRandomTaskFromDatabase() {
 /* ----------------- Add a user to database with mail as id ----------------- */
 /**
  * Add a mail to the database, SQL will give it all other info
- * @function addUserToDatabase
  * @param {String} mail The mail that will be inserted into a row
  * @returns The whole SQL response (not using response)
  */
@@ -230,7 +221,6 @@ async function addUserToDatabase(mail) {
 /* ------------- Check if user is in database and add if its not ------------ */
 /**
  * Check if there is a row with the specified mail in the database
- * @function checkUserInDatabase
  * @param {String} mail The mail
  * @returns {String} If mail in database return 'Välkommen tillbaka' else add Mail to database and Return 'Ny användare'
  */
@@ -256,7 +246,6 @@ async function checkUserInDatabase(mail) {
 /* --------------------------- Get a mails user id -------------------------- */
 /**
  * With a mail get the id connected to that mail
- * @function getUserIdWithMail
  * @param {String} mail The mail which id you are after
  * @returns {int}       The user id
  */
@@ -281,7 +270,6 @@ async function getUserIdWithMail(mail) {
 /* ---------------------- Get user points from database --------------------- */
 /**
  * With a mail, get the number of points that the mail has
- * @function getUserPointsFromDatabase
  * @param {String} mail     The mail containing the points you want to get
  * @returns                 The number of points
  */
@@ -304,7 +292,6 @@ async function getUserPointsFromDatabase(mail) {
 /* -------- Confirm task and add the task_id, user_id and task_state to the db -------- */
 /**
  * Adds a task to the database with a default value of 1 (1 doing)
- * @function setTaskStatus
  * @param {int} userId      The id a user has
  * @param {int} taskId      The task that will be inserted into the "active task table"
  * @returns                 The whole SQL response
@@ -326,7 +313,6 @@ async function setTaskStatus(userId, taskId) {
 /* ----------- Change the latest taskState a mail has to 2 or 3 ----------- */
 /**
  *  Changes the state of the latest task to new desired state
- * @function changeTaskStatus
  * @param {String} mail     The mail to which the status will be changed 
  * @param {int} taskState   To what state the task will be set to (2 done, 3 canceled)
  * @returns                 The number of affected rows (0 no task was found)
@@ -348,7 +334,6 @@ async function changeTaskStatus(mail, taskState) {
 /* -------------------- Delete user from database by mail ------------------- */
 /**
  * Removes a user form the database (only used for testing so far)
- * @function deleteUserFromDatabase
  * @param {String} mail     The mail you would like to remove from the database 
  * @returns                 The number of affected rows if 0 no user with that mail was found
  */
@@ -369,7 +354,6 @@ async function deleteUserFromDatabase(mail) {
 /* --------------------------- Return current task -------------------------- */
 /**
  * From database return the task a user has active
- * @function getCurrentTask
  * @param {int} latestTask  The latest task you have 
  * @returns                 What task you are on with all the info about that task
  */
@@ -390,7 +374,6 @@ async function getCurrentTask(latestTask){ //can't be called from user
 /* --------------------- Latest task a user has accepted -------------------- */
 /**
  * From database get the latest task the user has active
- * @function latestUserTaskStatus
  * @param {String} mail     What mail to which task status you want to access
  * @param {String} purpose  Specify what output you'd like
  * @returns {int}           The status of the latest task / status of the current task
@@ -415,7 +398,6 @@ async function latestUserTaskStatus(mail, purpose) {
 /* ------------------------- Read file to get config ------------------------ */
 /**
  * Read and get the config values
- * @function readConfig
  * @param {String} key  The object you want to obtain from you config file 
  * @returns {String}    The value of the of the key in the config file
  */
