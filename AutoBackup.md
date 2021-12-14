@@ -1,16 +1,16 @@
 # AutoBackup
 
-## Create backup batch flie
+## Create a backup batch file
 
 ### this file can lay anywhere
 
-### useded to acces XAMPP CMD
+### used to access XAMPP CMD
 
 ```
 cd "C:\Users\miniadmin\server\mysql\bin"
 ```
 
-### Acces teh database and expoerts the data to a local folder and adds the dates.
+### Access the database and exports the data to a local folder and add the current date.
 
 ```
 mysqldump -u root trayls > "C:\Users\miniadmin\Documents\backups\%date:~-4,4%-%date:~-10,2%-%date:~-7,2%%time:~0,2%.%time:~3,2%.sql"
@@ -26,15 +26,15 @@ mysqldump -u root trayls > "C:\Users\miniadmin\Documents\backups\%date:~-4,4%-%d
 
 ## Create a schedule for the automatic database export
 
-- open Scheduler in windows
-- Click Task Scheduler libary
-- Right side under Actions click "Crewate basic task"
+- Open Scheduler in windows
+- Click Task Scheduler library
+- On- Right side under actions click "Create basic task"
 - Add a name to the task
 - Click next
-- Choose how offen the task should activate 
+- Choose how often the task should activate 
 - Click next
 - Choose what time
-- Choose start a program
+- Choose to start a program
 - Click next
-- Click on the browse and choose teh batvh file you created earlier
-- Lasst click the finish button adn your done
+- Click on the browse and choose the batch file you created earlier
+-Finally, click the Finish button, and your done
