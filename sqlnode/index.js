@@ -188,7 +188,7 @@ async function getRandomTaskFromDatabase() {
     let result;
     try {
         conn = await pool.getConnection();
-        result = await conn.query('SELECT task_query, task_points FROM traylsdb ORDER BY RAND() LIMIT 1'); //Randomly select a task from task table
+        result = await conn.query('SELECT task_query, task_id, task_points FROM traylsdb ORDER BY RAND() LIMIT 1'); //Randomly select a task from task table
     } catch (err) {
         console.error(err);
     } finally {
