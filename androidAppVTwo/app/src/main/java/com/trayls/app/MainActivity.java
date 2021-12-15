@@ -35,19 +35,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void parseJson(){
+    private String parseJson(String apiOutPut) throws JSONException {
 
+        JSONObject obj = new JSONObject(apiOutPut);
+
+        return obj.getJSONArray("task_query").getString(Integer.parseInt("task_query"));
     }
 
     private void apiCallAndChangeText(){
         RequestQueue queue = Volley.newRequestQueue(this);
 
         String url = "http://netlabua.se/task";
-\
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response ->     {
-
-                    welcomeText.setText(response);
+                    try {
+                        welcomeText.setText(parseJson(response));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 },error -> welcomeText.setText("That didn't work!"));
         queue.add(stringRequest);
     }
