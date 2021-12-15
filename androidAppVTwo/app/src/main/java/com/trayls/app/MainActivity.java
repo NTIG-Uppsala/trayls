@@ -4,21 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import org.json.*;
+
 
 public class MainActivity extends AppCompatActivity {
-    private Button getTaskBtn;
 
     private TextView welcomeText;
-
 
     @Override
 
@@ -26,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getTaskBtn = (Button) findViewById(R.id.btnGetTask);
-        welcomeText = (TextView) findViewById(R.id.welcomeText);
+        Button getTaskBtn = (Button) findViewById(R.id.btnGetTask);
+        welcomeText = (TextView) findViewById(R.id.welcome);
         getTaskBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 apiCallAndChangeText();
@@ -35,26 +36,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private String parseJson(String apiOutPut) throws JSONException {
-
-        JSONObject obj = new JSONObject(apiOutPut);
-
-        return obj.getJSONArray("task_query").getString(Integer.parseInt("task_query"));
-    }
 
     private void apiCallAndChangeText(){
         RequestQueue queue = Volley.newRequestQueue(this);
 
         String url = "http://netlabua.se/task";
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                response ->     {
-                    try {
-                        welcomeText.setText(parseJson(response));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },error -> welcomeText.setText("That didn't work!"));
-        queue.add(stringRequest);
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                welcomeText.setText(response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("error",error.toString());
+            }
+        });
+        queue.add(request);
     }
 }
