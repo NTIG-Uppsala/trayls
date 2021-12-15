@@ -10,62 +10,53 @@ import SwiftUI
 
  
 struct ContentView: View {
-    @State private var email = " "
+ 
+    @State private var contents = " "
+    
     var body: some View {
-        
+
         VStack() {
             
             Text("Trayls")
                 .frame(width: 400, height: 100)
                 .foregroundColor(.black)
                 .background(Color(red: 43 / 255, green: 174 / 255, blue: 102 / 255))
+                .cornerRadius(15)
+                .shadow(radius: 20)
                 .font(.custom("Times New Roman", size:50))
             
             NavigationView{
             NavigationLink(destination: SecondContentView() .navigationBarBackButtonHidden(true)){
-                Text("Ny task") //Set text in cotainer
+                Text("Ny task")
                    
+
                     .frame(width: 180, height: 40)
                     .foregroundColor(.black)
                     .padding()
                     .background(Color(red: 43 / 255, green: 174 / 255, blue: 102 / 255))
                     .cornerRadius(15)
-                    .shadow(color: .gray, radius: 5, x: 5, y: 10)
+                    .shadow(radius: 20)
                     .font(.custom("Times New Roman", size:30))
             }
+
             }
+
             Spacer()
-            Text(verbatim:"Inloggad som:\n\(email)")
+            Text(verbatim:"Inloggad som:\ntest@mail.com")
                 .frame(width: 400, height: 80)
                 .foregroundColor(.black)
                 .background(Color(red: 43 / 255, green: 174 / 255, blue: 102 / 255))
+                .cornerRadius(15)
+                .shadow(radius: 20)
                 .font(.custom("Times New Roman", size:30))
-                .multilineTextAlignment(.center)
-
+            
+        
+                
+         // or .top
         
         }
         .blendMode(.darken)
         .edgesIgnoringSafeArea(.vertical)
-        
-        .onAppear{randomMail(of: 10)}
-        
-    }
-        func randomMail(of length: Int) {
-            let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-            var s = ""
-            for _ in 0 ..< length {
-                s.append(letters.randomElement()!)
-            }
-        
-            let mailend = "@mail.com"
-            
-            email = s+mailend
-            print(email)
-
-        }
-    struct Mail{
-        var email = ""
-    }
     } // End body
      
  
@@ -129,7 +120,7 @@ struct SecondContentView: View{
             }
         }
     func GetTask(){
-        if let url = URL(string: "http://netlabua.se/task") {
+        if let url = URL(string: "netlabua.se/task") {
         do {
             contents = try String(contentsOf: url)
             let jsonData = contents.data(using: .utf8)!
@@ -147,117 +138,23 @@ struct SecondContentView: View{
     }
 
         struct Task{
-            var contents:NSObject
+            var contents:String
         }
-    
-    struct Source: Codable{
+ 
         
-        var task_id: Int
-        var task_query: String
-        var task_points: Int
-    
+
+
+ 
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
-    }
-    }
-struct ThirdContentView: View{
-    
-    @State private var task_query = " "
-    @State private var email = " "
-    @State private var task_id = 0
-    
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State private var contents = " "
-    
-        var body: some View{
-        
-                NavigationView{
-                    HStack {
-                    NavigationLink(destination: EmptyView() .navigationBarBackButtonHidden(true)){
-                        Text("Klar")
-                            .frame(width: 100, height: 40)
-                            .foregroundColor(.black)
-                            .padding()
-                            .background(Color(red: 43 / 255, green: 174 / 255, blue: 102 / 255))
-                            .cornerRadius(15)
-                            .shadow(color: .gray, radius: 5, x: 5, y: 10)
-                            .font(.custom("Times New Roman", size:30))
-                    }
-
-                        
-                            Button(action: { self.presentationMode.wrappedValue.dismiss()
-                                    }, label: {
-                                        Text("Avbryt")
-                                            .frame(width: 100, height: 40)
-                                            .foregroundColor(.black)
-                                            .padding()
-                                            .background(Color(red: 255 / 255, green: 10 / 255, blue: 10 / 255))
-                                            .cornerRadius(15)
-                                            .shadow(color: .gray, radius: 5, x: 5, y: 10)
-                                            .font(.custom("Times New Roman", size:30))
-                                })
-                        }
-                               
-                               
-                               
-                }
-                .blendMode(.darken)
-        }
-            func postMethod() {
-                    // Create model
-                    struct UploadData: Codable {
-                        let user_mail: String
-                        let task_id: Int
-                    }
-                    
-                    // Add data to the model
-                // prepare json data
-                let json: [String: Any] = ["user_mail": email, "task_id": task_id]
-
-                let jsonData = try? JSONSerialization.data(withJSONObject: json)
-
-                // create post request
-                let url = URL(string: "http://netlabua.se/acctask")!
-                var request = URLRequest(url: url)
-                request.httpMethod = "POST"
-
-                // insert json data to the request
-                request.httpBody = jsonData
-
-                let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                    guard let data = data, error == nil else {
-                        print(error?.localizedDescription ?? "No data")
-                        return
-                    }
-                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-                    if let responseJSON = responseJSON as? [String: Any] {
-                        print(responseJSON)
-                    }
-                }
-
-                task.resume()
-            }
-
-        
+}
 }
 
-struct EmptyContentView: View{
-    
-    @State private var contents = " "
-    
+struct SecondContentView: View{
         var body: some View{
-        
-                Text("")
-            
-            }
-        
+            Text()
         }
-    
-        
-    
-
-
-
-
-
-
-
+    }
+}
