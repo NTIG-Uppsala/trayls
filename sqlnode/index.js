@@ -1,130 +1,343 @@
 'use strict';
 
-//Basic API express and MariaDB setup
+/* -------------------------------------------------------------------------- */
+/*                                 Dependencies                               */
+/* -------------------------------------------------------------------------- */
+
 const express = require('express');
+const { check, validationResult } = require('express-validator');
 const mariadb = require('mariadb');
+const bodyParser = require('body-parser'); // Middleware
 const app = express();
 const PORT = process.env.PORT || 8080;
+const fs = require('fs');
 
-//MariaDB setup
+
+/* -------------------------------------------------------------------------- */
+/*                               MariaDB config                               */
+/* -------------------------------------------------------------------------- */
+
+
+
 const pool = mariadb.createPool({
-    host: 'localhost',
-	user: 'admin',
-	password: 'admin123',
-	database: 'trayls',
+    host: readConfig('DB_HOST'),
+	user: readConfig('DB_USERNAME'),
+	password: readConfig('DB_PASS'),
+	database: readConfig('DB_DATABASE'),
+	connectionLimit : 20
 });
 
-//Middleware to parse json
+
+/* -------------------------------------------------------------------------- */
+/*                                 Middleware                                 */
+/* -------------------------------------------------------------------------- */
+
+
+//Parse JSON
 app.use(express.json());
 
-//Starts the API for it to listen
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
+/* -------------------------------------------------------------------------- */
+/*                              Helper variables                              */
+/* -------------------------------------------------------------------------- */
+
+
+/* ------------------------- Check if mail is a mail ------------------------ */
+var validateMail = [ //Documentation uses var so I'll use var
+    check('mail', 'Must Be an Email Address').isEmail().trim().escape().normalizeEmail()
+]
+
+/* -------------------------------------------------------------------------- */
+/*                                  API routes                                 */
+/* -------------------------------------------------------------------------- */
+
+
+/* ------------------------------ GET requests ------------------------------ */
+
+//Get task and task Id from task table
+app.get('/task', (req, res) => {
+    getRandomTaskFromDatabase().then(result => {
+        res.send(result);
+    });
 });
 
-//Simple GET request
-app.get('/getTask', async function(req, res) {
-	const sendData = await getDataFromDatabase();
-    res.send(sendData);
+//Get points for specific mail
+app.get('/points', validateMail, (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
+    getUserPointsFromDatabase(req.query.mail).then(result => {
+        res.send(result);
+    });
 });
 
-//Test so API is up and works
-app.get('/getApiTest', (req, res) => {
-    res.send('API works');
+//Get the current task they are on if there is a current task
+app.get('/currTask',validateMail, async function(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
+    const mail = req.body.mail;
+    let availableTask = await latestUserTaskStatus(mail);
+    if (availableTask == 2 || availableTask == 3) return res.send('Inget aktivt uppdrag');
+    latestUserTaskStatus(mail, 'Get active task').then (result => {
+        res.send(result);
+    });
 });
 
-//Post for adding a new user it checks if it exists in the database
-app.post('/addUser', async function(req, res) {
-    const { mail } = req.body;
-    const userId = await getMailFromDatabase(`'${mail}'`);
-	if (userId == 'Not found') {
-		await addUserToDatabase(`'${mail}'`);
-		console.log('User does not exist, added user to database');
-		res.send('Welcome new user');
-	} else {
-		console.log('User exist');
-		res.send(`Welcome ${mail}`);
-	}
+
+/* ------------------------------ POST requests ----------------------------- */
+
+//Post request, check if user is in db, If it's not the it will be added.
+app.post('/user', validateMail, (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
+    const mail = req.body.mail;
+    checkUserInDatabase(mail).then(result => {
+        res.send(result);
+    });
 });
 
-//Adds a new user to the database
+//Accept a task
+app.post('/accTask', validateMail, async function(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({errors: errors.array});
+    const taskId = req.body.task_id; 
+    const mail = req.body.mail;
+    const userId = await getUserIdWithMail(mail);
+    if (userId == -1) return res.send('Ogiltig mail');
+    let availableTask = await latestUserTaskStatus(mail);
+    if (availableTask == 1) return res.send('Du har redan ett uppdrag');
+    setTaskStatus(userId, taskId).then(result => {
+        res.send("Ditt uppdarg är accepterat");
+    })
+})
+
+/* ------------------------------- PUT request ------------------------------ */
+//Put request, chance latest accepted task status to done or cancel
+app.put('/changeTask', validateMail, async function(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
+    const status = req.body.status;
+    const mail = req.body.mail;
+    if (status != '2' && status != '3') return res.send('Ogiltlig siffra');
+    let availableTask = await latestUserTaskStatus(mail);
+    if (availableTask == 2 || availableTask == 3) return res.send('Inget aktivt uppdrag');
+    changeTaskStatus(mail, status).then(result => {
+        if (result.affectedRows == 0)  return res.send('Denna användare finns inte');
+        if (status == '3') return res.send('Det är okej du klarar nästa task!')
+        return res.send('Grattis du klarade uppdraget!');
+    });
+});
+
+
+/* ------------------- DELETE request for testing purpose ------------------- */
+app.delete('/user', validateMail, function(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
+    const mail = req.body.mail;
+    const pw = req.body.pw;
+    if (pw != readConfig('API_KEY')) return res.send('Felaktigt lösenord');
+    deleteUserFromDatabase(mail).then(result => {
+        if (result.affectedRows == 0) return res.send('Denna användare finns inte');
+        return res.send('Användare Borttagen');
+    });
+});
+
+
+/* -------------------------------------------------------------------------- */
+/*                          Functions used in the API                         */
+/* -------------------------------------------------------------------------- */
+
+
+/* --------- Random task and corresponding points from the task table-------- */
+async function getRandomTaskFromDatabase() {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT task_query, task_id, task_points FROM traylsdb ORDER BY RAND() LIMIT 1'); //Randomly select a task from task table
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        result = result[0];
+        return result; //Returns the task info without meta
+    }
+}
+
+/* ----------------- Add a user to database with mail as id ----------------- */
 async function addUserToDatabase(mail) {
-	let conn;
-	
-	try {
-		conn = await pool.getConnection();
-		//insert user in database
-		conn.query(`INSERT INTO users(user_id, user_mail) VALUES (NULL, ${mail})`);
-        console.log('Successfully added user');
-	} catch (err) {
-		console.log('Failed');
-		throw err;
-	} finally {
-		if (conn) {
-			conn.end();
-			return;
-		}
-	}
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('INSERT INTO users (user_mail) VALUES (?)', mail); //Add user to database
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        return result; //The whole sql response
+    }
 }
 
-//Gets data from the database
-async function getDataFromDatabase() {
-	let conn;
-	let APIresponse;
-	try {
-		conn = await pool.getConnection();
-		const rows = await conn.query(`SELECT task_query, task_points FROM traylsdb ORDER BY RAND() LIMIT 1`);
-		APIresponse = parseResponse(rows, 'task_query,task_points');
-	} catch (err) {
-		console.log('ERROR!!!')
-		APIresponse = 'Not found';
-		console.log(err)
-		throw err;
-	} finally {
-		if (conn) {
-			conn.end();
-			return APIresponse
-		}
-	}
+/* ------------- Check if user is in database and add if its not ------------ */
+async function checkUserInDatabase(mail) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT user_mail FROM users WHERE user_mail = ?', mail); //Check if user is in database
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        result = result[0];
+        if (result === undefined) {
+            addUserToDatabase(mail);
+            return 'Ny användare';
+        }
+        return 'Välkommen tillbaka';
+    }
 }
-async function getMailFromDatabase(mail) {
-	let conn;
-	let APIresponse;
-	try {
-		conn = await pool.getConnection();
-		const rows = await conn.query(`SELECT user_id FROM users WHERE user_mail=${mail}`);
-		APIresponse = parseResponse(rows, data);
-	} catch (err) {
-		console.log('ERROR!!!')
-		APIresponse = 'Not found';
-		throw err;
-	} finally {
-		if (conn) {
-			conn.end();
-			return APIresponse
-		}
-	}
+
+/* --------------------------- Get a mails user id -------------------------- */
+async function getUserIdWithMail(mail) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT user_id FROM users WHERE user_mail = ?', mail); //Get the user id from a mail adress
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        result = result[0];
+        if (result === undefined) {
+            return -1; 
+        }
+        return result['user_id']; //Only returns the user id from the sql database
+    }
+}
+
+/* ---------------------- Get user points from database --------------------- */
+async function getUserPointsFromDatabase(mail) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT user_points FROM users WHERE user_mail = ?', mail); //Get user points from database
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        result = result[0];
+        return result; //Returns sql response without meta
+    }
 }
 
 
-//Removes the meta data from the response, and parses it so the response becomes a string
-function parseResponse(parsedRowsData, data) {
-	delete parsedRowsData['meta'];
-	const rowValue = parsedRowsData[0];
-	if (data.includes(',')) {
-		data = data.split(',');
-		let returnList = []
-		for(let i = 0; i < Object.keys(rowValue).length; i++){
-			returnList.push(rowValue[data[i]])
-		}
-		return returnList;
-	}
-	return rowValue[data];
-	
+/* -------- Confirm task and add the task_id, user_id and task_state to the db -------- */
+async function setTaskStatus(userId, taskId) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('INSERT INTO task_state (user_id, task_id, task_status, task_history) VALUES (?, ?, ?, ?)', [userId, taskId, 1, null]); //Add task_state to database taskState can be 1,2 or 3 //1 = in progress, 2 = done, 3 = canceled
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        return result; //Returns the whole sql response 
+    }
 }
+
+/* ----------- Change the latest taskState a mail has to 2 or 3 ----------- */
+async function changeTaskStatus(mail, taskState) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('UPDATE task_state SET task_status = ? WHERE user_id = (SELECT user_id FROM users WHERE user_mail = ?) ORDER BY task_history DESC LIMIT 1', [taskState, mail]); //Change the latest taskState a mail has to 2 or 3
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        return result; //Returns the nr of affected rows
+    }
+}
+
+/* -------------------- Delete user from database by mail ------------------- */
+async function deleteUserFromDatabase(mail) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('DELETE FROM users WHERE user_mail = ?', mail); //Delete user from database
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        return result; //Returns the number of affected rows
+    }
+}
+
+/* --------------------------- return current task -------------------------- */
+async function returnCurrentTask(latestTask){ //can't be called from user
+    let conn;
+    let result;
+    try {
+        if (latestTask.task_status != 1) return 'Ingen aktiv task';
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT task_query, task_points FROM traylsdb WHERE task_id = ?', latestTask.task_id); //Get the task row with all info about a task
+    } catch (err) {
+        console.error(err);
+    } finally {
+        return result[0]; //Returns database response without meta
+    }
+}
+
+/* --------------------- Latest task a user has accepted -------------------- */
+async function latestUserTaskStatus(mail, purpose) {
+    let conn;
+    let result;
+    try{
+        conn = await pool.getConnection();
+        result = await conn.query('SELECT * FROM task_state WHERE user_id = (SELECT user_id FROM users WHERE user_mail = ?) ORDER BY task_history DESC LIMIT 1', mail); //Get the row with task history and such
+        result = result[0];
+    }catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        if (purpose == 'Get active task') return returnCurrentTask(result);
+        return result.task_status; //Return the status of the task
+    }
+}
+
+
+/* ------------------------- Read file to get config ------------------------ */
+function readConfig(key) {
+    const json = fs.readFileSync('../../trayls.json');
+    const parsedJson = JSON.parse(json);
+    return parsedJson[key];
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 Middleware                                 */
+/* -------------------------------------------------------------------------- */
 
 //Middleware takes care of 404
 //If higher up in code, it will be called first for some reason, and will not go through with any API calls
 app.use(function(req, res) {
-    res.status(404).send({url: req.originalUrl + ' not found. ERROR: 404'}) //send back 404
+    res.status(404).send({url: '404 Error'});
+});
+
+
+/* -------------------------------------------------------------------------- */
+/*                                 API startup                                */
+/* -------------------------------------------------------------------------- */
+
+
+//Starts the API for it to listen
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
