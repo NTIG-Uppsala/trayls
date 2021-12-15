@@ -7,14 +7,20 @@
 
 import Foundation
 
-
-if let url = URL(string: "https://www.hackingwithswift.com") {
+var contents = " "
+func GetTask(){
+    if let url = URL(string: "netlabua.se/task") {
     do {
-        let contents = try String(contentsOf: url)
-        print(contents)
+       contents = try String(contentsOf: url)
+        
     } catch {
-        // contents could not be loaded
+        
     }
 } else {
-    // the URL was bad!
+    print("Invalid URL")
+}
+
+    struct Task{
+        var contents:NSObject
+    }
 }
