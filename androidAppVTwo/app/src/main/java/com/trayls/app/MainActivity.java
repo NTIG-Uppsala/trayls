@@ -27,13 +27,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+/*
         Button getTaskBtn = (Button) findViewById(R.id.btnGetTask);
         welcomeText = (TextView) findViewById(R.id.welcome);
         getTaskBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 apiCallAndChangeText();
             }
-        });
+        });*/
     }
 
 
