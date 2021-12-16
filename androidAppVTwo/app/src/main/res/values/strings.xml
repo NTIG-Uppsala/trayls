@@ -1,11 +1,7 @@
 <resources>
     <string name="app_name">Trayls</string>
-    <string name="welcome">Not Hell World</string>
-    <string name="aslkdlkjj_welcome">Not Hell World</string>
-    <string name="StartButton">Get Task</string>
     <string name="Login">LogIn/SingIn</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="getTask">Get Task</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="acceptTask">Accept</string>
+    <string name="rejectTask">Reject</string>
 </resources>

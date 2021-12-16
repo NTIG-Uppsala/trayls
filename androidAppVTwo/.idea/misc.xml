@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/joel.nymark/Documents/GitHub/walking-motivation/androidAppVTwo/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/joel.nymark/Documents/GitHub/walking-motivation/androidAppVTwo/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/joel.nymark/Documents/GitHub/walking-motivation/androidAppVTwo/app/src/main/res/layout/fragment_acc_rej.xml" value="0.25" />
         <entry key="..\:/Users/joel.nymark/Documents/GitHub/walking-motivation/androidAppVTwo/app/src/main/res/layout/fragment_get_task.xml" value="0.490625" />
-        <entry key="..\:/Users/joel.nymark/Documents/GitHub/walking-motivation/androidAppVTwo/app/src/main/res/layout/fragment_login.xml" value="0.490625" />
+        <entry key="..\:/Users/joel.nymark/Documents/GitHub/walking-motivation/androidAppVTwo/app/src/main/res/layout/fragment_login.xml" value="0.33" />
         <entry key="..\:/Users/joel.nymark/Documents/GitHub/walking-motivation/androidAppVTwo/app/src/main/res/layout/login.xml" value="0.34556159420289856" />
       </map>
     </option>
