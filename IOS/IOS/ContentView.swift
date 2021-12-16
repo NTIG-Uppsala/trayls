@@ -125,7 +125,7 @@ struct SecondContentView: View{
                 .blendMode(.darken)
                 .onAppear {
                 self.GetTask()
-                self.postMethod()
+                
             }
         }
     func GetTask(){
@@ -158,42 +158,13 @@ struct SecondContentView: View{
     
     }
     }
-        func postMethod() {
-                // Create model
-                struct UploadData: Codable {
-                    let user_mail: String
-                    let task_id: Int
-                }
-                
-                // Add data to the model
-            // prepare json data
-            let json: [String: Any] = ["user_mail": email, "task_id": task_id]
-
-            let jsonData = try? JSONSerialization.data(withJSONObject: json)
-
-            // create post request
-            let url = URL(string: "http://netlabua.se/acctask")!
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-
-            // insert json data to the request
-            request.httpBody = jsonData
-
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let data = data, error == nil else {
-                    print(error?.localizedDescription ?? "No data")
-                    return
-                }
-                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-                if let responseJSON = responseJSON as? [String: Any] {
-                    print(responseJSON)
-                }
-            }
-
-            task.resume()
-        
     }
 struct ThirdContentView: View{
+    
+    @State private var task_query = " "
+    @State private var email = " "
+    @State private var task_id = 0
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var contents = " "
     
@@ -230,10 +201,44 @@ struct ThirdContentView: View{
                                
                 }
                 .blendMode(.darken)
-            
+        }
+            func postMethod() {
+                    // Create model
+                    struct UploadData: Codable {
+                        let user_mail: String
+                        let task_id: Int
+                    }
+                    
+                    // Add data to the model
+                // prepare json data
+                let json: [String: Any] = ["user_mail": email, "task_id": task_id]
+
+                let jsonData = try? JSONSerialization.data(withJSONObject: json)
+
+                // create post request
+                let url = URL(string: "http://netlabua.se/acctask")!
+                var request = URLRequest(url: url)
+                request.httpMethod = "POST"
+
+                // insert json data to the request
+                request.httpBody = jsonData
+
+                let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                    guard let data = data, error == nil else {
+                        print(error?.localizedDescription ?? "No data")
+                        return
+                    }
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        print(responseJSON)
+                    }
+                }
+
+                task.resume()
             }
+
         
-        
+}
 
 struct EmptyContentView: View{
     
@@ -252,7 +257,7 @@ struct EmptyContentView: View{
 
 
 
-}
 
 
-}
+
+
