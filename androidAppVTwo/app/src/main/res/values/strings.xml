@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">Trayls</string>
-    <string name="Login">LogIn/SingIn</string>
-    <string name="getTask">Get Task</string>
-    <string name="acceptTask">Accept</string>
-    <string name="rejectTask">Reject</string>
-</resources>
