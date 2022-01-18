@@ -1,4 +1,4 @@
-#Tue Jan 18 10:41:12 CET 2022
-base.0=C\:\\Users\\Christoffer\\GitHub\\walking-motivation\\frontend\\trayls\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+#Tue Jan 18 13:27:05 CET 2022
+base.0=C\:\\Users\\Albin.eriksson4\\walking-motivation\\frontend\\trayls\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

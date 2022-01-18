@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         //We set the Page title
+        toolbarHeight: 100,
         centerTitle: true,
         foregroundColor: Colors.black,
         title: Text(widget.title, style: TextStyle(fontSize: 50, fontFamily:"" )),
@@ -65,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.all(10.0),
                 color: Color.fromRGBO(76, 175, 80, 1),
                 
-                child: Text("Ny Task",
+                child: Text("Nytt uppdrag",
                     style: TextStyle(fontSize: 40)),
               ),
             ),
@@ -90,8 +91,10 @@ class _SecondPageState extends State<SecondPage> {
     return Scaffold(
       appBar: AppBar(
         //We set the Page title
+        toolbarHeight: 100,
         centerTitle: true,
-        title: const Text('Uppdraget'),
+        foregroundColor: Colors.black,
+        title: Text("Uppdraget", style: TextStyle(fontSize: 50, fontFamily:"" )),
       ),
       body: Center(
         child: Column(
