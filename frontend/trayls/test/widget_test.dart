@@ -1,21 +1,22 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:trayls/main.dart';
 
 void main() {
-  testWidgets('Hello world test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('Start page test', (WidgetTester tester) async {
+    //Test suite for the start page
     await tester.pumpWidget(const Trayls());
-
-    expect(find.text('HELLO WORLD'), findsOneWidget);
+    //Check if header exists
     expect(find.text('Trayls'), findsOneWidget);
+    // Very basic test to check if the contet of the start page is displayed
+    expect(find.text('Ny task'), findsOneWidget);
+  });
+
+  testWidgets('Button for task exists', (WidgetTester testere) async {
+    //Test suite for the button
+    await testere.pumpWidget(const Trayls());
+    //Check if the button is displayed
+    expect(find.byType(TextButton), findsOneWidget);
   });
 }
