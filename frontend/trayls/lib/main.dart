@@ -99,7 +99,17 @@ class _SecondPageState extends State<SecondPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[Text('Coolt')],
+            children: <Widget>[
+              
+              const SizedBox(
+  width: 300.0,
+  height: 200.0,
+  child:   Card(child: Text('Ditt uppdrag:', style: TextStyle(fontSize: 40, fontFamily:""),), color: Color.fromRGBO(76, 175, 80, 1),)
+  ),
+
+
+              
+          ],
         ),
       ),
     );
