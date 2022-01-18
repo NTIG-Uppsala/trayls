@@ -15,6 +15,9 @@ class Trayls extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
       home: const HomePage(title: 'Trayls'),
+
+
+      
     );
   }
 }
@@ -36,23 +39,37 @@ class _HomePageState extends State<HomePage> {
         //We set the Page title
         centerTitle: true,
         foregroundColor: Colors.black,
-        title: Text(widget.title),
+        title: Text(widget.title, style: TextStyle(fontSize: 50, fontFamily:"" )),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          
           children: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.push(
+
+              Container(
+              margin: EdgeInsets.all(10),
+              height: 100.0,
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Color.fromRGBO(76, 175, 80, 1))),
+                onPressed: () {
+                  Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const SecondPage(),
                   ),
                 );
-              },
-              child: const Text('Ny task'),
-            )
+                },
+                padding: EdgeInsets.all(10.0),
+                color: Color.fromRGBO(76, 175, 80, 1),
+                
+                child: Text("Ny Task",
+                    style: TextStyle(fontSize: 40)),
+              ),
+            ),
+    
           ],
         ),
       ),
