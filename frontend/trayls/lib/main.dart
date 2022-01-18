@@ -59,21 +59,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
                 },
-                style: ElevatedButton.styleFrom(primary: Colors.green,),
-              
-                
-                child: Text("Nytt uppdrag",
-                    style: TextStyle(fontSize: 40)),
+                style: ElevatedButton.styleFrom(primary: Colors.green, onPrimary: Colors.black, minimumSize: const Size(240, 80), maximumSize: const Size(720, 240),),
+                child: const Text("Nytt uppdrag",
+                    style: TextStyle(fontSize: 40, )),
               ),
-            
-    
           ],
         ),
       ),
     );
   }
 }
-
 class SecondPage extends StatefulWidget {
   const SecondPage({Key? key}) : super(key: key);
 
@@ -90,7 +85,7 @@ class _SecondPageState extends State<SecondPage> {
         toolbarHeight: 100,
         centerTitle: true,
         foregroundColor: Colors.black,
-        title: Text("Uppdraget", style: TextStyle(fontSize: 50, fontFamily:"" )),
+        title: const Text("Uppdraget", style: TextStyle(fontSize: 50, fontFamily:"" )),
       ),
       body: Center(
         child: Column(
