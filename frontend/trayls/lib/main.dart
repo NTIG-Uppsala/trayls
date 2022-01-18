@@ -34,6 +34,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final ButtonStyle test = ElevatedButton.styleFrom();
     return Scaffold(
       appBar: AppBar(
         //We set the Page title
@@ -48,13 +49,8 @@ class _HomePageState extends State<HomePage> {
           
           children: <Widget>[
 
-              Container(
-              margin: EdgeInsets.all(10),
-              height: 100.0,
-              child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Color.fromRGBO(76, 175, 80, 1))),
+
+            ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                   context,
@@ -63,13 +59,13 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
                 },
-                padding: EdgeInsets.all(10.0),
-                color: Color.fromRGBO(76, 175, 80, 1),
+                style: ElevatedButton.styleFrom(primary: Colors.green,),
+              
                 
                 child: Text("Nytt uppdrag",
                     style: TextStyle(fontSize: 40)),
               ),
-            ),
+            
     
           ],
         ),
@@ -100,15 +96,11 @@ class _SecondPageState extends State<SecondPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              
               const SizedBox(
-  width: 300.0,
-  height: 200.0,
-  child:   Card(child: Text('Ditt uppdrag:', style: TextStyle(fontSize: 40, fontFamily:""),), color: Color.fromRGBO(76, 175, 80, 1),)
-  ),
-
-
-              
+                width: 300.0,
+                height: 200.0,
+                child: Card(child: Text('Ditt uppdrag:', style: TextStyle(fontSize: 40, fontFamily:""),), color: Color.fromRGBO(76, 175, 80, 1),)
+            ),
           ],
         ),
       ),
