@@ -13,10 +13,22 @@ void main() {
     expect(find.text('Ny task'), findsOneWidget);
   });
 
-  testWidgets('Button for task exists', (WidgetTester testere) async {
+  testWidgets('Button for task exists', (WidgetTester tester) async {
     //Test suite for the button
-    await testere.pumpWidget(const Trayls());
+    await tester.pumpWidget(const Trayls());
     //Check if the button is displayed
     expect(find.byType(TextButton), findsOneWidget);
+  });
+
+  //Test button for page navigation
+  testWidgets('Button for task navigation', (WidgetTester tester) async {
+    //Test suite for the button
+    await tester.pumpWidget(const Trayls());
+    //Check if the button is displayed
+    expect(find.byType(TextButton), findsOneWidget);
+    //Check if the button navigates to the task page
+    await tester.tap(find.byType(TextButton));
+    await tester.pumpAndSettle();
+    expect(find.text('Uppdraget'), findsOneWidget);
   });
 }
