@@ -1,4 +1,7 @@
+import 'dart:convert';
+  
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const Trayls());
@@ -14,10 +17,7 @@ class Trayls extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const HomePage(title: 'Trayls'),
-
-
-      
+      home: const HomePage(title: 'Trayls'),      
     );
   }
 }
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: 100,
         centerTitle: true,
         foregroundColor: Colors.black,
-        title: Text(widget.title, style: TextStyle(fontSize: 50, fontFamily:"" )),
+        title: Text(widget.title, style: TextStyle(fontSize: 50, fontFamily:"")),
       ),
       body: Center(
         child: Column(

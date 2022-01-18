@@ -10,7 +10,7 @@ void main() {
     //Check if header exists
     expect(find.text('Trayls'), findsOneWidget);
     // Very basic test to check if the contet of the start page is displayed
-    expect(find.text('Ny task'), findsOneWidget);
+    expect(find.text('Nytt uppdrag'), findsOneWidget);
   });
 
   testWidgets('Button for task exists', (WidgetTester tester) async {
