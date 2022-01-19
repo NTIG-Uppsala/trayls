@@ -29,7 +29,7 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": "https://netlabua.se/task"
+        "url": "http://netlabua.se/task"
       },
       "response": []
     },
