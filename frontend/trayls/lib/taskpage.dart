@@ -65,8 +65,3 @@ class _TaskPageState extends State<TaskPage> {
     );
   }
 }
-
-class Task {
-  final String task_query, task_id, task_points;
-  Task(this.task_query, this.task_id, this.task_points);
-}
