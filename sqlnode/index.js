@@ -173,6 +173,18 @@ app.delete('/user', validateMail, function(req, res) {
 });
 
 
+/* --------------------- GET request for testing purpose -------------------- */
+/**
+ * API request will get a task form the database and check if it's a valid task, if it is then it will return "API OK"
+ * @returns {String}    "API OK"
+ */
+app.get('/test', function(req, res) {
+    getRandomTaskFromDatabase().then(result => {
+        if (result.length == 0) return res.send('API response is empty');
+        return res.send('API OK');
+    });
+});
+
 /* -------------------------------------------------------------------------- */
 /*                          Functions used in the API                         */
 /* -------------------------------------------------------------------------- */
