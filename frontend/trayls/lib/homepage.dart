@@ -13,7 +13,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle test = ElevatedButton.styleFrom();
     return Scaffold(
       appBar: AppBar(
         //We set the Page title
