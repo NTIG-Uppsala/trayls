@@ -17,7 +17,7 @@ void main() {
     //Test suite for the button
     await tester.pumpWidget(const Trayls());
     //Check if the button is displayed
-    expect(find.byType(TextButton), findsOneWidget);
+    expect(find.byType(ElevatedButton), findsOneWidget);
   });
 
   //Test button for page navigation
@@ -25,10 +25,22 @@ void main() {
     //Test suite for the button
     await tester.pumpWidget(const Trayls());
     //Check if the button is displayed
-    expect(find.byType(TextButton), findsOneWidget);
+    expect(find.byType(ElevatedButton), findsOneWidget);
     //Check if the button navigates to the task page
-    await tester.tap(find.byType(TextButton));
+    await tester.tap(find.byType(ElevatedButton));
     await tester.pumpAndSettle();
     expect(find.text('Uppdraget'), findsOneWidget);
+  });
+
+  testWidgets('API call test', (WidgetTester tester) async {
+    //Test suite for the button
+    await tester.pumpWidget(const Trayls());
+    //Check if the button is displayed
+    expect(find.byType(ElevatedButton), findsOneWidget);
+    //Check if the button navigates to the task page
+    await tester.tap(find.byType(ElevatedButton));
+    await tester.pumpAndSettle();
+    //Expect the API call to be made
+    expect(find.text('API OK'), findsOneWidget);
   });
 }
