@@ -11,7 +11,7 @@ class Trayls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Trayls', // Text top page
+      title: 'Trayls',
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),

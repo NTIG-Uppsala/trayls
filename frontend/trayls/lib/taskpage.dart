@@ -19,11 +19,11 @@ class _TaskPageState extends State<TaskPage> {
   getTask() async {
     var response = await http.get(Uri.http('netlabua.se', '/task'));
     var jsonData = jsonDecode(response.body);
-    Task task = Task(
-      jsonData['task_query'],
-      jsonData['task_id'],
-      jsonData['task_points'],
-    );
+
+    List<String> task = [];
+    task.add(jsonData['task_query']); //Very ugly, but it works
+    task.add(jsonData['task_id'].toString()); //Very ugly, but it works
+    task.add(jsonData['task_points'].toString()); //Very ugly, but it works
     return task;
   }
 
@@ -33,19 +33,33 @@ class _TaskPageState extends State<TaskPage> {
       appBar: AppBar(
         title: const Text('Uppdrag'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Uppdrag',
-              style: TextStyle(fontSize: 20),
-            ),
-            Text(
-              getTask(),
-              style: TextStyle(fontSize: 20),
-            ),
-          ],
+      body: Container(
+        child: FutureBuilder(
+          future: getTask(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.data == null) {
+              return Container(
+                child: const Center(
+                  child: Text('Loading...'),
+                ),
+              );
+            } else {
+              return Container(
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      snapshot.data[0],
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      'Poäng: ${snapshot.data[2]}',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+              );
+            }
+          },
         ),
       ),
     );
