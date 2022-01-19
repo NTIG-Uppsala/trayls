@@ -1,6 +1,7 @@
-//Take a task form the API http://netlabue.se/task
+//Take a task form the API http://netlabua.se/task
 //Swap the text with the task from the API
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -15,23 +16,33 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
+  getTask() async {
+    var response = await http.get(Uri.http('netlabua.se', '/task'));
+    var jsonData = jsonDecode(response.body);
+    Task task = Task(
+      jsonData['task_query'],
+      jsonData['task_id'],
+      jsonData['task_points'],
+    );
+    return task;
+  }
+
   @override
   Widget build(BuildContext context) {
-    Future<String> hej = getTask().then((value) => value);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Task'),
+        title: const Text('Uppdrag'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Task',
+              'Uppdrag',
               style: TextStyle(fontSize: 20),
             ),
             Text(
-              hej.asStream().toString(),
+              getTask(),
               style: TextStyle(fontSize: 20),
             ),
           ],
@@ -39,19 +50,9 @@ class _TaskPageState extends State<TaskPage> {
       ),
     );
   }
+}
 
-//api call
-  Future<String> getTask() async {
-    //return the task_query from the API response
-    await http.get(Uri.parse('http://netlabua.se/task')).then((response) async {
-      if (response.statusCode == 200) {
-        final String res = await response.body;
-        return res;
-      } else {
-        throw HttpException('Unexpected status code ${response.statusCode}:'
-            ' ${response.reasonPhrase}');
-      }
-    });
-    return 'ERROR';
-  }
+class Task {
+  final String task_query, task_id, task_points;
+  Task(this.task_query, this.task_id, this.task_points);
 }
