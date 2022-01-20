@@ -1,11 +1,5 @@
-//Take a task form the API http://netlabua.se/task
-//Swap the text with the task from the API
-
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-//import http package
 import 'package:http/http.dart' as http;
 
 class TaskPage extends StatefulWidget {
@@ -33,34 +27,28 @@ class _TaskPageState extends State<TaskPage> {
       appBar: AppBar(
         title: const Text('Uppdrag'),
       ),
-      body: Container(
-        child: FutureBuilder(
-          future: getTask(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data == null) {
-              return Container(
-                child: const Center(
-                  child: Text('Loading...'),
+      body: FutureBuilder(
+        future: getTask(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
+            return const Center(
+              child: Text('Loading...'),
+            );
+          } else {
+            return Column(
+              children: <Widget>[
+                Text(
+                  snapshot.data[0],
+                  style: const TextStyle(fontSize: 20),
                 ),
-              );
-            } else {
-              return Container(
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      snapshot.data[0],
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      'Poäng: ${snapshot.data[2]}',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ],
+                Text(
+                  'Poäng: ${snapshot.data[2]}',
+                  style: const TextStyle(fontSize: 20),
                 ),
-              );
-            }
-          },
-        ),
+              ],
+            );
+          }
+        },
       ),
     );
   }
