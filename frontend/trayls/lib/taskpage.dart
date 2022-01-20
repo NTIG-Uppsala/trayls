@@ -43,34 +43,42 @@ class _TaskPageState extends State<TaskPage> {
           } else {
             //When the api responds, it will display the data
             return Column(
+              //center of the screen
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                //Green box with the task and points
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        snapshot.data[0],
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontFamily: "",
+                Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              snapshot.data[0],
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontFamily: "",
+                              ),
+                            ),
+                            Text(
+                              "Poäng: " + snapshot.data[2],
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontFamily: "",
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Text(
-                        "Poäng: " + snapshot.data[2],
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontFamily: "",
-                        ),
-                      ),
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ],
             );
