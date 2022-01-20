@@ -25,7 +25,12 @@ class _TaskPageState extends State<TaskPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Uppdrag'),
+        //We set the Page title
+        toolbarHeight: 100,
+        centerTitle: true,
+        foregroundColor: Colors.black,
+        title: const Text("Uppdraget",
+            style: TextStyle(fontSize: 50, fontFamily: "")),
       ),
       body: FutureBuilder(
         future: getTask(),
@@ -38,11 +43,11 @@ class _TaskPageState extends State<TaskPage> {
             return Column(
               children: <Widget>[
                 Text(
-                  snapshot.data[0],
+                  snapshot.data[0], //Very ugly, but it works
                   style: const TextStyle(fontSize: 20),
                 ),
                 Text(
-                  'Poäng: ${snapshot.data[2]}',
+                  'Poäng: ${snapshot.data[2]}', //Very ugly, but it works
                   style: const TextStyle(fontSize: 20),
                 ),
               ],
