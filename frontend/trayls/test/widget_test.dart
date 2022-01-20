@@ -31,12 +31,4 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Uppdraget'), findsOneWidget);
   });
-
-  testWidgets('API call test', (WidgetTester tester) async {
-    //Test suite for the button
-    await tester.pumpWidget(const Trayls());
-
-    //Expect the API call to be made
-    expect(find.text('API OK'), findsOneWidget);
-  });
 }
