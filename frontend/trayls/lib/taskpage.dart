@@ -1,6 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:trayls/api.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({Key? key}) : super(key: key);
@@ -10,6 +9,13 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
+  late Future<Api> futureApi;
+  @override
+  void initState() {
+    super.initState();
+    futureApi.getTask();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +28,7 @@ class _TaskPageState extends State<TaskPage> {
       ),
       body: FutureBuilder(
         //FutureBuilder is used to display the data from the API
-        future: getTask(),
+        future: api.task,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             //If the data is null, it will display a loading screen (waiting for api response)
