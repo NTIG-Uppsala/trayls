@@ -31,7 +31,7 @@ We get this is hard to understand. But you will get it soon enough. Flutter can 
 ### Install Flutter
 
 - Download flutter from the following [link](https://docs.flutter.dev/get-started/install)
-- Extract the files inside the .zip file
+- Extract the files inside the .zip file outside the repository
 
 ### Environment Variable
 
@@ -50,8 +50,7 @@ We get this is hard to understand. But you will get it soon enough. Flutter can 
 
 - Open the folder "trayls\frontend\trayls"
 - Download the "Flutter" extension
-- Click this button
-- ![image](https://user-images.githubusercontent.com/62390271/150762227-6d9c61b7-85d7-45b9-81a0-55655e4d6769.png)
+- Click this button <br> ![image](https://user-images.githubusercontent.com/62390271/150762227-6d9c61b7-85d7-45b9-81a0-55655e4d6769.png)
 - Select the emulator (run without cold boot)
 - type "flutter run" in terminal
 
