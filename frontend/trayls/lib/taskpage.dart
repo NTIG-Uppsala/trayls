@@ -84,7 +84,8 @@ class _TaskPageState extends State<TaskPage> {
                     )
                   ],
                 ),
-                ElevatedButton(
+                  
+                        ElevatedButton(
                               onPressed: () {
                                 Navigator.pop(
                                   context,
@@ -107,6 +108,7 @@ class _TaskPageState extends State<TaskPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => const TaskPage(),
+                                  
                                   ),
                                 );
                               },
@@ -115,12 +117,15 @@ class _TaskPageState extends State<TaskPage> {
                                 onPrimary: Colors.black,
                                 minimumSize: const Size(240, 80),
                                 maximumSize: const Size(720, 240),
+                              
                               ),
                               child: const Text("Skippa",
                                   style: TextStyle(
                                     fontSize: 40,
+                                  
                                   )),
-            ),
+            
+                ),
               ],
             );
           }
