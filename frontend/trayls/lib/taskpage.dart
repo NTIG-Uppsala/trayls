@@ -15,9 +15,9 @@ class _TaskPageState extends State<TaskPage> {
     var jsonData = jsonDecode(response.body);
 
     List<String> task = [];
-    task.add(jsonData['task_query']); //Very ugly, but it works
-    task.add(jsonData['task_id'].toString()); //Very ugly, but it works
-    task.add(jsonData['task_points'].toString()); //Very ugly, but it works
+    task.add(jsonData['task_query']); 
+    task.add(jsonData['task_id'].toString()); 
+    task.add(jsonData['task_points'].toString()); 
     return task;
   }
 
