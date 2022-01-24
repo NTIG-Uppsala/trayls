@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:trayls/api.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
-  getTask() async {
+   getTask() async {
     var response = await http.get(Uri.http('netlabua.se', '/task'));
     var jsonData = jsonDecode(response.body);
 
@@ -20,9 +21,12 @@ class _TaskPageState extends State<TaskPage> {
     task.add(jsonData['task_points'].toString()); 
     return task;
   }
+ 
+  //Api api = Api();
 
   @override
   Widget build(BuildContext context) {
+    //print(api);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
