@@ -98,9 +98,11 @@ class _TaskPageState extends State<TaskPage> {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const TaskPage(),
-                      ),
+                      PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const TaskPage(),
+                          transitionDuration: const Duration(seconds: 0)),
                     );
                   },
                   style: ElevatedButton.styleFrom(
