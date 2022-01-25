@@ -1,3 +1,16 @@
+// If you get the following error after a pull
+
+//FAILURE: Build failed with an exception.                                                                                         ering with "--enable-software-rendering".
+//* What went wrong:
+//Execution failed for task ':app:compileFlutterBuildDebug'.
+//n\frontend\trayls\build\app\intermediates\flutter\debug\flutter_assets'
+
+//Run the following commands 
+
+//flutter clean
+//flutter pub get
+
+
 import 'package:flutter/material.dart';
 import 'package:trayls/homepage.dart';
 
