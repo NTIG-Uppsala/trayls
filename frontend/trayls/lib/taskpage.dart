@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:trayls/api.dart';
+import 'package:trayls/homepage.dart';
+
 
 class TaskPage extends StatefulWidget {
   const TaskPage({Key? key}) : super(key: key);
@@ -78,11 +79,56 @@ class _TaskPageState extends State<TaskPage> {
                                 fontFamily: "",
                               ),
                             ),
+                            
                           ],
+                          
                         ),
                       ),
+                      
                     )
                   ],
+                ),
+                  
+                        ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(
+                                  context,
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green,
+                                onPrimary: Colors.black,
+                                minimumSize: const Size(240, 80),
+                                maximumSize: const Size(720, 240),
+                              ),
+                              child: const Text("Klar",
+                                  style: TextStyle(
+                                    fontSize: 40,
+                                  )),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const TaskPage(),
+                                  
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.red,
+                                onPrimary: Colors.black,
+                                minimumSize: const Size(240, 80),
+                                maximumSize: const Size(720, 240),
+                              
+                              ),
+                              child: const Text("Skippa",
+                                  style: TextStyle(
+                                    fontSize: 40,
+                                  
+                                  )),
+            
                 ),
               ],
             );
