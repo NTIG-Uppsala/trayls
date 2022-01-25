@@ -260,6 +260,19 @@
         "url": "http://netlabua.se/currTask"
       },
       "response": []
+    },
+    {
+      "name": "New Request",
+      "id": "4740e00f-d962-4e86-84ab-18765c83a399",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": null
+      },
+      "response": []
     }
   ],
   "event": [
