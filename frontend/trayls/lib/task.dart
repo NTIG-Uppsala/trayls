@@ -1,13 +1,13 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'package:trayls/Api.dart';
 
 class Task {
   final String taskQuery;
   final int taskId;
   final int taskPoints;
 
-  const Task(
+  Task(
       {required this.taskQuery,
       required this.taskId,
       required this.taskPoints});
@@ -22,7 +22,8 @@ class Task {
 }
 
 Future<Task> getTask() async {
-  var response = await http.get(Uri.http('netlabua.se', '/task'));
+  Api api = Api(subdirectory: '/task');
+  var response = await api.get();
   if (response.statusCode == 200) {
     return Task.fromJson(jsonDecode(response.body));
   } else {

@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 
 class Api {
   final String subdirectory;
-  final String secondLevelDomain = 'netlabua.se/';
+  final String secondLevelDomain = 'netlabua.se';
 
   Api({required this.subdirectory});
 
