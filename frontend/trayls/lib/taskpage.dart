@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:trayls/task.dart';
+import 'dart:async';
 import 'package:trayls/homepage.dart';
 
 class TaskPage extends StatefulWidget {
@@ -11,18 +11,13 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
-  getTask() async {
-    var response = await http.get(Uri.http('netlabua.se', '/task'));
-    var jsonData = jsonDecode(response.body);
-
-    List<String> task = [];
-    task.add(jsonData['task_query']);
-    task.add(jsonData['task_id'].toString());
-    task.add(jsonData['task_points'].toString());
-    return task;
+  late Future<Task> futureTask;
+  @override
+  void initState() {
+    super.initState();
+    futureTask = getTask();
+    print(futureTask);
   }
-
-  //Api api = Api();
   @override
   Widget build(BuildContext context) {
     //print(api);
@@ -36,7 +31,7 @@ class _TaskPageState extends State<TaskPage> {
       ),
       body: FutureBuilder(
         //FutureBuilder is used to display the data from the API
-        future: getTask(),
+        future: futureTask,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             //If the data is null, it will display a loading screen (waiting for api response)
@@ -44,6 +39,7 @@ class _TaskPageState extends State<TaskPage> {
               child: Text('Loading...'),
             );
           } else {
+            print(snapshot.data!.taskQuery);
             //When the api responds, it will display the data
             return Column(
               //center of the screen
@@ -64,14 +60,14 @@ class _TaskPageState extends State<TaskPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              snapshot.data[0],
+                              snapshot.data.taskQuery,
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontFamily: "",
                               ),
                             ),
                             Text(
-                              "Poäng: " + snapshot.data[2],
+                              "Poäng: ${snapshot.data.taskPoints}",
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontFamily: "",
