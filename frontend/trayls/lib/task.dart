@@ -1,17 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
 class Task {
   final String taskQuery;
   final int taskId;
   final int taskPoints;
 
-  const Task({
-    required this.taskQuery,
-    required this.taskId,
-    required this.taskPoints
-  })
+  const Task(
+      {required this.taskQuery,
+      required this.taskId,
+      required this.taskPoints});
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
@@ -22,13 +20,13 @@ class Task {
   }
 }
 
-getTask() async {
-    var response = await http.get(Uri.http('netlabua.se', '/task'));
-    var jsonData = jsonDecode(response.body);
+Future<Task> getTask() async {
+  var response = await http.get(Uri.http('netlabua.se', '/task'));
 
-    List<String> task = [];
-    task.add(jsonData['task_query']); 
-    task.add(jsonData['task_id'].toString()); 
-    task.add(jsonData['task_points'].toString()); 
-    return task;
+  if (response.statusCode == 200) {
+    print(response);
+    return Task.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load task');
   }
+}
