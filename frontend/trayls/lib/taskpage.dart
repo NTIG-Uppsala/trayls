@@ -16,11 +16,10 @@ class _TaskPageState extends State<TaskPage> {
   void initState() {
     super.initState();
     futureTask = getTask();
-    print(futureTask);
   }
+
   @override
   Widget build(BuildContext context) {
-    //print(api);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
@@ -39,7 +38,6 @@ class _TaskPageState extends State<TaskPage> {
               child: Text('Loading...'),
             );
           } else {
-            print(snapshot.data!.taskQuery);
             //When the api responds, it will display the data
             return Column(
               //center of the screen
@@ -98,7 +96,7 @@ class _TaskPageState extends State<TaskPage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const TaskPage(),
