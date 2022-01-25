@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:trayls/homepage.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({Key? key}) : super(key: key);
@@ -10,8 +11,21 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
+  getTask() async {
+    var response = await http.get(Uri.http('netlabua.se', '/task'));
+    var jsonData = jsonDecode(response.body);
+
+    List<String> task = [];
+    task.add(jsonData['task_query']);
+    task.add(jsonData['task_id'].toString());
+    task.add(jsonData['task_points'].toString());
+    return task;
+  }
+
+  //Api api = Api();
   @override
   Widget build(BuildContext context) {
+    //print(api);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
@@ -68,6 +82,43 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                     )
                   ],
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(
+                      context,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    onPrimary: Colors.black,
+                    minimumSize: const Size(240, 80),
+                    maximumSize: const Size(720, 240),
+                  ),
+                  child: const Text("Klar",
+                      style: TextStyle(
+                        fontSize: 40,
+                      )),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TaskPage(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red,
+                    onPrimary: Colors.black,
+                    minimumSize: const Size(240, 80),
+                    maximumSize: const Size(720, 240),
+                  ),
+                  child: const Text("Skippa",
+                      style: TextStyle(
+                        fontSize: 40,
+                      )),
                 ),
               ],
             );
