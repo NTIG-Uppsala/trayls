@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trayls/api.dart';
+import 'package:trayls/task.dart';
+import 'dart:async';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({Key? key}) : super(key: key);
@@ -9,11 +10,12 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
-  late Future<Api> futureApi;
+  late Future<Task> futureTask;
   @override
   void initState() {
     super.initState();
-    futureApi.getTask();
+    futureTask = getTask();
+    print(futureTask);
   }
 
   @override
@@ -28,7 +30,7 @@ class _TaskPageState extends State<TaskPage> {
       ),
       body: FutureBuilder(
         //FutureBuilder is used to display the data from the API
-        future: api.task,
+        future: futureTask,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             //If the data is null, it will display a loading screen (waiting for api response)
@@ -36,6 +38,7 @@ class _TaskPageState extends State<TaskPage> {
               child: Text('Loading...'),
             );
           } else {
+            print(snapshot.data!.taskQuery);
             //When the api responds, it will display the data
             return Column(
               //center of the screen
@@ -56,14 +59,14 @@ class _TaskPageState extends State<TaskPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              snapshot.data[0],
+                              snapshot.data.taskQuery,
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontFamily: "",
                               ),
                             ),
                             Text(
-                              "Poäng: " + snapshot.data[2],
+                              "Poäng: ${snapshot.data.taskPoints}",
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontFamily: "",
