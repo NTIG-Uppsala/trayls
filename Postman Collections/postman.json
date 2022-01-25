@@ -262,7 +262,7 @@
       "response": []
     },
     {
-      "name": "New Request",
+      "name": "Tot points",
       "id": "4740e00f-d962-4e86-84ab-18765c83a399",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
