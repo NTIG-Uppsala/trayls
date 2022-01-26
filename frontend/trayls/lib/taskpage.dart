@@ -76,45 +76,47 @@ class _TaskPageState extends State<TaskPage> {
                     )
                   ],
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(
-                      context,
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
-                    onPrimary: Colors.black,
-                    minimumSize: const Size(240, 80),
-                    maximumSize: const Size(720, 240),
+                Wrap(
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(
+                        context,
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green,
+                      onPrimary: Colors.black,
+                      minimumSize: const Size(240, 80),
+                      maximumSize: const Size(720, 240),
+                    ),
+                    child: const Text("Klar",
+                        style: TextStyle(
+                          fontSize: 40,
+                        )),
                   ),
-                  child: const Text("Klar",
-                      style: TextStyle(
-                        fontSize: 40,
-                      )),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  const TaskPage(),
-                          transitionDuration: const Duration(seconds: 0)),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red,
-                    onPrimary: Colors.black,
-                    minimumSize: const Size(240, 80),
-                    maximumSize: const Size(720, 240),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    const TaskPage(),
+                            transitionDuration: const Duration(seconds: 0)),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                      onPrimary: Colors.black,
+                      minimumSize: const Size(240, 80),
+                      maximumSize: const Size(720, 240),
+                    ),
+                    child: const Text("Skippa",
+                        style: TextStyle(
+                          fontSize: 40,
+                        )),
                   ),
-                  child: const Text("Skippa",
-                      style: TextStyle(
-                        fontSize: 40,
-                      )),
-                ),
+            ),
               ],
             );
           }
