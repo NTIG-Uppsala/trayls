@@ -14,7 +14,6 @@ class Points {
   Points.res({required this.points});
 
   factory Points.fromJson(Map<String, dynamic> json) {
-    print('hej');
     return Points.res(points: json['user_points']);
   }
 }
