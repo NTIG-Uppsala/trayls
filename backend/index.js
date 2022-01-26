@@ -146,9 +146,11 @@ app.put('/changeTask', validateMail, async function(req, res) {
     if (status != '2' && status != '3') return res.send('Ogiltlig siffra');
     let availableTask = await latestUserTaskStatus(mail);
     if (availableTask == 2 || availableTask == 3) return res.send('Inget aktivt uppdrag');
+    let pointsToBeAwarded = await latestUserTaskStatus(mail, 'Get active task') //For the points
     changeTaskStatus(mail, status).then(result => {
         if (result.affectedRows == 0)  return res.send('Denna användare finns inte');
         if (status == '3') return res.send('Det är okej, du klarar nästa uppdrag!')
+        addPointsToUser(mail, pointsToBeAwarded.task_points);
         return res.send('Grattis, du klarade uppdraget!');
     });
 });
@@ -172,18 +174,6 @@ app.delete('/user', validateMail, function(req, res) {
     });
 });
 
-
-/* --------------------- GET request for testing purpose -------------------- */
-/**
- * API request will get a task form the database and check if it's a valid task, if it is then it will return "API OK"
- * @returns {String}    "API OK"
- */
-app.get('/test', function(req, res) {
-    getRandomTaskFromDatabase().then(result => {
-        if (result.length == 0) return res.send('API response is empty');
-        return res.send('API OK');
-    });
-});
 
 /* -------------------------------------------------------------------------- */
 /*                          Functions used in the API                         */
@@ -277,6 +267,10 @@ async function getUserIdWithMail(mail) {
         }
         return result['user_id']; //Only returns the user id from the sql database
     }
+}
+
+async function addPointsToUser(mail, pointsToBeAwarded) {
+
 }
 
 /* ---------------------- Get user points from database --------------------- */
