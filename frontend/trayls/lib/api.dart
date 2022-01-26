@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class Api {
   final String subdirectory;
   final String secondLevelDomain = 'netlabua.se';
-  String callBody = '';
+  Map<String, dynamic> callBody = {};
   Map<String, dynamic> queryParams = {};
 
   Api({required this.subdirectory});
@@ -18,5 +18,11 @@ class Api {
     return response;
   }
 
-  //connect to the server and get the data with body
+  Future<dynamic> post() async {
+    var response = await http.post(
+      Uri.http(secondLevelDomain, subdirectory),
+      body: callBody,
+    );
+    return response;
+  }
 }
