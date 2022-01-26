@@ -263,6 +263,20 @@
     },
     {
       "name": "Tot points",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "a4d0d8be-a51b-4c87-8162-26a4feca6a6d",
+            "exec": [
+              "pm.test(\"Total points\", function () {\r",
+              "    pm.expect(pm.response.text()).to.include(\"5\");\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "id": "4740e00f-d962-4e86-84ab-18765c83a399",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
@@ -270,6 +284,15 @@
       "request": {
         "method": "GET",
         "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"mail\": \"anna@onion.onion\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": "http://netlabua.se/points"
       },
       "response": []
