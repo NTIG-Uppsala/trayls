@@ -269,8 +269,26 @@ async function getUserIdWithMail(mail) {
     }
 }
 
-async function addPointsToUser(mail, pointsToBeAwarded) {
+/* ------------- Add points to the user with the specified mail ------------- */
+/**
+ * With a mail and points add points to the user, should be used after a task is done
+ * @param {String} mail 
+ * @param {int} pointsToBeAwarded
+ * @returns {int} The amount of points the user has
+ */
 
+async function addPointsToUser(mail, pointsToBeAwarded) {
+    let conn;
+    let result;
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('UPDATE users SET user_points = user_points + ? WHERE user_mail = ?', [pointsToBeAwarded, mail]); //Add points to the user
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        return getUserPointsFromDatabase(mail); //Returns the amount of points the user has
+    }
 }
 
 /* ---------------------- Get user points from database --------------------- */
