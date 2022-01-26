@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:async';
-import 'dart:developer';
 import 'package:trayls/api.dart';
 
 class Points {
