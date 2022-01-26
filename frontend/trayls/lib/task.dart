@@ -30,3 +30,13 @@ Future<Task> getTask() async {
     throw Exception('Failed to load task');
   }
 }
+
+Future<Task> acceptTask(Map<String, dynamic> body) async {
+  Api api = Api.body(subdirectory: '/accTask', callBody: body);
+  var response = await api.post();
+  if (response.statusCode == 200) {
+    return Task.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to accept task');
+  }
+}
