@@ -6,17 +6,17 @@ class Api {
   final String subdirectory;
   final String secondLevelDomain = 'netlabua.se';
   String callBody = '';
+  Map<String, dynamic> queryParams = {};
 
   Api({required this.subdirectory});
   Api.body({required this.subdirectory, required this.callBody});
+  Api.query({required this.subdirectory, required this.queryParams});
 
-  //connect to the server and get the data with body
   Future<dynamic> get() async {
-    var response = await http.get(Uri.http(secondLevelDomain, subdirectory),
-        body: jsonEncode(<String, String>{'body': callBody}));
+    var response =
+        await http.get(Uri.http(secondLevelDomain, subdirectory, queryParams));
     return response;
   }
 
-  final http.Request request =
-      http.Request('GET', Uri.http('netlabua.se', subdirectory));
+  //connect to the server and get the data with body
 }
