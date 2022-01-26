@@ -284,16 +284,23 @@
       "request": {
         "method": "GET",
         "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"mail\": \"anna@onion.onion\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
+        "url": {
+          "raw": "http://netlabua.se/points?mail=anna@onion.onion",
+          "protocol": "http",
+          "host": [
+            "netlabua",
+            "se"
+          ],
+          "path": [
+            "points"
+          ],
+          "query": [
+            {
+              "key": "mail",
+              "value": "anna@onion.onion"
             }
-          }
-        },
-        "url": "http://netlabua.se/points"
+          ]
+        }
       },
       "response": []
     }
