@@ -71,6 +71,7 @@ app.get('/task', (req, res) => {
  * @return              Number of points
  */
 app.get('/points', validateMail, (req, res) => {
+    console.log(req.query.mail);
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
     getUserPointsFromDatabase(req.query.mail).then(result => {
@@ -88,7 +89,6 @@ app.get('/currTask',validateMail, async function(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
     const mail = req.query.mail;
-    console.log(mail);
     let availableTask = await latestUserTaskStatus(mail);
     if (availableTask == 2 || availableTask == 3) return res.send('Inget aktivt uppdrag');
     latestUserTaskStatus(mail, 'Get active task').then (result => {
