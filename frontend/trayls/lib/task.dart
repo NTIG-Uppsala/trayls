@@ -42,18 +42,19 @@ Future<Task> acceptTask(Map<String, dynamic> body) async {
   Api api = Api.body(subdirectory: '/accTask', callBody: body);
   var response = await api.post();
   if (response.statusCode == 200) {
-    return Task.fromJson(jsonDecode(response.body));
+    return Task.msg(response.body);
   } else {
-    throw Exception('Failed to accept task');
+    return Task.msg('Failed to accept task');
   }
 }
 
 Future<Task> changeTask(Map<String, dynamic> body) async {
   Api api = Api.body(subdirectory: '/changeTask', callBody: body);
-  var response = await api.post(); //TODO: what data is returned?
+  var response = await api.put(); //TODO: what data is returned?
+  print(response.body);
   if (response.statusCode == 200) {
     return Task.msg(response.body);
   } else {
-    throw Exception('Failed to load points');
+    return Task.msg('Failed to load points'); //ERROR
   }
 }
