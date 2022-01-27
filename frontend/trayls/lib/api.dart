@@ -23,4 +23,12 @@ class Api {
     );
     return response;
   }
+
+  Future<dynamic> put() async {
+    var response = await http.put(
+      Uri.http(secondLevelDomain, subdirectory),
+      body: callBody,
+    );
+    return response;
+  }
 }
