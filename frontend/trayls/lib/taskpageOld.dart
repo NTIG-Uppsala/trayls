@@ -47,8 +47,8 @@ class _TaskPageState extends State<TaskPage> {
                     Container(
                       alignment: Alignment.center,
                       child: Container(
-                        width: 300,
-                        height: 120,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.2,
                         decoration: BoxDecoration(
                           color: Colors.green,
                           borderRadius: BorderRadius.circular(5),
@@ -61,7 +61,7 @@ class _TaskPageState extends State<TaskPage> {
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontFamily: "",
-                                ),
+                              ),
                             ),
                             Text(
                               "Poäng: ${snapshot.data.taskPoints}",
@@ -69,12 +69,13 @@ class _TaskPageState extends State<TaskPage> {
                                 fontSize: 20,
                                 fontFamily: "",
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
-                    ),
-                  const SizedBox(height: 20),
+                    )
+                  ],
+                ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pop(
@@ -84,15 +85,14 @@ class _TaskPageState extends State<TaskPage> {
                     style: ElevatedButton.styleFrom(
                       primary: Colors.green,
                       onPrimary: Colors.black,
-                      minimumSize: const Size(300, 120),
-                      maximumSize: const Size(840, 280),
+                      minimumSize: const Size(240, 80),
+                      maximumSize: const Size(720, 240),
                     ),
                     child: const Text("Klar",
                         style: TextStyle(
                           fontSize: 40,
                         )),
                   ),
-                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushReplacement(
@@ -107,16 +107,14 @@ class _TaskPageState extends State<TaskPage> {
                     style: ElevatedButton.styleFrom(
                       primary: Colors.red,
                       onPrimary: Colors.black,
-                      minimumSize: const Size(300, 120),
-                      maximumSize: const Size(840, 280),
+                      minimumSize: const Size(240, 80),
+                      maximumSize: const Size(720, 240),
                     ),
                     child: const Text("Skippa",
                         style: TextStyle(
                           fontSize: 40,
                         )),
                   ),
-                  ],
-                ),
               ],
             );
           }
