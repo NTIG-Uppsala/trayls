@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trayls/taskpage.dart';
+import 'dart:async';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -11,6 +12,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late Future<Task> futureTask;
+  @override
+  void initState() {
+    super.initState();
+    futureTask = getTask();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +34,22 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const <Widget>[
+                  Text(
+                    "130000",
+                    style: TextStyle(
+                      fontSize: 100,
+                      fontFamily: "",
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(height: 75),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -46,6 +70,7 @@ class _HomePageState extends State<HomePage> {
                     fontSize: 40,
                   )),
             ),
+            const SizedBox(height: 75),
           ],
         ),
       ),
