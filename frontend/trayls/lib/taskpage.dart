@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trayls/homepage.dart';
 import 'package:trayls/task.dart';
 import 'dart:async';
 
@@ -11,6 +12,8 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   late Future<Task> futureTask;
+  late Future<Task> futureAcceptTask;
+
   @override
   void initState() {
     super.initState();
@@ -61,7 +64,7 @@ class _TaskPageState extends State<TaskPage> {
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontFamily: "",
-                                ),
+                              ),
                             ),
                             Text(
                               "Poäng: ${snapshot.data.taskPoints}",
@@ -74,47 +77,53 @@ class _TaskPageState extends State<TaskPage> {
                         ),
                       ),
                     ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(
-                        context,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
-                      onPrimary: Colors.black,
-                      minimumSize: const Size(300, 120),
-                      maximumSize: const Size(840, 280),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        futureAcceptTask = acceptTask({
+                          'mail': 'genericuser@mail.com',
+                          'task_id': snapshot.data.taskId
+                        });
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const HomePage(title: 'Trayls')));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green,
+                        onPrimary: Colors.black,
+                        minimumSize: const Size(300, 120),
+                        maximumSize: const Size(840, 280),
+                      ),
+                      child: const Text("Klar",
+                          style: TextStyle(
+                            fontSize: 40,
+                          )),
                     ),
-                    child: const Text("Klar",
-                        style: TextStyle(
-                          fontSize: 40,
-                        )),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    const TaskPage(),
-                            transitionDuration: const Duration(seconds: 0)),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
-                      onPrimary: Colors.black,
-                      minimumSize: const Size(300, 120),
-                      maximumSize: const Size(840, 280),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      const TaskPage(),
+                              transitionDuration: const Duration(seconds: 0)),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red,
+                        onPrimary: Colors.black,
+                        minimumSize: const Size(300, 120),
+                        maximumSize: const Size(840, 280),
+                      ),
+                      child: const Text("Skippa",
+                          style: TextStyle(
+                            fontSize: 40,
+                          )),
                     ),
-                    child: const Text("Skippa",
-                        style: TextStyle(
-                          fontSize: 40,
-                        )),
-                  ),
                   ],
                 ),
               ],
