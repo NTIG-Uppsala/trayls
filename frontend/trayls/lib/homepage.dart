@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    futurePoints = getPoints({'mail':'genericuser@mail.com'});
+    futurePoints = getPoints({'mail': 'genericuser@mail.com'});
   }
 
   @override
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title,
             style: const TextStyle(fontSize: 50, fontFamily: "")),
       ),
-            body: FutureBuilder(
+      body: FutureBuilder(
         //FutureBuilder is used to display the data from the API
         future: futurePoints,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -43,48 +43,50 @@ class _HomePageState extends State<HomePage> {
           } else {
             //When the a
             return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.center,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Text(
-                          "130000",
-                          style: TextStyle(
-                            fontSize: 100,
-                            fontFamily: "",
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 75),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TaskPage(),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        snapshot.data.points.toString(),
+                        style: const TextStyle(
+                          fontSize: 100,
+                          fontFamily: "",
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
-                      onPrimary: Colors.black,
-                      minimumSize: const Size(240, 80),
-                      maximumSize: const Size(720, 240),
-                    ),
-                    child: const Text("Nytt uppdrag",
-                        style: TextStyle(
-                          fontSize: 40,
-                        )),
+                      )
+                    ],
                   ),
-                  const SizedBox(height: 75),
-                ],
-              );
-        };
-    };
+                ),
+                const SizedBox(height: 75),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TaskPage(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    onPrimary: Colors.black,
+                    minimumSize: const Size(240, 80),
+                    maximumSize: const Size(720, 240),
+                  ),
+                  child: const Text("Nytt uppdrag",
+                      style: TextStyle(
+                        fontSize: 40,
+                      )),
+                ),
+                const SizedBox(height: 75),
+              ],
+            );
+          }
+        },
+      ),
+    );
   }
 }
