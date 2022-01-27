@@ -13,6 +13,7 @@ class TaskPage extends StatefulWidget {
 class _TaskPageState extends State<TaskPage> {
   late Future<Task> futureTask;
   late Future<Task> futureAcceptTask;
+  late Future<Task> futureCompleteTask;
 
   @override
   void initState() {
@@ -79,11 +80,13 @@ class _TaskPageState extends State<TaskPage> {
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () {
-                        futureAcceptTask = acceptTask({
+                      onPressed: () async {
+                        await acceptTask({
                           'mail': 'genericuser@mail.com',
-                          'task_id': snapshot.data.taskId
+                          'task_id': snapshot.data.taskId.toString()
                         });
+                        await changeTask(
+                            {'mail': 'genericuser@mail.com', 'status': '2'});
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

@@ -51,7 +51,6 @@ Future<Task> acceptTask(Map<String, dynamic> body) async {
 Future<Task> changeTask(Map<String, dynamic> body) async {
   Api api = Api.body(subdirectory: '/changeTask', callBody: body);
   var response = await api.put(); //TODO: what data is returned?
-  print(response.body);
   if (response.statusCode == 200) {
     return Task.msg(response.body);
   } else {
