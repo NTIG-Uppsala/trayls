@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: 100,
         centerTitle: true,
         foregroundColor: Colors.black,
+        automaticallyImplyLeading: false,
         title: Text(widget.title,
             style: const TextStyle(fontSize: 50, fontFamily: "")),
       ),

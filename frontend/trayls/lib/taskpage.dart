@@ -25,6 +25,15 @@ class _TaskPageState extends State<TaskPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const HomePage(title: 'Trayls'))),
+                }),
         toolbarHeight: 100,
         centerTitle: true,
         foregroundColor: Colors.black,
@@ -81,12 +90,7 @@ class _TaskPageState extends State<TaskPage> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
-                        await acceptTask({
-                          'mail': 'genericuser@mail.com',
-                          'task_id': snapshot.data.taskId.toString()
-                        });
-                        await changeTask(
-                            {'mail': 'genericuser@mail.com', 'status': '2'});
+                        await updatesPoints(snapshot.data.taskId.toString());
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -136,4 +140,9 @@ class _TaskPageState extends State<TaskPage> {
       ),
     );
   }
+}
+
+Future<void> updatesPoints(String id) async {
+  await acceptTask({'mail': 'genericuser@mail.com', 'task_id': id});
+  await changeTask({'mail': 'genericuser@mail.com', 'status': '2'});
 }
