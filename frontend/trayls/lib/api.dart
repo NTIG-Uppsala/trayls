@@ -1,18 +1,34 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-class Api {
-  List<String> taskResponse = [];
-  Api() {
-    taskResponse = getTask();
-  }
-  getTask() async {
-    var response = await http.get(Uri.http('netlabua.se', '/task'));
-    var jsonData = jsonDecode(response.body);
 
-    List<String> task = [];
-    task.add(jsonData['task_query']);
-    task.add(jsonData['task_id'].toString());
-    task.add(jsonData['task_points'].toString());
-    return task;
+class Api {
+  final String subdirectory;
+  final String secondLevelDomain = 'netlabua.se';
+  Map<String, dynamic> callBody = {};
+  Map<String, dynamic> queryParams = {};
+
+  Api({required this.subdirectory});
+  Api.body({required this.subdirectory, required this.callBody});
+  Api.query({required this.subdirectory, required this.queryParams});
+
+  Future<dynamic> get() async {
+    var response =
+        await http.get(Uri.http(secondLevelDomain, subdirectory, queryParams));
+    return response;
+  }
+
+  Future<dynamic> post() async {
+    var response = await http.post(
+      Uri.http(secondLevelDomain, subdirectory),
+      body: callBody,
+    );
+    return response;
+  }
+
+  Future<dynamic> put() async {
+    var response = await http.put(
+      Uri.http(secondLevelDomain, subdirectory),
+      body: callBody,
+    );
+    return response;
   }
 }
