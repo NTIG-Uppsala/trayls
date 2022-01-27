@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trayls/taskpage.dart';
+import 'package:trayls/points.dart';
 import 'dart:async';
 
 class HomePage extends StatefulWidget {
@@ -12,11 +13,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Future<Task> futureTask;
+  late Future<Points> futurePoints;
   @override
   void initState() {
     super.initState();
-    futureTask = getTask();
+    futurePoints = getPoints({'mail':'genericuser@mail.com'});
   }
 
   @override
@@ -30,50 +31,60 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title,
             style: const TextStyle(fontSize: 50, fontFamily: "")),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              child: Column(
+            body: FutureBuilder(
+        //FutureBuilder is used to display the data from the API
+        future: futurePoints,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
+            //If the data is null, it will display a loading screen (waiting for api response)
+            return const Center(
+              child: Text('Loading...'),
+            );
+          } else {
+            //When the a
+            return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
-                  Text(
-                    "130000",
-                    style: TextStyle(
-                      fontSize: 100,
-                      fontFamily: "",
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        Text(
+                          "130000",
+                          style: TextStyle(
+                            fontSize: 100,
+                            fontFamily: "",
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(height: 75),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TaskPage(),
                   ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.green,
-                onPrimary: Colors.black,
-                minimumSize: const Size(240, 80),
-                maximumSize: const Size(720, 240),
-              ),
-              child: const Text("Nytt uppdrag",
-                  style: TextStyle(
-                    fontSize: 40,
-                  )),
-            ),
-            const SizedBox(height: 75),
-          ],
-        ),
-      ),
-    );
+                  const SizedBox(height: 75),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TaskPage(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green,
+                      onPrimary: Colors.black,
+                      minimumSize: const Size(240, 80),
+                      maximumSize: const Size(720, 240),
+                    ),
+                    child: const Text("Nytt uppdrag",
+                        style: TextStyle(
+                          fontSize: 40,
+                        )),
+                  ),
+                  const SizedBox(height: 75),
+                ],
+              );
+        };
+    };
   }
 }
