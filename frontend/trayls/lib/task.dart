@@ -3,14 +3,17 @@ import 'dart:async';
 import 'package:trayls/api.dart';
 
 class Task {
-  final String taskQuery;
-  final int taskId;
-  final int taskPoints;
+  String taskQuery = '';
+  int taskId = 0;
+  int taskPoints = 0;
+  String msg = '';
 
   Task(
       {required this.taskQuery,
       required this.taskId,
       required this.taskPoints});
+
+  Task.completion({required this.msg});
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
@@ -18,6 +21,10 @@ class Task {
       taskId: json['task_id'],
       taskPoints: json['task_points'],
     );
+  }
+
+  factory Task.msg(String incomingMessage) {
+    return Task.completion(msg: incomingMessage);
   }
 }
 
@@ -38,5 +45,15 @@ Future<Task> acceptTask(Map<String, dynamic> body) async {
     return Task.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to accept task');
+  }
+}
+
+Future<Task> changeTask(Map<String, dynamic> body) async {
+  Api api = Api.body(subdirectory: '/changeTask', callBody: body);
+  var response = await api.post();
+  if (response.statusCode == 200) {
+    return Task.msg(response.body);
+  } else {
+    throw Exception('Failed to load points');
   }
 }
