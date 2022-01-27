@@ -80,14 +80,15 @@ app.get('/points', validateMail, (req, res) => {
 
 
 /**
- * Get the current task they are on if there is a current task
+ * Get the current task they are on if there is a current task, via query
  * @param {JSON} req    Mail
  * @return              The response fom the api
  */
 app.get('/currTask',validateMail, async function(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
-    const mail = req.body.mail;
+    const mail = req.query.mail;
+    console.log(mail);
     let availableTask = await latestUserTaskStatus(mail);
     if (availableTask == 2 || availableTask == 3) return res.send('Inget aktivt uppdrag');
     latestUserTaskStatus(mail, 'Get active task').then (result => {
@@ -279,7 +280,7 @@ async function getUserIdWithMail(mail) {
 
 async function addPointsToUser(mail, pointsToBeAwarded) {
     let conn;
-    let result;
+    let result
     try {
         conn = await pool.getConnection();
         result = await conn.query('UPDATE users SET user_points = user_points + ? WHERE user_mail = ?', [pointsToBeAwarded, mail]); //Add points to the user
@@ -303,11 +304,11 @@ async function getUserPointsFromDatabase(mail) {
     try {
         conn = await pool.getConnection();
         result = await conn.query('SELECT user_points FROM users WHERE user_mail = ?', mail); //Get user points from database
+        result = result[0];
     } catch (err) {
         console.error(err);
     } finally {
         if (conn) conn.end();
-        result = result[0];
         return result; //Returns sql response without meta
     }
 }
@@ -413,6 +414,7 @@ async function latestUserTaskStatus(mail, purpose) {
         console.error(err);
     } finally {
         if (conn) conn.end();
+        if (result === undefined) return 'First time user'; //This msg is not in use right now
         if (purpose == 'Get active task') return getCurrentTask(result);
         return result.task_status; //Return the status of the task
     }

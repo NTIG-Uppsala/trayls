@@ -108,14 +108,15 @@ app.get('/points', validateMail, (req, res) => {
 
 
 /**
- * Get the current task they are on if there is a current task
+ * Get the current task they are on if there is a current task, via query
  * @param {JSON} req    Mail
  * @return              The response fom the api
  */
 app.get('/currTask',validateMail, async function(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
-    const mail = req.body.mail;
+    const mail = req.query.mail;
+    console.log(mail);
     let availableTask = await latestUserTaskStatus(mail);
     if (availableTask == 2 || availableTask == 3) return res.send('Inget aktivt uppdrag');
     latestUserTaskStatus(mail, 'Get active task').then (result => {
@@ -174,9 +175,11 @@ app.put('/changeTask', validateMail, async function(req, res) {
     if (status != '2' &amp;&amp; status != '3') return res.send('Ogiltlig siffra');
     let availableTask = await latestUserTaskStatus(mail);
     if (availableTask == 2 || availableTask == 3) return res.send('Inget aktivt uppdrag');
+    let pointsToBeAwarded = await latestUserTaskStatus(mail, 'Get active task') //For the points
     changeTaskStatus(mail, status).then(result => {
         if (result.affectedRows == 0)  return res.send('Denna användare finns inte');
         if (status == '3') return res.send('Det är okej, du klarar nästa uppdrag!')
+        addPointsToUser(mail, pointsToBeAwarded.task_points);
         return res.send('Grattis, du klarade uppdraget!');
     });
 });
@@ -200,18 +203,6 @@ app.delete('/user', validateMail, function(req, res) {
     });
 });
 
-
-/* --------------------- GET request for testing purpose -------------------- */
-/**
- * API request will get a task form the database and check if it's a valid task, if it is then it will return "API OK"
- * @returns {String}    "API OK"
- */
-app.get('/test', function(req, res) {
-    getRandomTaskFromDatabase().then(result => {
-        if (result.length == 0) return res.send('API response is empty');
-        return res.send('API OK');
-    });
-});
 
 /* -------------------------------------------------------------------------- */
 /*                          Functions used in the API                         */
@@ -307,6 +298,28 @@ async function getUserIdWithMail(mail) {
     }
 }
 
+/* ------------- Add points to the user with the specified mail ------------- */
+/**
+ * With a mail and points add points to the user, should be used after a task is done
+ * @param {String} mail 
+ * @param {int} pointsToBeAwarded
+ * @returns {int} The amount of points the user has
+ */
+
+async function addPointsToUser(mail, pointsToBeAwarded) {
+    let conn;
+    let result
+    try {
+        conn = await pool.getConnection();
+        result = await conn.query('UPDATE users SET user_points = user_points + ? WHERE user_mail = ?', [pointsToBeAwarded, mail]); //Add points to the user
+    } catch (err) {
+        console.error(err);
+    } finally {
+        if (conn) conn.end();
+        return getUserPointsFromDatabase(mail); //Returns the amount of points the user has
+    }
+}
+
 /* ---------------------- Get user points from database --------------------- */
 /**
  * With a mail, get the number of points that the mail has
@@ -319,11 +332,11 @@ async function getUserPointsFromDatabase(mail) {
     try {
         conn = await pool.getConnection();
         result = await conn.query('SELECT user_points FROM users WHERE user_mail = ?', mail); //Get user points from database
+        result = result[0];
     } catch (err) {
         console.error(err);
     } finally {
         if (conn) conn.end();
-        result = result[0];
         return result; //Returns sql response without meta
     }
 }
@@ -429,6 +442,7 @@ async function latestUserTaskStatus(mail, purpose) {
         console.error(err);
     } finally {
         if (conn) conn.end();
+        if (result === undefined) return 'First time user'; //This msg is not in use right now
         if (purpose == 'Get active task') return getCurrentTask(result);
         return result.task_status; //Return the status of the task
     }
@@ -476,13 +490,13 @@ app.listen(PORT, () => {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addUserToDatabase">addUserToDatabase</a></li><li><a href="global.html#changeTaskStatus">changeTaskStatus</a></li><li><a href="global.html#checkUserInDatabase">checkUserInDatabase</a></li><li><a href="global.html#deleteUserFromDatabase">deleteUserFromDatabase</a></li><li><a href="global.html#getCurrentTask">getCurrentTask</a></li><li><a href="global.html#getRandomTaskFromDatabase">getRandomTaskFromDatabase</a></li><li><a href="global.html#getUserIdWithMail">getUserIdWithMail</a></li><li><a href="global.html#getUserPointsFromDatabase">getUserPointsFromDatabase</a></li><li><a href="global.html#latestUserTaskStatus">latestUserTaskStatus</a></li><li><a href="global.html#readConfig">readConfig</a></li><li><a href="global.html#setTaskStatus">setTaskStatus</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addPointsToUser">addPointsToUser</a></li><li><a href="global.html#addUserToDatabase">addUserToDatabase</a></li><li><a href="global.html#changeTaskStatus">changeTaskStatus</a></li><li><a href="global.html#checkUserInDatabase">checkUserInDatabase</a></li><li><a href="global.html#deleteUserFromDatabase">deleteUserFromDatabase</a></li><li><a href="global.html#getCurrentTask">getCurrentTask</a></li><li><a href="global.html#getRandomTaskFromDatabase">getRandomTaskFromDatabase</a></li><li><a href="global.html#getUserIdWithMail">getUserIdWithMail</a></li><li><a href="global.html#getUserPointsFromDatabase">getUserPointsFromDatabase</a></li><li><a href="global.html#latestUserTaskStatus">latestUserTaskStatus</a></li><li><a href="global.html#readConfig">readConfig</a></li><li><a href="global.html#setTaskStatus">setTaskStatus</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Jan 25 2022 10:47:30 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Jan 27 2022 08:14:20 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
