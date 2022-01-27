@@ -22,13 +22,3 @@ Future<Points> getPoints(Map<String, dynamic> query) async {
     throw Exception('Failed to load points');
   }
 }
-
-Future<Points> setPoints(Map<String, dynamic> body) async {
-  Api api = Api.body(subdirectory: '/changeTask', callBody: body);
-  var response = await api.post();
-  if (response.statusCode == 200) {
-    return Points.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to load points');
-  }
-}
