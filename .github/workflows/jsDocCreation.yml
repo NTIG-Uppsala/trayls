@@ -30,7 +30,7 @@ jobs:
         uses: andstor/jsdoc-action@v1.2.1
         with:
           # Source directory to build documentation from
-          source_dir: ./sqlnode
+          source_dir: ./backend
           
           output_dir: ./docs
         
